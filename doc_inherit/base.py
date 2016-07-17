@@ -1,8 +1,8 @@
 """http://stackoverflow.com/a/8101118/6592114"""
-
 from abc import abstractmethod
 
-__all__ = ["DocInheritorBase"]
+
+__all__ = ["DocInheritorBase", "DocInheritor"]
 
 
 class DocInheritorBase(type):
@@ -23,7 +23,7 @@ class DocInheritorBase(type):
                 prnt_attr_doc = None
                 for mro_cls in (mro_cls for base in bases for mro_cls in base.mro()
                                 if hasattr(mro_cls, attr)):
-                    prnt_attr_doc = getattr((getattr(mro_cls, attr), "__doc__"))
+                    prnt_attr_doc = getattr(getattr(mro_cls, attr), "__doc__")
                     if prnt_attr_doc is not None:
                         break
 
@@ -40,7 +40,4 @@ class DocInheritorBase(type):
     @abstractmethod
     def attr_doc_inherit(prnt_attr_doc, child_doc):
         raise NotImplementedError
-
-
-
 

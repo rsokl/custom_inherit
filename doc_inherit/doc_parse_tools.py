@@ -41,7 +41,7 @@ def parse_numpy_doc(doc):
         try:
             line = next(lines)
             if line in doc_sections:
-                doc_sections[key] = "\n".join(body)
+                doc_sections[key] = "\n".join(body).rstrip() if body else None
                 body = []
                 key = line
                 next(lines)  # skip section delimiter
@@ -96,7 +96,7 @@ def merge_doc_sections(prnt_sctns, child_sctns):
         sect = merge_section(key, prnt_sctns[key], child_sctns[key])
         if sect is not None:
             doc.append(sect)
-    return "\n".join(doc) if doc else None
+    return "\n\n".join(doc) if doc else None
 
 
 def merge_numpy_docs(prnt_doc, child_doc):
