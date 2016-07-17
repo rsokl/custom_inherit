@@ -1,13 +1,12 @@
 """http://stackoverflow.com/a/8101118/6592114"""
 
-from abc import ABCMeta, abstractmethod, abstractstaticmethod
-#
-# def class_doc_inherit
+from abc import abstractmethod
+
+__all__ = ["DocInheritorBase"]
 
 
 class DocInheritorBase(type):
     def __new__(meta, name, bases, clsdict):
-
         clsdoc = clsdict.get("__doc__", None)
 
         prnt_cls_doc = None
@@ -18,7 +17,6 @@ class DocInheritorBase(type):
         clsdict["__doc__"] = meta.class_doc_inherit(prnt_cls_doc, clsdoc)
 
         for attr, attribute in clsdict.items():
-
             if not(attr.startswith("__") and attr.endswith("__")):
                 attr_doc = attribute.__doc__
 
@@ -38,7 +36,6 @@ class DocInheritorBase(type):
     def class_doc_inherit(prnt_cls_doc, child_doc):
         raise NotImplementedError
 
-
     @staticmethod
     @abstractmethod
     def attr_doc_inherit(prnt_attr_doc, child_doc):
@@ -46,13 +43,4 @@ class DocInheritorBase(type):
 
 
 
-class DocDoc(DocInheritorBase):
 
-    @staticmethod
-    def class_doc_inherit(prnt_cls_doc, child_doc):
-        return "hi"
-
-
-    @staticmethod
-    def attr_doc_inherit(prnt_attr_doc, child_doc):
-        return "attr"+child_doc
