@@ -20,7 +20,7 @@ if sys.version_info >= (3,0):
 
             for attr, attribute in class_dict.items():
                 if not(attr.startswith("__") and attr.endswith("__")):
-                    if isinstance(attribute, staticmethod):
+                    if isinstance(attribute, (staticmethod, classmethod)):
                         attr_doc = attribute.__func__.__doc__
                     else:
                         attr_doc = attribute.__doc__
@@ -31,7 +31,8 @@ if sys.version_info >= (3,0):
                         prnt_attr_doc = getattr(getattr(mro_cls, attr), "__doc__")
                         if prnt_attr_doc is not None:
                             break
-                    if isinstance(attribute, staticmethod):
+
+                    if isinstance(attribute, (staticmethod, classmethod)):
                         attribute.__func__.__doc__ =  mcs.attr_doc_inherit(prnt_attr_doc, attr_doc)
                     else:
                         attribute.__doc__ = mcs.attr_doc_inherit(prnt_attr_doc, attr_doc)
