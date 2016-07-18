@@ -3,8 +3,9 @@ import inspect
 
 __all__ = ["merge_numpy_docs"]
 
+
 def parse_numpy_doc(doc):
-    """ Extract the text from the various sections of a numpy-formatted docstring
+    """ Extract the text from the various sections of a numpy-formatted docstring.
 
         Parameters
         ----------
@@ -12,7 +13,8 @@ def parse_numpy_doc(doc):
 
         Returns
         -------
-        Union[str, None]"""
+        OrderedDict[str, Union[None,str]]
+            The extracted numpy-styled docstring sections."""
 
     doc_sections = OrderedDict([("Short Summary", None),
                                 ("Deprecation Warning", None),
@@ -55,15 +57,20 @@ def parse_numpy_doc(doc):
 
 
 def merge_section(key, prnt_sec, child_sec):
-    """ Parameters
+    """ Synthesize a output numpy docstring section.
+
+        Parameters
         ----------
         key: str
+            The numpy-section being merged.
         prnt_sec: Union[str, None]
+            The docstring section from the parent's attribute.
         child_sec: Union[str, None]
-
+            The docstring section from the child's attribute.
         Returns
         -------
-        str"""
+        str
+            The output docstring section."""
     if prnt_sec is None and child_sec is None:
         return None
 
@@ -72,9 +79,7 @@ def merge_section(key, prnt_sec, child_sec):
     else:
         header = "\n".join((key, "-".join("" for i in range(len(key))), ""))
 
-    if prnt_sec is None:
-        body = child_sec
-    elif child_sec is None:
+    if child_sec is None:
         body = prnt_sec
     else:
         body = child_sec
@@ -83,15 +88,21 @@ def merge_section(key, prnt_sec, child_sec):
 
 
 def merge_doc_sections(prnt_sctns, child_sctns):
-    """ Parameters
+    """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
+
+        Parameters
         ----------
-        prnt_sctns: OrderedDict[str, str]
-        child_sctns: OrderedDict[str, str]
+        prnt_sctns: OrderedDict[str, Union[None,str]]
+        child_sctns: OrderedDict[str, Union[None,str]]
 
         Returns
         -------
-        str"""
+        str
+            Output docstring of the merged docstrings."""
     doc = []
+    if prnt_sctns["Raises"] and (child_sctns["Returns"] or child_sctns["Yields"]):
+        prnt_sctns["Raises"] = None
+
     for key in prnt_sctns:
         sect = merge_section(key, prnt_sctns[key], child_sctns[key])
         if sect is not None:
@@ -100,4 +111,22 @@ def merge_doc_sections(prnt_sctns, child_sctns):
 
 
 def merge_numpy_docs(prnt_doc, child_doc):
+    """ Merge two numpy-style docstrings into a single docstring.
+
+        Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
+        sections such that the child's section is used, wherever present, otherwise the parent's
+        section is used.
+
+        Parameters
+        ----------
+        prnt_doc: Union[None, str]
+            The docstring from the parent.
+        child_doc: Union[None, str]
+            The docstring from the child.
+
+        Returns
+        -------
+        Union[None, str]
+            The merged docstring.
+        """
     return merge_doc_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))
