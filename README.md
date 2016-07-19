@@ -100,7 +100,7 @@ The built-in styles are:
 
 ## Making New inheritance Styles<a name="new" \a>
 Making a new inheritance style is quite simple. In custom_inherit/style_store.py,
-simply derive a class from DocInheritorBase, and implement the two static methods:
+simply derive a class from `DocInheritorBase` (`ABCDocInheritorBase` for the abc-version), and implement the two static methods:
 
 - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
 
@@ -109,6 +109,8 @@ simply derive a class from DocInheritorBase, and implement the two static method
 - `attr_doc_inherit(prnt_attr_doc, child_attr_doc)`
 
   - Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
+
+then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`
 
 ## Installation & Getting Started<a name=install \a>
 Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
