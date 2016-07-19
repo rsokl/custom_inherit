@@ -86,7 +86,7 @@ The built-in styles are:
                 `None`, inherit the corresponding docstring from the parent.
 
                 *NOTE* As of Python 3.5, this is the default behavior of the built-in function
-                [inspect.getdoc](https://docs.python.org/3/library/inspect.html#inspect.getdoc), and thus this style is deprecated Python 3.(>=5).
+                inspect.getdoc, and thus this style is deprecated Python 3.(>=5).
 
     - numpy:    The numpy-styled docstrings from the parent and child are merged gracefully
                 with nice formatting.
@@ -102,11 +102,11 @@ The built-in styles are:
 Making a new inheritance style is quite simple. In custom_inherit/style_store.py,
 simply derive a class from DocInheritorBase, and implement the two static methods:
 
-     - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
-         Merge the docstrings of a parent class and its child.
+- ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
+   Merge the docstrings of a parent class and its child.
 
-     - `attr_doc_inherit(prnt_attr_doc, child_attr_doc)`
-        Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
+- `attr_doc_inherit(prnt_attr_doc, child_attr_doc)`
+  Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
 
 ## Installation & Getting Started<a name=install \a>
 Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
