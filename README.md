@@ -10,7 +10,9 @@
 
 ## Overview<a name="overview"\a>
 The Python package custom_inherit provides the capability for a class to inherit docstrings from its parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge [numpy-formatted docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard)
-sections of the parent's and child's respective docstrings in a nice way.   
+sections of the parent's and child's respective docstrings in a nice way.
+
+This package has been tested (and works) in both Python 2.7 and Python 3.5.  
 
 ## Basic Usage<a name="basic"\a>
 custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when used as a base metaclass in some parent class, will automatically handle all docstring inheritance for all subsequent derived classes - and their properties, methods, static methods, class methods, and decorated methods (**whew**).
@@ -84,7 +86,7 @@ The built-in styles are:
                 `None`, inherit the corresponding docstring from the parent.
 
                 *NOTE* As of Python 3.5, this is the default behavior of the built-in function
-                inspect.getdoc, and thus this style is deprecated Python 3.(>=5).
+                [inspect.getdoc](https://docs.python.org/3/library/inspect.html#inspect.getdoc), and thus this style is deprecated Python 3.(>=5).
 
     - numpy:    The numpy-styled docstrings from the parent and child are merged gracefully
                 with nice formatting.
@@ -97,8 +99,9 @@ The built-in styles are:
                 inherited docstring.
 
 ## Making New inheritance Styles<a name="new" \a>
-   Making a new inheritance style is quite simple. In custom_inherit/style_store.py,
-   simply derive a class from DocInheritorBase, and implement the two static methods:
+Making a new inheritance style is quite simple. In custom_inherit/style_store.py,
+simply derive a class from DocInheritorBase, and implement the two static methods:
+
      - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
          Merge the docstrings of a parent class and its child.
 
@@ -106,3 +109,4 @@ The built-in styles are:
         Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
 
 ## Installation & Getting Started<a name=install \a>
+Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
