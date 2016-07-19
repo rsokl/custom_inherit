@@ -103,10 +103,12 @@ Making a new inheritance style is quite simple. In custom_inherit/style_store.py
 simply derive a class from DocInheritorBase, and implement the two static methods:
 
 - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
-   Merge the docstrings of a parent class and its child.
+
+   - Merge the docstrings of a parent class and its child.
 
 - `attr_doc_inherit(prnt_attr_doc, child_attr_doc)`
-  Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
+
+  - Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
 
 ## Installation & Getting Started<a name=install \a>
 Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
