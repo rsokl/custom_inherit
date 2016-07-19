@@ -110,7 +110,15 @@ simply derive a class from `DocInheritorBase` (`ABCDocInheritorBase` for the abc
 
   - Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
 
-then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`
+then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`.
 
 ## Installation & Getting Started<a name=install \a>
 Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
+
+### Go Back To:
+ - [Overview](#overview)
+ - [Basic Usage](#basic)
+ - [Advanced Usage](#advanced)
+ - [Built-in Styles](#builtin)
+ - [Making New inheritance Styles](#new)
+ - [Installation & Getting Started](#install)
