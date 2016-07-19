@@ -79,6 +79,7 @@ As shown in the example above, for the "numpy" inheritance style, one then only 
 ## Built-in Styles<a name="builtin" \a>
 
 The built-in styles are:
+
     - parent:   Wherever the docstring for a child-class' attribute (or for the class itself) is
                 `None`, inherit the corresponding docstring from the parent.
 
@@ -103,5 +104,5 @@ The built-in styles are:
 
      - `attr_doc_inherit(prnt_attr_doc, child_attr_doc)`
         Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
-        
+
 ## Installation & Getting Started<a name=install \a>
