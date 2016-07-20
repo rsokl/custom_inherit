@@ -1,4 +1,3 @@
-"""http://stackoverflow.com/a/8101118/6592114"""
 from abc import abstractmethod, ABCMeta
 import sys
 
@@ -102,7 +101,7 @@ else:  # Python 2
 
             # inherit method/property docstring
             for attr, attribute in class_dict.items():
-                if not (attr.startswith("_") and attr.endswith("__") or isinstance(attribute, type)):
+                if not (attr.startswith("__") and attr.endswith("__") or isinstance(attribute, type)):
                     child_attr = attribute if not isinstance(attribute, (staticmethod,
                                                                          classmethod)) else attribute.__func__
                     prnt_attr_doc = None

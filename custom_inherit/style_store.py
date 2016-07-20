@@ -17,7 +17,7 @@ from .doc_parse_tools import merge_numpy_docs
                     is not present in the child's is inherited. Otherwise, the child's docstring
                     section is utilized. An exception to this is if the parent docstring contains a
                     "Raises" section, but the child's attribute's docstring contains a "Returns" or
-                    "Yields" section. In this instance, the "Raises" section will not appear in the
+                    "Yields" section instead. In this instance, the "Raises" section will not appear in the
                     inherited docstring.
 
                     Example:

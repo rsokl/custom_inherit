@@ -15,15 +15,14 @@ sections of the parent's and child's respective docstrings in a nice way.
 This package has been tested (and works) in both Python 2.7 and Python 3.5.  
 
 ## Basic Usage<a name="basic"\a>
-custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when used as a base metaclass in some parent class, will automatically handle all docstring inheritance for all subsequent derived classes - and their properties, methods, static methods, class methods, and decorated methods (**whew**).
+custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when used as inherited by some parent class, will automatically handle all docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, and decorated methods (**whew**).
 
-The style of the inheritance scheme can be set explicitly when providing initializing `DocInheritMeta`. Here is a simple usage example using the "numpy" style of inheritance:
+The style of the inheritance scheme can be set explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the "numpy" style of inheritance:
 
 ```python
-   from abc import abstractmethod
    from custom_inherit import DocInheritMeta
 
-   class Parent(metaclass=DocInheritMeta(style="numpy")) # Python 3 syntax for meta class inheritance
+   class Parent(metaclass=DocInheritMeta(style="numpy"))
        def meth(self, x, y=None):
            """ Parameters
                ----------
@@ -74,7 +73,7 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
  class implements a "Returns" section)
 
 ## Advanced Usage<a name="advanced" \a>
-A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class you are defining can thus inherit from `DocInheritMeta(abstract_base_class=True)`, and it will both have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), and all of its derived classes will inherit the docstrings for the methods/properties that they implement.
+A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class can be passed `DocInheritMeta(abstract_base_class=True)`, and it will have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), plus all of its derived classes will inherit the docstrings for the methods/properties that they implement.
 
 As shown in the example above, for the "numpy" inheritance style, one then only needs to specify the "Returns" or "Yields" section in the derived class' docstring for it to have a fully-detailed docstring.
 
@@ -95,12 +94,11 @@ The built-in styles are:
                 is not present in the child's is inherited. Otherwise, the child's docstring
                 section is utilized. An exception to this is if the parent docstring contains a
                 "Raises" section, but the child's attribute's docstring contains a "Returns" or
-                "Yields" section. In this instance, the "Raises" section will not appear in the
-                inherited docstring.
+                "Yields" section instead. In this instance, the "Raises" section will not appear in the inherited docstring.
 
 ## Making New inheritance Styles<a name="new" \a>
-Making a new inheritance style is quite simple. In custom_inherit/style_store.py,
-simply derive a class from `DocInheritorBase` (`ABCDocInheritorBase` for the abc-version), and implement the two static methods:
+Implementing your inheritance style is simple. In custom_inherit/style_store.py,
+simply define a class that derives from `DocInheritorBase` (`ABCDocInheritorBase` for the abc-version), and implement the two static methods:
 
 - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
 

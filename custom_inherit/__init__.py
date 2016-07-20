@@ -12,7 +12,10 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         style: str, optional (default: 'parent')
             A valid inheritance-scheme style.
         abstract_base_class: bool, optional(default: False)
-            If True, the returned metaclass inherits from abc.ABCMeta
+            If True, the returned metaclass inherits from abc.ABCMeta.
+
+            Thus a class that derives from DocInheritMeta( abstract_base_class=True)
+
         Returns
         -------
         Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
