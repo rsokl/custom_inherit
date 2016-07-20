@@ -111,7 +111,7 @@ simply define a class that derives from `DocInheritorBase` (`ABCDocInheritorBase
 
 then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`.
 
-## Installation & Getting Started<a name=install \a>
+## Installation & Getting Started<a name="install" \a>
 Install via pip:
 
 ```

@@ -1,7 +1,9 @@
 from .style_store import store, abc_store
 from .style_store import *
 
-__all__ = ["DocInheritorMeta"]
+__all__ = ["DocInheritorMeta", "styles"]
+__version__ = 1.0.1
+styles = sorted(set(store.keys() + abc_store.keys()))
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
@@ -11,10 +13,16 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         ----------
         style: str, optional (default: 'parent')
             A valid inheritance-scheme style.
+
+            See custom_inherit.styles for a list of available styles.
+
         abstract_base_class: bool, optional(default: False)
             If True, the returned metaclass inherits from abc.ABCMeta.
 
-            Thus a class that derives from DocInheritMeta( abstract_base_class=True)
+            Thus a class that derives from DocInheritMeta(style="numpy", abstract_base_class=True)
+            is an abstract base class, whose derived classes will inherit docstrings
+            using the numpy-style inheritance scheme.
+
 
         Returns
         -------
