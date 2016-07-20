@@ -8,7 +8,7 @@
  - [Making New inheritance Styles](#new)
  - [Installation & Getting Started](#install)
  - [Documentation](#doc)
- 
+
 ## Overview<a name="overview"\a>
 The Python package custom_inherit provides the capability for a class to inherit docstrings from its parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge [numpy-formatted docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard)
 sections of the parent's and child's respective docstrings in a nice way.
@@ -139,7 +139,7 @@ and then get started with
    from custom_inherit import DocInheritMeta
 ```
 
-## Documentation
+## Documentation<a name="doc" \a>
 ```python
 custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
     """ Returns the DocInheritor metaclass of the specified style.
