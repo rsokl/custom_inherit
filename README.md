@@ -95,7 +95,8 @@ The built-in styles are:
                 is not present in the child's is inherited. Otherwise, the child's docstring
                 section is utilized. An exception to this is if the parent docstring contains a
                 "Raises" section, but the child's attribute's docstring contains a "Returns" or
-                "Yields" section instead. In this instance, the "Raises" section will not appear in the inherited docstring.
+                "Yields" section instead. In this instance, the "Raises" section will not appear 
+				in the inherited docstring.
 
 ## Making New inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. In custom_inherit/style_store.py,
