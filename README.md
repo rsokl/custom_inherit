@@ -111,7 +111,28 @@ simply define a class that derives from `DocInheritorBase` (`ABCDocInheritorBase
 then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`.
 
 ## Installation & Getting Started<a name=install \a>
+Install via pip:
+
+```
+    pip install custom_inherit`
+```
+
+or
+
 Download/clone this repository, go to its directory, and install custom_inherit by typing in your command line:
+
+```
+    python setup.py install
+```
+
+If, instead, you want to install the package with links, so that edits you make to the code take
+effect immediately within your installed version of custom_inherit, type:
+
+```
+    python setup.py develop
+```
+
+
 
 ### Go Back To:
  - [Overview](#overview)
