@@ -2,7 +2,7 @@ from .style_store import store, abc_store
 from .style_store import *
 
 __all__ = ["DocInheritorMeta", "styles"]
-__version__ = 1.0.1
+__version__ = "1.0.1"
 styles = sorted(set(store.keys() + abc_store.keys()))
 
 

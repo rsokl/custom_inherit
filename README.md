@@ -142,20 +142,26 @@ and then get started with
 ## Documentation<a name="doc" \a>
 ```python
 custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
-    """ Returns the DocInheritor metaclass of the specified style.
+""" Returns the DocInheritor metaclass of the specified style.
 
-        Parameters
-        ----------
-        style: str, optional (default: 'parent')
-            A valid inheritance-scheme style.
-        abstract_base_class: bool, optional (default: False)
-            If True, the returned metaclass inherits from abc.ABCMeta.
+    Parameters
+    ----------
+    style: str, optional (default: 'parent')
+        A valid inheritance-scheme style.
 
-            Thus a class that derives from DocInheritMeta( abstract_base_class=True)
+        See custom_inherit.styles for a list of available styles.
 
-        Returns
-        -------
-        Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
+    abstract_base_class: bool, optional(default: False)
+        If True, the returned metaclass inherits from abc.ABCMeta.
+
+        Thus a class that derives from DocInheritMeta(style="numpy", abstract_base_class=True)
+        is an abstract base class, whose derived classes will inherit docstrings
+        using the numpy-style inheritance scheme.
+
+
+    Returns
+    -------
+    Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
 ```
 
 ### Go Back To:
