@@ -16,9 +16,9 @@ parent's and child's respective docstrings in a nice way, based on their [numpy-
 This package has been tested (and works) in both Python 2.7 and Python 3.5.  
 
 ## Basic Usage<a name="basic"\a>
-custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when used as inherited by some parent class, will automatically handle all docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, and decorated methods (**whew**).
+custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**).
 
-The style of the inheritance scheme can be set explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the "numpy" style of inheritance:
+The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the "numpy" style of inheritance:
 
 ```python
    from custom_inherit import DocInheritMeta
@@ -71,7 +71,8 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
       Some notes here."""
 ```
 (note that the "Raises" section of the parent's method is left out, because the child
- class implements a "Returns" section)
+ class implements a "Returns" section. Jump [ahead](#builtin) for a detailed description
+ of the "numpy" style)
 
 Note that syntax for deriving from a meta class is slightly different in Python 2:
 
@@ -96,7 +97,7 @@ The built-in styles are:
                 `None`, inherit the corresponding docstring from the parent.
 
                 *NOTE* As of Python 3.5, this is the default behavior of the built-in function
-                inspect.getdoc, and thus this style is deprecated Python 3.(>=5).
+                inspect.getdoc, and thus this style is effectively deprecated Python 3.(>=5).
 
     - numpy:    The numpy-styled docstrings from the parent and child are merged gracefully
                 with nice formatting.
