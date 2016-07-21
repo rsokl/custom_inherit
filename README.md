@@ -89,7 +89,7 @@ A very natural, but more advanced use case for docstring inheritance is to defin
 
 ```python
    # Parent is now an abstract base class
-   class Parent(metaclass=DocInheritMeta(abstract_base_class=True)):
+   class Parent(metaclass=DocInheritMeta(style="numpy", abstract_base_class=True)):
       ...
 ```
 
