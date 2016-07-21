@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .style_store import store, abc_store
 from .style_store import *
 

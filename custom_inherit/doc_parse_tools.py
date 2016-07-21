@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from collections import OrderedDict
 import inspect
 
@@ -87,7 +88,7 @@ def merge_section(key, prnt_sec, child_sec):
     return header + body
 
 
-def merge_doc_sections(prnt_sctns, child_sctns):
+def merge_all_sections(prnt_sctns, child_sctns):
     """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
         Parameters
@@ -129,4 +130,4 @@ def merge_numpy_docs(prnt_doc, child_doc):
         Union[None, str]
             The merged docstring.
         """
-    return merge_doc_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))
+    return merge_all_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))

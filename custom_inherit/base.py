@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from abc import abstractproperty, ABCMeta
 from types import FunctionType
 
@@ -30,8 +31,8 @@ class DocInheritorBase(type):
             is_doc_type = isinstance(attribute, (FunctionType, classmethod, staticmethod, property))
             if not (attr.startswith("__") and attr.endswith("__")) and is_doc_type:
 
-                is_spec_methd = isinstance(attribute, (staticmethod, classmethod))
-                child_attr = attribute if not is_spec_methd else attribute.__func__
+                is_static_or_class = isinstance(attribute, (staticmethod, classmethod))
+                child_attr = attribute if not is_static_or_class else attribute.__func__
 
                 prnt_attr_doc = None
                 for mro_cls in (mro_cls for base in class_bases

@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from .base import DocInheritorBase, ABCDocInheritorBase
 from .doc_parse_tools import merge_numpy_docs
 
