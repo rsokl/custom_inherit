@@ -29,33 +29,37 @@ class DocInheritorBase(type):
         # inherit docstring for method, staticmethod, classmethod, abstractmethod, decorated method, and property
         for attr, attribute in class_dict.items():
             is_doc_type = isinstance(attribute, (FunctionType, classmethod, staticmethod, property))
-            if not (attr.startswith("__") and attr.endswith("__")) and is_doc_type:
 
-                is_static_or_class = isinstance(attribute, (staticmethod, classmethod))
-                child_attr = attribute if not is_static_or_class else attribute.__func__
+            if (attr.startswith("__") and attr.endswith("__")) or not is_doc_type:
+                continue
 
-                prnt_attr_doc = None
-                for mro_cls in (mro_cls for base in class_bases
-                                for mro_cls in base.mro() if hasattr(mro_cls, attr)):
-                    prnt_attr_doc = getattr(mro_cls, attr).__doc__
+            is_static_or_class = isinstance(attribute, (staticmethod, classmethod))
+            child_attr = attribute if not is_static_or_class else attribute.__func__
 
-                    if prnt_attr_doc is not None:
-                        break
+            prnt_attr_doc = None
+            for mro_cls in (mro_cls for base in class_bases
+                            for mro_cls in base.mro() if hasattr(mro_cls, attr)):
+                prnt_attr_doc = getattr(mro_cls, attr).__doc__
 
                 if prnt_attr_doc is not None:
-                    try:
-                        child_attr.__doc__ = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
-                    except TypeError as err:
-                        if isinstance(child_attr, property):  # property.__doc__ is read-only in Python 2
-                            new_prop = property(fget=child_attr.fget,
-                                                fset=child_attr.fset,
-                                                fdel=child_attr.fdel,
-                                                doc=mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__))
-                            if isinstance(child_attr, abstractproperty):
-                                new_prop = abstractproperty(new_prop)
-                            class_dict[attr] = new_prop
-                        else:
-                            raise TypeError(err)
+                    break
+
+            if prnt_attr_doc is None:
+                continue
+
+            try:
+                child_attr.__doc__ = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
+            except TypeError as err:
+                if isinstance(child_attr, property):  # property.__doc__ is read-only in Python 2
+                    new_prop = property(fget=child_attr.fget,
+                                        fset=child_attr.fset,
+                                        fdel=child_attr.fdel,
+                                        doc=mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__))
+                    if isinstance(child_attr, abstractproperty):
+                        new_prop = abstractproperty(new_prop)
+                    class_dict[attr] = new_prop
+                else:
+                    raise TypeError(err)
 
         return type.__new__(mcs, class_name, class_bases, class_dict)
 
