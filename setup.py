@@ -10,7 +10,7 @@ setup(name='custom_inherit',
       author='@meowklaski',
       author_email="rsoklaski@gmail.com",
       url='https://github.com/meowklaski/custom_inherit',
-      download_url="https://github.com/meowklaski/custom_inherit/tarball/ver",
+      download_url="https://github.com/meowklaski/custom_inherit/tarball/"+ver,
       packages=find_packages(),
       license="MIT"
       )
