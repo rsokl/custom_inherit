@@ -31,7 +31,7 @@ def parse_numpy_doc(doc):
                                 ("References", None),
                                 ("Examples", None)])
 
-    if doc is None:
+    if not doc:
         return doc_sections
 
     doc = inspect.cleandoc(doc)

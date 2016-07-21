@@ -71,6 +71,7 @@ from .doc_parse_tools import merge_numpy_docs
 
 __all__ = ["InheritParent", "MergeNumpy"]
 
+
 def _f(prnt_doc, child_doc):
     return child_doc if child_doc is not None else prnt_doc
 

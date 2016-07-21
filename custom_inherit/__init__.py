@@ -1,8 +1,8 @@
 from .style_store import store, abc_store
 from .style_store import *
 
-__all__ = ["DocInheritorMeta", "styles"]
-__version__ = "1.0.3"
+__all__ = ["DocInheritMeta", "styles"]
+__version__ = "1.0.4"
 
 styles = sorted(set(list(store.keys()) + list(abc_store.keys())))
 
