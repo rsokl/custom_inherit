@@ -101,7 +101,9 @@ def merge_all_sections(prnt_sctns, child_sctns):
         str
             Output docstring of the merged docstrings."""
     doc = []
-    if prnt_sctns["Raises"] and (child_sctns["Returns"] or child_sctns["Yields"]):
+
+    prnt_only_raises = prnt_sctns["Raises"] and not (prnt_sctns["Returns"] or prnt_sctns["Yields"])
+    if prnt_only_raises and (child_sctns["Returns"] or child_sctns["Yields"]):
         prnt_sctns["Raises"] = None
 
     for key in prnt_sctns:
