@@ -10,7 +10,8 @@ from types import FunctionType
     This merge-style must be implemented via the static methods `class_doc_inherit`
     and `attr_doc_inherit`. See custom_inherit/style_store.py for such implementations."""
 
-__all__ = ["DocInheritorBase", "ABCDocInheritorBase"]
+__all__ = ["DocInheritorBase"]
+
 
 class DocInheritorBase(type):
     def __new__(mcs, class_name, class_bases, class_dict):
@@ -96,7 +97,4 @@ class DocInheritorBase(type):
             This works for properties, methods, static methods, class methods, and
             decorated methods/properties."""
         raise NotImplementedError
-
-
-ABCDocInheritorBase = type("ABCDocInheritorBase", (ABCMeta, DocInheritorBase), {})
 

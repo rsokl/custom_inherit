@@ -1,11 +1,22 @@
 from __future__ import absolute_import
-from .style_store import store, abc_store
+from abc import ABCMeta
+from .base import DocInheritorBase
 from .style_store import *
 
-__all__ = ["DocInheritMeta", "styles"]
-__version__ = "1.0.4"
 
-styles = sorted(set(list(store.keys()) + list(abc_store.keys())))
+__all__ = ["DocInheritMeta", "styles"]
+__version__ = "1.1.0"
+
+store = {}
+for style_kind in style_store.__all__:
+    style = getattr(style_store, style_kind)
+    try:
+        store[str(style.name)] = style
+    except AttributeError:
+        print("The style metaclass '{}' must have an attribute 'name'".format(style.__name__))
+        pass
+
+styles = sorted(store.keys())
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
@@ -30,8 +41,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
 
-    this_store = store if not abstract_base_class else abc_store
-
-    if style not in this_store:
-        raise NotImplementedError("The available inheritance styles are: " + ", ".join(this_store))
-    return this_store[style]
+    if style not in store:
+        raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
+    metaclass = store[style]
+    return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (ABCMeta, metaclass), {})

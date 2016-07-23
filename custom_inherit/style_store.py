@@ -1,8 +1,12 @@
 from __future__ import absolute_import
-from .base import DocInheritorBase, ABCDocInheritorBase
+from .base import DocInheritorBase
 from .doc_parse_tools import merge_numpy_docs
 
 """ Docstring inheritance-style implementations.
+
+    To write your own inheritance style, you must write a (meta)class that derives from DocInheritorBase, and
+    implements the static methods `class_doc_inherit` and `attr_doc_inherit`. Specify the style name as the class
+    attribute `name` (e.g. your_style.name), and simply log your new metaclass in `custom_inherit.style_store.__all__`.
 
     The built-in styles are:
         - parent:   Wherever the docstring for a child-class' attribute (or for the class itself) is
@@ -69,7 +73,7 @@ from .doc_parse_tools import merge_numpy_docs
                                 notes blah blah'''
 """
 
-
+# All styles must be logged in the __all__ field.
 __all__ = ["InheritParent", "MergeNumpy"]
 
 
@@ -78,7 +82,7 @@ def _f(prnt_doc, child_doc):
 
 
 # --------------------------
-# Meta class styles
+# Meta class inheritance styles
 # --------------------------
 
 class InheritParent(DocInheritorBase):
@@ -135,71 +139,3 @@ class MergeNumpy(DocInheritorBase):
             -------
             Union[None, str]"""
         return merge_numpy_docs(prnt_attr_doc, child_attr_doc)
-
-store = {InheritParent.name: InheritParent,
-         MergeNumpy.name: MergeNumpy}
-
-
-
-# --------------------------
-# Abstract base meta class styles
-# --------------------------
-
-
-class ABCInheritParent(ABCDocInheritorBase):
-    name = "parent"
-
-    @staticmethod
-    def class_doc_inherit(prnt_cls_doc, child_cls_doc):
-        """ Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_cls_doc: : Union[None, str]
-
-            Returns
-            -------
-            Union[None, str]"""
-        return _f(prnt_cls_doc, child_cls_doc)
-
-    @staticmethod
-    def attr_doc_inherit(prnt_attr_doc, child_attr_doc):
-        """ Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_cls_doc: : Union[None, str]
-
-            Returns
-            -------
-            Union[None, str]"""
-        return _f(prnt_attr_doc, child_attr_doc)
-
-
-class ABCMergeNumpy(ABCDocInheritorBase):
-    name = "numpy"
-
-    @staticmethod
-    def class_doc_inherit(prnt_cls_doc, child_cls_doc):
-        """ Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_cls_doc: : Union[None, str]
-
-            Returns
-            -------
-            Union[None, str]"""
-        return merge_numpy_docs(prnt_cls_doc, child_cls_doc)
-
-    @staticmethod
-    def attr_doc_inherit(prnt_attr_doc, child_attr_doc):
-        """ Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_cls_doc: : Union[None, str]
-
-            Returns
-            -------
-            Union[None, str]"""
-        return merge_numpy_docs(prnt_attr_doc, child_attr_doc)
-
-abc_store = {ABCInheritParent.name: ABCInheritParent,
-             ABCMergeNumpy.name: ABCMergeNumpy}
