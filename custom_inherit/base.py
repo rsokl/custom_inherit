@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from abc import abstractproperty, ABCMeta
+from abc import abstractproperty
 from types import FunctionType
 
 """ Exposes abstract base meta class to be inherited by inheritance-style meta classes.

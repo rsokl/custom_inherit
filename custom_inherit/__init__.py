@@ -3,7 +3,6 @@ from abc import ABCMeta
 from .base import DocInheritorBase
 from .style_store import *
 
-
 __all__ = ["DocInheritMeta", "styles"]
 __version__ = "1.1.0"
 
@@ -13,7 +12,7 @@ for style_kind in style_store.__all__:
     try:
         store[str(style.name)] = style
     except AttributeError:
-        print("The style metaclass '{}' must have an attribute 'name'".format(style.__name__))
+        print("The style metaclass '{}' must have the implement the attribute: 'name'".format(style.__name__))
         pass
 
 styles = sorted(store.keys())
