@@ -182,7 +182,7 @@ custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
     Returns
     -------
     custom_inherit.DocInheritorBase
-		A style class derived for DocInheritorBase."""
+		A style class derived from DocInheritorBase."""
 ```
 
 ### Go Back To:
