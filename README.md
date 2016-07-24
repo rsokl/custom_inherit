@@ -181,7 +181,8 @@ custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
 
     Returns
     -------
-    Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
+    custom_inherit.DocInheritorBase
+		A style class derived for DocInheritorBase."""
 ```
 
 ### Go Back To:
