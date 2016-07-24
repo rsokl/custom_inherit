@@ -15,6 +15,8 @@ parent's and child's respective docstrings in a nice way, based on their [numpy-
 
 This package has been tested (and works) in both Python 2.7 and Python 3.5.  
 
+The version release notes can be viewed [here](https://github.com/meowklaski/custom_inherit/blob/master/CHANGELOG.md).
+
 ## Basic Usage<a name="basic"\a>
 custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**).
 
@@ -117,7 +119,7 @@ The built-in styles are:
 
 ## Making New inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. In custom_inherit/style_store.py,
-simply define a class that derives from `DocInheritorBase` (`ABCDocInheritorBase` for the abc-version), and implement the two static methods:
+simply define a (meta)class that derives from `DocInheritorBase`, and implement the two static methods:
 
 - ` class_doc_inherit(prnt_cls_doc, child_cls_doc)`
 
@@ -127,7 +129,7 @@ simply define a class that derives from `DocInheritorBase` (`ABCDocInheritorBase
 
   - Merge the docstrings of method or property from parent class and the corresponding attribute of its child.
 
-then register the style's name and the style in the dictionary `store` (`abc_store` for the abc version) in the same file. Then you are ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`.
+Also, provide your class with the attribute 'name' (e.g. `my_style.name`). Lastly, log your class in `custom_inherit.style_store.__all__`. You are now ready to use your style with `DocInheritMeta(style="whatever_you_named_it")`!
 
 ## Installation & Getting Started<a name="install" \a>
 Install via pip:
