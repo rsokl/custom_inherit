@@ -5,7 +5,7 @@
  - [Basic Usage](#basic)
  - [Advanced Usage](#advanced)
  - [Built-in Styles](#builtin)
- - [Making New inheritance Styles](#new)
+ - [Making New Inheritance Styles](#new)
  - [Installation & Getting Started](#install)
  - [Documentation](#doc)
 
@@ -80,7 +80,7 @@ Note that syntax for deriving from a meta class is slightly different in Python 
    from custom_inherit import DocInheritMeta
 
    class Parent(object)
-      __metaclass__ = metaclass=DocInheritMeta(style="numpy")
+      __metaclass__ = DocInheritMeta(style="numpy")
       ...
 ```
 
@@ -187,6 +187,6 @@ custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
  - [Basic Usage](#basic)
  - [Advanced Usage](#advanced)
  - [Built-in Styles](#builtin)
- - [Making New inheritance Styles](#new)
+ - [Making New Inheritance Styles](#new)
  - [Installation & Getting Started](#install)
  - [Documentation](#doc)
