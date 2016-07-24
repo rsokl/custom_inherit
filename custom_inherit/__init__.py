@@ -12,7 +12,7 @@ for style_kind in style_store.__all__:
     try:
         store[str(style.name)] = style
     except AttributeError:
-        print("The style metaclass '{}' must have the implement the attribute: 'name'".format(style.__name__))
+        print("The style metaclass '{}' must implement the attribute: 'name'".format(style.__name__))
         pass
 
 styles = sorted(store.keys())
