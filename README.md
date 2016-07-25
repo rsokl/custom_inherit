@@ -135,7 +135,7 @@ Also, provide your class with the attribute 'name' (e.g. `my_style.name`). Lastl
 Install via pip:
 
 ```
-    pip install custom_inherit`
+    pip install custom_inherit
 ```
 
 or
