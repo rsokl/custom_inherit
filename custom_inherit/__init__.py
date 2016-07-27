@@ -63,10 +63,9 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
         Parameters
         ----------
-        style: str, optional (default: 'parent')
-            A valid inheritance-scheme style.
+        style: Union[str, Callable[[str, str], str]], optional (default: 'parent')
+            A valid inheritance-scheme style name or function.
 
-            See custom_inherit.styles for a list of available styles.
 
         abstract_base_class: bool, optional(default: False)
             If True, the returned metaclass inherits from abc.ABCMeta.
@@ -80,13 +79,17 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         Union[custom_inherit.DocInheritorBase]"""
 
-    if not store:
-        raise NotImplementedError("There are no available inheritance styles")
+    if isinstance(style, FunctionType):
+        merge_func = style
 
-    if style not in store:
-        raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
+    else:
+        if not store:
+            raise NotImplementedError("There are no available inheritance styles")
 
-    merge_func = store[style]
+        if style not in store:
+            raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
+
+        merge_func = store[style]
 
     metaclass = DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
