@@ -30,7 +30,9 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
 
    class Parent(metaclass=DocInheritMeta(style="numpy"))
        def meth(self, x, y=None):
-           """ Parameters
+           """ Old method description
+           
+               Parameters
                ----------
                x: int
                   blah-x
@@ -43,7 +45,7 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
 
     class Child(Parent):
         def meth(self, x, y=None):
-            """ Method description
+            """ New mMethod description
 
                 Returns
                 -------
@@ -58,7 +60,7 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
 Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstring of `Child.meth` will be:
 
 ```python
-  """ Method description
+  """ New method description
 
       Parameters
       ----------
