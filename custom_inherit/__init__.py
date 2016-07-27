@@ -4,7 +4,7 @@ from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
 from .style_store import *
 
-__all__ = ["DocInheritMeta", "styles", "add_style", "remove_style"]
+__all__ = ["DocInheritMeta", "store", "add_style", "remove_style"]
 __version__ = "1.1.0"
 
 
@@ -16,12 +16,7 @@ def _construct_style_store():
             _store[style_kind] = _style
     return _store
 
-
-_store = _construct_style_store()
-
-
-def styles():
-    return sorted(_store.keys())
+store = _construct_style_store()
 
 
 def add_style(func):
@@ -35,8 +30,8 @@ def add_style(func):
         -------
         None"""
     assert isinstance(func, FunctionType), "`add_style` must be given a function"
-    if func.__name__ not in _store:
-        _store[func.__name__] = func
+    if func.__name__ not in store:
+        store[func.__name__] = func
     else:
         print("The style name {} is already taken".format(func.__name__))
     return None
@@ -58,8 +53,8 @@ def remove_style(style):
     if isinstance(style, FunctionType):
         style = style.__name__
 
-    if style in _store:
-        _store.pop(style)
+    if style in store:
+        store.pop(style)
     return None
 
 
@@ -85,13 +80,13 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         Union[custom_inherit.DocInheritorBase]"""
 
-    if not _store:
+    if not store:
         raise NotImplementedError("There are no available inheritance styles")
 
-    if style not in _store:
-        raise NotImplementedError("The available inheritance styles are: " + ", ".join(_store))
+    if style not in store:
+        raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
 
-    merge_func = _store[style]
+    merge_func = store[style]
 
     metaclass = DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
