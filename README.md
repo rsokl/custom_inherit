@@ -45,7 +45,7 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
 
     class Child(Parent):
         def meth(self, x, y=None):
-            """ New mMethod description
+            """ New method description
 
                 Returns
                 -------
