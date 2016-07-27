@@ -7,22 +7,25 @@ from .style_store import *
 __all__ = ["DocInheritMeta", "styles", "add_style", "remove_style"]
 __version__ = "1.1.0"
 
-store = {}
-for style_kind in style_store.__all__:
-    style = getattr(style_store, style_kind)
-    try:
-        store[style_kind] = style
-    except AttributeError:
-        print("The style metaclass '{}' must implement the attribute: 'name'".format(style.__name__))
-        pass
+
+def _construct_style_store():
+    _store = {}
+    for style_kind in style_store.__all__:
+        _style = getattr(style_store, style_kind)
+        if isinstance(_style, FunctionType):
+            _store[style_kind] = _style
+    return _store
+
+
+_store = _construct_style_store()
 
 
 def styles():
-    return sorted(store.keys())
+    return sorted(_store.keys())
 
 
 def add_style(func):
-    """ Make available a new style for merging a 'parent' and 'child' docstring.
+    """ Make available a new function for merging a 'parent' and 'child' docstring.
 
         Parameters
         ----------
@@ -32,8 +35,8 @@ def add_style(func):
         -------
         None"""
     assert isinstance(func, FunctionType), "`add_style` must be given a function"
-    if func.__name__ not in store:
-        store[func.__name__] = func
+    if func.__name__ not in _store:
+        _store[func.__name__] = func
     else:
         print("The style name {} is already taken".format(func.__name__))
     return None
@@ -44,15 +47,19 @@ def remove_style(style):
 
         Parameters
         ----------
-        style_name: Union[str, FunctionType]
+        style: Union[str, FunctionType]
             The style function, or its name, to be removed
 
         Returns
         -------
         None"""
     assert isinstance(style, (str, FunctionType)), "`remove_style` must be given a function or its name"
-    if style in store:
-        store.pop(style)
+
+    if isinstance(style, FunctionType):
+        style = style.__name__
+
+    if style in _store:
+        _store.pop(style)
     return None
 
 
@@ -78,10 +85,13 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         Union[custom_inherit.DocInheritorBase]"""
 
-    if style not in store:
-        raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
-    else:
-        merge_func = store[style]
+    if not _store:
+        raise NotImplementedError("There are no available inheritance styles")
+
+    if style not in _store:
+        raise NotImplementedError("The available inheritance styles are: " + ", ".join(_store))
+
+    merge_func = _store[style]
 
     metaclass = DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
