@@ -3,8 +3,9 @@ from types import FunctionType
 from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
 from .style_store import *
+from .decorator_base import DocInheritDecorator
 
-__all__ = ["DocInheritMeta", "store", "add_style", "remove_style"]
+__all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"]
 __version__ = "1.1.0"
 
 
@@ -96,3 +97,21 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
     metaclass.attr_doc_inherit = staticmethod(merge_func)
 
     return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (ABCMeta, metaclass), {})
+
+
+def doc_inherit(parent, style="parent"):
+    if isinstance(style, FunctionType):
+        merge_func = style
+
+    else:
+        if not store:
+            raise NotImplementedError("There are no available inheritance styles")
+
+        if style not in store:
+            raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
+
+        merge_func = store[style]
+
+    decorator = DocInheritDecorator
+    decorator.doc_merger = staticmethod(merge_func)
+    return decorator(parent)

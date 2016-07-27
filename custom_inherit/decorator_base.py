@@ -10,6 +10,7 @@ class DocInheritDecorator(object):
         def wrapped(*args, **kwargs):
             return func(*args, **kwargs)
         wrapped.__doc__ = self.doc_merger(self.prnt_doc, func.__doc__)
+        return wrapped
 
     @staticmethod
     def doc_merger(prnt_attr_doc, child_doc):
