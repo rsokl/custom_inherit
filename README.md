@@ -11,7 +11,7 @@
 
 ## Overview<a name="overview"\a>
 
-* Expect a new release soon. I've implemented a docstring-decorator, and am making it much easier to use your own styles!*
+*Expect a new release soon. I've implemented a docstring-decorator, and am making it much easier to use your own styles!*
 
 The Python package custom_inherit provides the capability for a class to inherit docstrings from its parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge the
 parent's and child's respective docstrings in a nice way, based on their [numpy-style docstring sections](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard).
