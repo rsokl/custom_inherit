@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from types import FunctionType
 from abc import ABCMeta
-from .base import DocInheritorBase
+from .metaclass_base import DocInheritorBase
 from .style_store import *
 
 __all__ = ["DocInheritMeta", "styles", "add_style", "remove_style"]
