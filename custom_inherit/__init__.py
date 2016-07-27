@@ -1,9 +1,10 @@
 from __future__ import absolute_import
+from types import FunctionType
 from abc import ABCMeta
 from .base import DocInheritorBase
 from .style_store import *
 
-__all__ = ["DocInheritMeta", "styles"]
+__all__ = ["DocInheritMeta", "styles", "add_style", "remove_style"]
 __version__ = "1.1.0"
 
 store = {}
@@ -15,7 +16,44 @@ for style_kind in style_store.__all__:
         print("The style metaclass '{}' must implement the attribute: 'name'".format(style.__name__))
         pass
 
-styles = sorted(store.keys())
+
+def styles():
+    return sorted(store.keys())
+
+
+def add_style(func):
+    """ Make available a new style for merging a 'parent' and 'child' docstring.
+
+        Parameters
+        ----------
+        func: Callable[[Optional[str], Optional[str]], Optional[str]]
+
+        Returns
+        -------
+        None"""
+    assert isinstance(func, FunctionType), "`add_style` must be given a function"
+    if func.__name__ not in store:
+        store[func.__name__] = func
+    else:
+        print("The style name {} is already taken".format(func.__name__))
+    return None
+
+
+def remove_style(style):
+    """ Remove the specified style from the style store.
+
+        Parameters
+        ----------
+        style_name: Union[str, FunctionType]
+            The style function, or its name, to be removed
+
+        Returns
+        -------
+        None"""
+    assert isinstance(style, (str, FunctionType)), "`remove_style` must be given a function or its name"
+    if style in store:
+        store.pop(style)
+    return None
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
