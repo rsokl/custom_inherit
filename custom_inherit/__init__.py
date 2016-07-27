@@ -10,7 +10,7 @@ store = {}
 for style_kind in style_store.__all__:
     style = getattr(style_store, style_kind)
     try:
-        store[str(style.name)] = style
+        store[style_kind] = style
     except AttributeError:
         print("The style metaclass '{}' must implement the attribute: 'name'".format(style.__name__))
         pass
@@ -38,9 +38,15 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
         Returns
         -------
-        Union[custom_inherit.DocInheritorBase, custom.ABCDocInheritorBase]"""
+        Union[custom_inherit.DocInheritorBase]"""
 
     if style not in store:
         raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
-    metaclass = store[style]
+    else:
+        merge_func = store[style]
+
+    metaclass = DocInheritorBase
+    metaclass.class_doc_inherit = staticmethod(merge_func)
+    metaclass.attr_doc_inherit = staticmethod(merge_func)
+
     return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (ABCMeta, metaclass), {})
