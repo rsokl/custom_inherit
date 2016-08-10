@@ -32,7 +32,7 @@ def add_style(style_name, style_func):
         Parameters
         ----------
         style_name : Any
-            The name of the style being logged
+            The identifier of the style being logged
         style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
             The style function that merges two docstrings into a single docstring."""
     assert isinstance(style_func, (FunctionType, MethodType)), "`style_func` must be a function or a method"
@@ -48,13 +48,8 @@ def remove_style(style):
 
         Parameters
         ----------
-        style: Union[str, FunctionType]
-            The style function, or its name, to be removed."""
-    assert isinstance(style, (basestring, (FunctionType, MethodType))), "`remove_style` must be given a function or its name"
-
-    if isinstance(style, FunctionType):
-        style = style.__name__
-
+        style: Any
+            The valid inheritance-scheme style ID to be removed."""
     if style in store:
         store.pop(style)
     return None
@@ -74,9 +69,8 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
         Parameters
         ----------
-        style: Union[str, Callable[[str, str], str]], optional (default: 'parent')
-            A valid inheritance-scheme style name or function.
-
+        style: Union[Any, Callable[[str, str], str]], optional (default: "parent")
+            A valid inheritance-scheme style ID or function that merges two docstrings.
 
         abstract_base_class: bool, optional(default: False)
             If True, the returned metaclass inherits from abc.ABCMeta.
@@ -88,7 +82,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
         Returns
         -------
-        Union[custom_inherit.DocInheritorBase]"""
+        custom_inherit.DocInheritorBase"""
 
     merge_func = _get_merge_func(style)
     metaclass = DocInheritorBase
@@ -99,7 +93,21 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
 
 def doc_inherit(parent, style="parent"):
-    """ Returns the d"""
+    """ Returns a function/method decorator that, given `parent`, updates the docstring of the decorated
+        function/method based on the specified style and `parent`.
+
+        Parameters
+        ----------
+        prnt_doc : Union[str, Any]
+            The docstring, or object of which the docstring is utilized as the
+            parent docstring during the docstring merge.
+
+        Union[Any, Callable[[str, str], str]], optional (default: "parent")
+            A valid inheritance-scheme style ID or function that merges two docstrings.
+
+        Returns
+        -------
+        custom_inherit.DocInheritDecorator"""
     merge_func = _get_merge_func(style)
     decorator = DocInheritDecorator
     decorator.doc_merger = staticmethod(merge_func)
