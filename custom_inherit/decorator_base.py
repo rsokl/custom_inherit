@@ -1,9 +1,13 @@
 from functools import wraps
+try:
+    basestring
+except NameError:
+    basestring = str  # Python 2 -> 3 alias
 
 
 class DocInheritDecorator(object):
     def __init__(self, prnt_doc):
-        self.prnt_doc = prnt_doc if isinstance(prnt_doc, str) else prnt_doc.__doc__
+        self.prnt_doc = prnt_doc if isinstance(prnt_doc, basestring) else prnt_doc.__doc__
 
     def __call__(self, func):
         @wraps(func)
@@ -28,6 +32,8 @@ class DocInheritDecorator(object):
 
             Notes
             -----
-            This works for properties, methods, static methods, class methods, and
-            decorated methods/properties."""
+            This works for functions, methods, properties, static methods, class methods, and
+            decorated methods/properties
+
+            Always use as the inner-most decorator."""
         raise NotImplementedError

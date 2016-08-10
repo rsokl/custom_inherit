@@ -1,9 +1,15 @@
 from __future__ import absolute_import
-from types import FunctionType
+from types import FunctionType, MethodType
 from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
 from .style_store import *
 from .decorator_base import DocInheritDecorator
+
+try:
+    basestring
+except NameError:
+    basestring = str  # Python 2 -> 3 alias
+
 
 __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"]
 __version__ = "1.1.0"
@@ -13,28 +19,27 @@ def _construct_style_store():
     _store = {}
     for style_kind in style_store.__all__:
         _style = getattr(style_store, style_kind)
-        if isinstance(_style, FunctionType):
+        if isinstance(_style, (FunctionType, MethodType)):
             _store[style_kind] = _style
     return _store
 
 store = _construct_style_store()
 
 
-def add_style(func):
+def add_style(style_name, style_func):
     """ Make available a new function for merging a 'parent' and 'child' docstring.
 
         Parameters
         ----------
-        func: Callable[[Optional[str], Optional[str]], Optional[str]]
-
-        Returns
-        -------
-        None"""
-    assert isinstance(func, FunctionType), "`add_style` must be given a function"
-    if func.__name__ not in store:
-        store[func.__name__] = func
+        style_name : Any
+            The name of the style being logged
+        style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
+            The style function that merges two docstrings into a single docstring."""
+    assert isinstance(style_func, (FunctionType, MethodType)), "`style_func` must be a function or a method"
+    if style_name not in store:
+        store[style_name] = style_func
     else:
-        print("The style name {} is already taken".format(func.__name__))
+        print("The style name {} is already taken".format(style_name))
     return None
 
 
@@ -44,12 +49,8 @@ def remove_style(style):
         Parameters
         ----------
         style: Union[str, FunctionType]
-            The style function, or its name, to be removed
-
-        Returns
-        -------
-        None"""
-    assert isinstance(style, (str, FunctionType)), "`remove_style` must be given a function or its name"
+            The style function, or its name, to be removed."""
+    assert isinstance(style, (basestring, (FunctionType, MethodType))), "`remove_style` must be given a function or its name"
 
     if isinstance(style, FunctionType):
         style = style.__name__
@@ -57,6 +58,15 @@ def remove_style(style):
     if style in store:
         store.pop(style)
     return None
+
+
+def _get_merge_func(style):
+    try:
+        return style_store[style]
+    except KeyError:
+        err_msg = "Either a valid style name or a style-function must be specified"
+        assert isinstance(style, (FunctionType, MethodType)), err_msg
+        return style
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
@@ -80,18 +90,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         Union[custom_inherit.DocInheritorBase]"""
 
-    if isinstance(style, FunctionType):
-        merge_func = style
-
-    else:
-        if not store:
-            raise NotImplementedError("There are no available inheritance styles")
-
-        if style not in store:
-            raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
-
-        merge_func = store[style]
-
+    merge_func = _get_merge_func(style)
     metaclass = DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
@@ -100,18 +99,8 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
 
 def doc_inherit(parent, style="parent"):
-    if isinstance(style, FunctionType):
-        merge_func = style
-
-    else:
-        if not store:
-            raise NotImplementedError("There are no available inheritance styles")
-
-        if style not in store:
-            raise NotImplementedError("The available inheritance styles are: " + ", ".join(store))
-
-        merge_func = store[style]
-
+    """ Returns the d"""
+    merge_func = _get_merge_func(style)
     decorator = DocInheritDecorator
     decorator.doc_merger = staticmethod(merge_func)
     return decorator(parent)
