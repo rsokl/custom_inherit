@@ -57,7 +57,7 @@ def remove_style(style):
 
 def _get_merge_func(style):
     try:
-        return style_store[style]
+        return store[style]
     except KeyError:
         err_msg = "Either a valid style name or a style-function must be specified"
         assert isinstance(style, (FunctionType, MethodType)), err_msg
