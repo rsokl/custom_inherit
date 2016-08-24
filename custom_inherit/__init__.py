@@ -15,7 +15,7 @@ __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"
 __version__ = "2.0.0"
 
 
-class Store(dict):
+class _Store(dict):
     """ A dictionary that stores the styles available for the doc-inheritance metaclass and decorator,
        respectively."""
     def __str__(self):
@@ -37,13 +37,18 @@ class Store(dict):
         except TypeError:
             raise TypeError("The style store only stores functions (callables) of the form:\
              \n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
-        super(Store, self).__setitem__(style_name, style_func)
+        super(_Store, self).__setitem__(style_name, style_func)
 
     def __getitem__(self, item):
         """ Given a valid style-ID, retrieve a stored style. If a valid function (callable) is
-            supplied, return it in place."""
+            supplied, return it in place.
+
+            Parameters
+            ----------
+            item : Union[Any, Callable[Optional[str], Optional[str]], Optional[str]]
+                A valid style-ID or style-function."""
         try:
-            return super(Store, self).__getitem__(item)
+            return super(_Store, self).__getitem__(item)
         except KeyError:
             try:
                 item("", "")
@@ -51,7 +56,7 @@ class Store(dict):
                 raise TypeError("Either a valid style name or style-function must be specified")
         return item
 
-store = Store([(key, getattr(style_store, key)) for key in style_store.__all__])
+store = _Store([(key, getattr(style_store, key)) for key in style_store.__all__])
 
 
 def add_style(style_name, style_func):
