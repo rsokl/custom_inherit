@@ -10,13 +10,12 @@
  - [Documentation](#doc)
 
 ## Overview<a name="overview"\a>
-The Python package custom_inherit provides the capability for a class to inherit docstrings from its parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge the
-parent's and child's respective docstrings in a nice way, based on their [numpy-style docstring sections](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard).
+The Python package custom_inherit provides the capability for a class or a function (or method, property, ...) to inherit docstrings from a parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge a parent's and child's respective docstrings in a nice way, based on their [numpy-style docstring sections](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard).
 
 This package has been tested (and works) in both Python 2.7 and Python 3.5.  
 
 ## Basic Usage<a name="basic"\a>
-custom_inherit exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**).
+`custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**). It also exposes a decorator capable of mediating docstring inheritance on an individual function (or property, method, etc.) level. 
 
 The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the "numpy" style of inheritance:
 
@@ -74,7 +73,7 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
  class implements a "Returns" section. Jump [ahead](#builtin) for a detailed description
  of the "numpy" style)
 
-Note that syntax for deriving from a meta class is slightly different in Python 2:
+Keep in mind that the syntax for deriving from a meta class is slightly different in Python 2:
 
 ```python
    from custom_inherit import DocInheritMeta
@@ -82,6 +81,27 @@ Note that syntax for deriving from a meta class is slightly different in Python 
    class Parent(object)
       __metaclass__ = metaclass=DocInheritMeta(style="numpy")
       ...
+```
+
+Similarly, a decorator can be utilized in conjunction with a parent and inheritance style. Here, we provide our own custom inheritance style on the fly:
+
+```python
+   from custom_inherit import doc_inherit
+   
+   def style(prnt_doc, child_doc): return "out-doc"
+   
+   def parent():
+	   """ docstring to inherit from"""
+   
+   @doc_inherict(parent, style)
+   def child():
+       """ docstring to inherit into"""
+```
+   
+Given the customized (yet trivial) inheritance style specified in this example, the inherited docsting of `child`, in this instance, will be:
+
+```python
+   "out-doc"
 ```
 
 ## Advanced Usage<a name="advanced" \a>
