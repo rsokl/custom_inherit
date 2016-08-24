@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-from types import FunctionType, MethodType
 from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
 from .style_store import *
@@ -36,11 +35,13 @@ class Store(dict):
         try:
             style_func("", "")
         except TypeError:
-            raise TypeError("The style store only stores functions of the form:\
-             \n\tfunc(Optional[str], Optional[str]) -> Optional[str]")
+            raise TypeError("The style store only stores functions (callables) of the form:\
+             \n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
         super(Store, self).__setitem__(style_name, style_func)
 
     def __getitem__(self, item):
+        """ Given a valid style-ID, retrieve a stored style. If a valid function (callable) is
+            supplied, return it in place."""
         try:
             return super(Store, self).__getitem__(item)
         except KeyError:
@@ -48,13 +49,9 @@ class Store(dict):
                 item("", "")
             except TypeError:
                 raise TypeError("Either a valid style name or style-function must be specified")
-            return item
+        return item
 
-store = Store()
-for style_kind in style_store.__all__:
-    _style = getattr(style_store, style_kind)
-    if isinstance(_style, (FunctionType, MethodType)):
-        store[style_kind] = _style
+store = Store([(key, getattr(style_store, key)) for key in style_store.__all__])
 
 
 def add_style(style_name, style_func):
@@ -114,7 +111,7 @@ def doc_inherit(parent, style="parent"):
 
         Parameters
         ----------
-        prnt_doc : Union[str, Any]
+        parent : Union[str, Any]
             The docstring, or object of which the docstring is utilized as the
             parent docstring during the docstring merge.
 
