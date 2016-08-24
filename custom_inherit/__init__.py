@@ -4,6 +4,7 @@ from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
 from .style_store import *
 from .decorator_base import DocInheritDecorator
+from .style_store import __all__ as all_styles
 
 try:
     basestring
@@ -15,15 +16,45 @@ __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"
 __version__ = "2.0.0"
 
 
-def _construct_style_store():
-    _store = {}
-    for style_kind in style_store.__all__:
-        _style = getattr(style_store, style_kind)
-        if isinstance(_style, (FunctionType, MethodType)):
-            _store[style_kind] = _style
-    return _store
+class Store(dict):
+    """ A dictionary that stores the styles available for the doc-inheritance metaclass and decorator,
+       respectively."""
+    def __str__(self):
+        out_str = "The available stored styles are: "
+        styles = "\n".join("\t- " + style for style in sorted(self.keys()))
+        return "\n".join((out_str, styles))
 
-store = _construct_style_store()
+    def __setitem__(self, style_name, style_func):
+        """ Make available a new function for merging a 'parent' and 'child' docstring.
+
+            Parameters
+            ----------
+            style_name : Any
+                The identifier of the style being logged
+            style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
+                The style function that merges two docstrings into a single docstring."""
+        try:
+            style_func("", "")
+        except TypeError:
+            raise TypeError("The style store only stores functions of the form:\
+             \n\tfunc(Optional[str], Optional[str]) -> Optional[str]")
+        super(Store, self).__setitem__(style_name, style_func)
+
+    def __getitem__(self, item):
+        try:
+            return super(Store, self).__getitem__(item)
+        except KeyError:
+            try:
+                item("", "")
+            except TypeError:
+                raise TypeError("Either a valid style name or style-function must be specified")
+            return item
+
+store = Store()
+for style_kind in style_store.__all__:
+    _style = getattr(style_store, style_kind)
+    if isinstance(_style, (FunctionType, MethodType)):
+        store[style_kind] = _style
 
 
 def add_style(style_name, style_func):
@@ -35,12 +66,7 @@ def add_style(style_name, style_func):
             The identifier of the style being logged
         style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
             The style function that merges two docstrings into a single docstring."""
-    assert isinstance(style_func, (FunctionType, MethodType)), "`style_func` must be a function or a method"
-    if style_name not in store:
-        store[style_name] = style_func
-    else:
-        print("The style name {} is already taken".format(style_name))
-    return None
+    store[style_name] = style_func
 
 
 def remove_style(style):
@@ -52,16 +78,6 @@ def remove_style(style):
             The valid inheritance-scheme style ID to be removed."""
     if style in store:
         store.pop(style)
-    return None
-
-
-def _get_merge_func(style):
-    try:
-        return store[style]
-    except KeyError:
-        err_msg = "Either a valid style name or a style-function must be specified"
-        assert isinstance(style, (FunctionType, MethodType)), err_msg
-        return style
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
@@ -76,7 +92,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
             If True, the returned metaclass inherits from abc.ABCMeta.
 
             Thus a class that derives from DocInheritMeta(style="numpy", abstract_base_class=True)
-            is an abstract base class, whose derived classes will inherit docstrings
+            will be an abstract base class, whose derived classes will inherit docstrings
             using the numpy-style inheritance scheme.
 
 
@@ -84,7 +100,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         -------
         custom_inherit.DocInheritorBase"""
 
-    merge_func = _get_merge_func(style)
+    merge_func = store[style]
     metaclass = DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
@@ -102,13 +118,13 @@ def doc_inherit(parent, style="parent"):
             The docstring, or object of which the docstring is utilized as the
             parent docstring during the docstring merge.
 
-        Union[Any, Callable[[str, str], str]], optional (default: "parent")
+        style : Union[Any, Callable[[str, str], str]], optional (default: "parent")
             A valid inheritance-scheme style ID or function that merges two docstrings.
 
         Returns
         -------
         custom_inherit.DocInheritDecorator"""
-    merge_func = _get_merge_func(style)
+    merge_func = store[style]
     decorator = DocInheritDecorator
     decorator.doc_merger = staticmethod(merge_func)
     return decorator(parent)

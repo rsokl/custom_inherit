@@ -4,9 +4,12 @@ try:
 except NameError:
     basestring = str  # Python 2 -> 3 alias
 
+""" Exposes decorator class."""
+
+__all__ = ["DocInheritDecorator"]
 
 class DocInheritDecorator(object):
-    """ A decorator which merges a provided parent docstring with the docstring of the decorated
+    """ A decorator that merges provided parent docstring with the docstring of the decorated
         function/method/property.
 
         Methods
