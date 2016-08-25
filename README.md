@@ -141,7 +141,11 @@ The built-in styles are:
 
 ## Making New Inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. Wherever a style parameter is to be specified, one may supply a function of the form `func(prnt_doc: str, child_doc: str) -> str`, which merges the docstrings of the
-parent with that of the child to produce an output string. Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name whever a style parameter is specified. Lastly, one can add custom inheritance functions to `custom_inherit/style_store.py`. This will permanently log the custom inheritance function as a built-in style. 
+parent with that of the child to produce an output string. 
+
+Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name whever a style parameter is specified. 
+
+Lastly, one can add custom inheritance functions to `custom_inherit/style_store.py`. This will permanently log the custom inheritance function as a built-in style. 
 
 ## Installation & Getting Started<a name="install" \a>
 Install via pip:
