@@ -92,12 +92,12 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
 ```python
    from custom_inherit import doc_inherit
    
-   def style(prnt_doc, child_doc): return "out-doc"
+   def my_style(prnt_doc, child_doc): return "out-doc"
    
    def parent():
 	   """ docstring to inherit from"""
    
-   @doc_inherict(parent, style)
+   @doc_inherict(parent, style=my_style)
    def child():
        """ docstring to inherit into"""
 ```
