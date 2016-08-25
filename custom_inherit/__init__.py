@@ -125,7 +125,13 @@ def doc_inherit(parent, style="parent"):
 
         Returns
         -------
-        custom_inherit.DocInheritDecorator"""
+        custom_inherit.DocInheritDecorator
+
+        Notes
+        -----
+        `doc_inherit` should always be used as the inner-most decorator when being used in
+        conjunction with other decorators, such as `@property`, `@staticmethod`, etc."""
+
     merge_func = store[style]
     decorator = DocInheritDecorator
     decorator.doc_merger = staticmethod(merge_func)
