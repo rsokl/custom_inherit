@@ -14,8 +14,12 @@ __all__ = ["DocInheritorBase"]
 
 
 class DocInheritorBase(type):
-    def __new__(mcs, class_name, class_bases, class_dict):
+    """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
+        properties, methods (including classmethod, staticmethod, decorated methods).
 
+        This merge-style must be implemented via the static methods `class_doc_inherit`
+        and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
+    def __new__(mcs, class_name, class_bases, class_dict):
         # inherit class docstring
         clsdoc = class_dict.get("__doc__", None)
         prnt_cls_doc = None
@@ -27,7 +31,7 @@ class DocInheritorBase(type):
                 break
         class_dict["__doc__"] = mcs.class_doc_inherit(prnt_cls_doc, clsdoc)
 
-        # inherit docstring for method, staticmethod, classmethod, abstractmethod, decorated method, and property
+        # inherit docstring for method, static-method, class-method, abstract-method, decorated-method, and property
         for attr, attribute in class_dict.items():
             is_doc_type = isinstance(attribute, (FunctionType, classmethod, staticmethod, property))
 
@@ -48,14 +52,15 @@ class DocInheritorBase(type):
             if prnt_attr_doc is None:
                 continue
 
+            doc = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
             try:
-                child_attr.__doc__ = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
+                child_attr.__doc__ = doc
             except TypeError as err:
                 if isinstance(child_attr, property):  # property.__doc__ is read-only in Python 2
                     new_prop = property(fget=child_attr.fget,
                                         fset=child_attr.fset,
                                         fdel=child_attr.fdel,
-                                        doc=mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__))
+                                        doc=doc)
                     if isinstance(child_attr, abstractproperty):
                         new_prop = abstractproperty(new_prop)
                     class_dict[attr] = new_prop

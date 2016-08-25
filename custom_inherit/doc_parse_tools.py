@@ -64,13 +64,13 @@ def merge_section(key, prnt_sec, child_sec):
         ----------
         key: str
             The numpy-section being merged.
-        prnt_sec: Union[str, None]
+        prnt_sec: Optional[str]
             The docstring section from the parent's attribute.
-        child_sec: Union[str, None]
+        child_sec: Optional[str]
             The docstring section from the child's attribute.
         Returns
         -------
-        str
+        Optional[str]
             The output docstring section."""
     if prnt_sec is None and child_sec is None:
         return None
@@ -113,7 +113,7 @@ def merge_all_sections(prnt_sctns, child_sctns):
     return "\n\n".join(doc) if doc else None
 
 
-def merge_numpy_docs(prnt_doc, child_doc):
+def merge_numpy_docs(prnt_doc=None, child_doc=None):
     """ Merge two numpy-style docstrings into a single docstring.
 
         Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
@@ -122,14 +122,14 @@ def merge_numpy_docs(prnt_doc, child_doc):
 
         Parameters
         ----------
-        prnt_doc: Union[None, str]
+        prnt_doc: Optional[str]
             The docstring from the parent.
-        child_doc: Union[None, str]
+        child_doc: Optional[str]
             The docstring from the child.
 
         Returns
         -------
-        Union[None, str]
+        Optional[str]
             The merged docstring.
         """
     return merge_all_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))
