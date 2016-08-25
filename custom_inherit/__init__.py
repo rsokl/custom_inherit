@@ -77,7 +77,7 @@ def remove_style(style):
         Parameters
         ----------
         style: Any
-            The valid inheritance-scheme style ID to be removed."""
+            The inheritance-scheme style ID to be removed."""
     if style in store:
         store.pop(style)
 
