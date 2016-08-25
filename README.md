@@ -14,11 +14,11 @@
 ## Overview<a name="overview"\a>
 The Python package `custom_inherit` provides the capability for a class or a function (or method, property, ...) to inherit docstrings from a parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge a parent's and child's respective docstrings in a nice way, based on their [numpy-style docstring sections](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard).
 
-This package has been tested (and works) in both Python 2.7 and Python 3.5.  
+This package has been tested (and works) in both Python 2.7 and Python 3.5.
 
 ## Basic Usage<a name="basic"\a>
 ### Inheriting Docstrings Using a Metaclass<a name="meta"\a>
-`custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**). 
+`custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**).
 
 The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the built-in "numpy" style of inheritance:
 
@@ -91,17 +91,17 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
 
 ```python
    from custom_inherit import doc_inherit
-   
+
    def my_style(prnt_doc, child_doc): return "out-doc"
-   
+
    def parent():
 	   """ docstring to inherit from"""
-   
+
    @doc_inherict(parent, style=my_style)
    def child():
        """ docstring to inherit into"""
 ```
-   
+
 Given the customized (although trivial) inheritance style specified in this example, the inherited docsting of `child`, in this instance, will be:
 
 ```python
@@ -141,11 +141,11 @@ The built-in styles are:
 
 ## Making New Inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. Wherever a style parameter is to be specified, one may supply a function of the form `func(prnt_doc: str, child_doc: str) -> str`, which merges the docstrings of the
-parent with that of the child to produce an output string. 
+parent with that of the child to produce an output string.
 
-Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name whever a style parameter is specified. 
+Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name whever a style parameter is specified.
 
-Lastly, one can add custom inheritance functions to `custom_inherit/style_store.py`. This will permanently log the custom inheritance function as a built-in style. 
+Lastly, one can add custom inheritance functions to `custom_inherit/style_store.py`. This will permanently log the custom inheritance function as a built-in style.
 
 ## Installation & Getting Started<a name="install" \a>
 Install via pip:
@@ -216,11 +216,11 @@ custom_inherit.doc_inherit(parent, style="parent"):
         Returns
         -------
         custom_inherit.DocInheritDecorator
-		
+
 
         Notes
         -----
-        `doc_inherit` should always be the inner-most decorator when being used in 
+        `doc_inherit` should always be the inner-most decorator when being used in
         conjunction with other decorators, such as `@property`, `@staticmethod`, etc."""
 
 
@@ -231,7 +231,7 @@ custom_inherit.remove_style(style):
         ----------
         style: Any
             The inheritance-scheme style ID to be removed."""
-			
+
 
 custom_inherit.add_style(style_name, style_func):
     """ Make available a new function for merging a 'parent' and 'child' docstring.
