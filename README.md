@@ -92,7 +92,7 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
 ```python
    from custom_inherit import doc_inherit
 
-   def my_style(prnt_doc, child_doc): return "out-doc"
+   def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
 
    def parent():
 	   """ docstring to inherit from"""
@@ -102,10 +102,12 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
        """ docstring to inherit into"""
 ```
 
-Given the customized (although trivial) inheritance style specified in this example, the inherited docsting of `child`, in this instance, will be:
+Given the customized (albeit stupid) inheritance style specified in this example, the inherited docsting of `child`, in this instance, will be:
 
 ```python
-   "out-doc"
+   """docstring to inherit from
+      -----
+	  docstring to inherit into"""
 ```
 
 ## Advanced Usage<a name="advanced" \a>
