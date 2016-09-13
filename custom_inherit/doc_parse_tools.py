@@ -78,7 +78,7 @@ def merge_section(key, prnt_sec, child_sec):
     if key == "Short Summary":
         header = ''
     else:
-        header = "\n".join((key, "-".join("" for i in range(len(key))), ""))
+        header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
 
     if child_sec is None:
         body = prnt_sec

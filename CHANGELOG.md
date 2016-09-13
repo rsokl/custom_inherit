@@ -1,3 +1,8 @@
+### 2.0.1
+- Numpy-style section delimiters was fixed so that they are the appropriate length, and thus compatible with the numpy-style for sphinx.
+
+- `doc_inherit` was refactored so that the signature of the decorated  function is now preserved in Python(< 3.4). This was not an issue for newer versions of Python.
+
 ### 2.0.0
 - A decorator, `doc_inherit` is now available for mediating docstring inheritance for a single function/method.property/etc.
 

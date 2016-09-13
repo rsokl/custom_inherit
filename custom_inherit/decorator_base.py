@@ -1,4 +1,3 @@
-from functools import wraps
 try:
     basestring
 except NameError:
@@ -7,6 +6,7 @@ except NameError:
 """ Exposes decorator class."""
 
 __all__ = ["DocInheritDecorator"]
+
 
 class DocInheritDecorator(object):
     """ A decorator that merges provided parent docstring with the docstring of the decorated
@@ -41,11 +41,8 @@ class DocInheritDecorator(object):
             FunctionType
                 The decorated function/method/property whose docstring is given by
                 DocInheritDecorator.doc_merger(prnt_attr_doc, child_doc)"""
-        @wraps(func)
-        def wrapped(*args, **kwargs):
-            return func(*args, **kwargs)
-        wrapped.__doc__ = self.doc_merger(self.prnt_doc, func.__doc__)
-        return wrapped
+        func.__doc__ = self.doc_merger(self.prnt_doc, func.__doc__)
+        return func
 
     @staticmethod
     def doc_merger(prnt_attr_doc, child_doc):
