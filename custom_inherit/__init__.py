@@ -33,7 +33,8 @@ class _Store(dict):
             style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
                 The style function that merges two docstrings into a single docstring."""
         try:
-            style_func("", "")
+            if not (isinstance(style_func("", ""), basestring) or style_func("", "") is None):
+                raise TypeError
         except TypeError:
             raise TypeError("The style store only stores functions (callables) of the form:\
              \n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
@@ -51,7 +52,8 @@ class _Store(dict):
             return super(_Store, self).__getitem__(item)
         except KeyError:
             try:
-                item("", "")
+                if not (isinstance(item("", ""), basestring) or item("", "") is None):
+                    raise TypeError
             except TypeError:
                 raise TypeError("Either a valid style name or style-function must be specified")
         return item
