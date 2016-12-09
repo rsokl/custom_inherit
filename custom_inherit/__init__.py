@@ -15,6 +15,13 @@ __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"
 __version__ = "2.0.1"
 
 
+def _check_style_function(style_func):
+    out = style_func("", "")
+    if not (isinstance(out, basestring) or out is None):
+        raise TypeError
+    return None
+
+
 class _Store(dict):
     """ A dictionary that stores the styles available for the doc-inheritance metaclass and decorator,
        respectively."""
@@ -33,8 +40,7 @@ class _Store(dict):
             style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
                 The style function that merges two docstrings into a single docstring."""
         try:
-            if not (isinstance(style_func("", ""), basestring) or style_func("", "") is None):
-                raise TypeError
+            _check_style_function(style_func)
         except TypeError:
             raise TypeError("The style store only stores functions (callables) of the form:\
              \n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
@@ -52,11 +58,22 @@ class _Store(dict):
             return super(_Store, self).__getitem__(item)
         except KeyError:
             try:
-                if not (isinstance(item("", ""), basestring) or item("", "") is None):
-                    raise TypeError
+                _check_style_function(item)
             except TypeError:
                 raise TypeError("Either a valid style name or style-function must be specified")
         return item
+
+    def update(self, *args, **kwargs):
+        if len(args) > 1:
+            raise TypeError("update expected at most 1 arguments, got %d" % len(args))
+
+        for key, value in dict(*args, **kwargs).items():
+            self[key] = value
+
+    def setdefault(self, key, value=None):
+        if key not in self:
+            self[key] = value
+        return self[key]
 
 store = _Store([(key, getattr(style_store, key)) for key in style_store.__all__])
 
