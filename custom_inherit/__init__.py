@@ -25,6 +25,10 @@ def _check_style_function(style_func):
 class _Store(dict):
     """ A dictionary that stores the styles available for the doc-inheritance metaclass and decorator,
        respectively."""
+
+    def __init__(self, *args, **kwargs):
+        self.update(*args, **kwargs)
+
     def __str__(self):
         out_str = "The available stored styles are: "
         styles = "\n".join("\t- " + style for style in sorted(self.keys()))
@@ -42,8 +46,8 @@ class _Store(dict):
         try:
             _check_style_function(style_func)
         except TypeError:
-            raise TypeError("The style store only stores functions (callables) of the form:\
-             \n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
+            raise TypeError("The style store only stores callables (callables) of the form: "
+                            "\n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
         super(_Store, self).__setitem__(style_name, style_func)
 
     def __getitem__(self, item):
@@ -59,9 +63,9 @@ class _Store(dict):
         except KeyError:
             try:
                 _check_style_function(item)
+                return item
             except TypeError:
                 raise TypeError("Either a valid style name or style-function must be specified")
-        return item
 
     def update(self, *args, **kwargs):
         if len(args) > 1:
