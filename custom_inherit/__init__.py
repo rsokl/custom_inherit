@@ -17,17 +17,24 @@ __version__ = "2.0.1"
 
 def _check_style_function(style_func):
     out = style_func("", "")
-    if not (isinstance(out, basestring) or out is None):
+    if not isinstance(out, basestring) and out is not None:
         raise TypeError
     return None
 
 
-class _Store(dict):
-    """ A dictionary that stores the styles available for the doc-inheritance metaclass and decorator,
-       respectively."""
+class _Store(object):
+    """ A dictionary-like object that stores the styles available for the doc-inheritance metaclass and decorator,
+       respectively.
+
+       Only callable objects with the signature: f(Optional[str], Optional[str]) -> Optional[str]
+       can be stored. If f is a valid callable, then _Store()[f] -> f."""
 
     def __init__(self, *args, **kwargs):
+        self._store = dict()
         self.update(*args, **kwargs)
+
+    def __repr__(self):
+        return repr(self._store)
 
     def __str__(self):
         out_str = "The available stored styles are: "
@@ -46,9 +53,9 @@ class _Store(dict):
         try:
             _check_style_function(style_func)
         except TypeError:
-            raise TypeError("The style store only stores callables (callables) of the form: "
+            raise TypeError("The style store only stores callables of the form: "
                             "\n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
-        super(_Store, self).__setitem__(style_name, style_func)
+        self._store[style_name] = style_func
 
     def __getitem__(self, item):
         """ Given a valid style-ID, retrieve a stored style. If a valid function (callable) is
@@ -59,7 +66,7 @@ class _Store(dict):
             item : Union[Any, Callable[Optional[str], Optional[str]], Optional[str]]
                 A valid style-ID or style-function."""
         try:
-            return super(_Store, self).__getitem__(item)
+            return self._store[item]
         except KeyError:
             try:
                 _check_style_function(item)
@@ -67,7 +74,21 @@ class _Store(dict):
             except TypeError:
                 raise TypeError("Either a valid style name or style-function must be specified")
 
+    def keys(self):
+        """  D.keys() -> a set-like object providing a view on D's keys"""
+        return self._store.keys()
+
+    def pop(self, *args):
+        """ D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
+            If key is not found, d is returned if given, otherwise KeyError is raised. """
+        if len(args) < 3:
+            return self._store.pop(*args)
+        else:
+            raise TypeError("pop expected at most 2 arguments, got {}".format(len(args)))
+
     def update(self, *args, **kwargs):
+        """ D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
+            If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]"""
         if len(args) > 1:
             raise TypeError("update expected at most 1 arguments, got %d" % len(args))
 
@@ -75,9 +96,18 @@ class _Store(dict):
             self[key] = value
 
     def setdefault(self, key, value=None):
+        """  D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D"""
         if key not in self:
             self[key] = value
         return self[key]
+
+    def values(self):
+        """ D.values() -> an object providing a view on D's values."""
+        return self._store.values()
+
+    def items(self):
+        """ D.items() -> a set-like object providing a view on D's items"""
+        return self._store.items()
 
 store = _Store([(key, getattr(style_store, key)) for key in style_store.__all__])
 
