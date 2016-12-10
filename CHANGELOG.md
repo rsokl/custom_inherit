@@ -1,3 +1,7 @@
+### 2.0.2
+- custom_inherit.store no longer inherits from `dict`. Fixes bug in which `store.update` could be used
+to circumvent the type-checking that the store enforces.
+
 ### 2.0.1
 - Numpy-style section delimiters was fixed so that they are the appropriate length, and thus compatible with the numpy-style for sphinx.
 
