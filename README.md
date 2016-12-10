@@ -182,8 +182,7 @@ Documentation is available via `help(custom_inherit)`.
 
 ```python
 custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
-    """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
-        properties, methods (including classmethod, staticmethod, decorated methods).
+    """ Returns the DocInheritor metaclass of the specified style.
 
         Parameters
         ----------
@@ -205,7 +204,7 @@ custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
 
 custom_inherit.doc_inherit(parent, style="parent"):
     """ Returns a function/method decorator that, given `parent`, updates the docstring of the decorated
-        function/method based on the specified style and the corresponding attribute of `parent`.
+        function/method based on the specified style and `parent`.
 
         Parameters
         ----------
