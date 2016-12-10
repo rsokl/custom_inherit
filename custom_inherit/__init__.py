@@ -95,12 +95,6 @@ class _Store(object):
         for key, value in dict(*args, **kwargs).items():
             self[key] = value
 
-    def setdefault(self, key, value=None):
-        """  D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D"""
-        if key not in self:
-            self[key] = value
-        return self[key]
-
     def values(self):
         """ D.values() -> an object providing a view on D's values."""
         return self._store.values()
