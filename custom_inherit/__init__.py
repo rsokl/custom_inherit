@@ -71,7 +71,7 @@ class _Store(object):
             try:
                 _check_style_function(item)
                 return item
-            except TypeError:
+            except (TypeError, ValueError):
                 raise TypeError("Either a valid style name or style-function must be specified")
 
     def keys(self):
