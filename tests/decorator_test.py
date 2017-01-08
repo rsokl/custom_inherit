@@ -14,13 +14,6 @@ except ImportError:
 def style(x, y): return "valid"
 
 
-def clean_dummy(x, y=None, **kwargs): pass
-
-
-@doc_inherit("", style=style)
-def dummy(x, y=None, **kwargs): pass
-
-
 @six.add_metaclass(ABCMeta)
 class Kid(object):
 
@@ -63,11 +56,15 @@ class Kid2(object):
 
 
 def test_sideeffect():
-    assert signature(clean_dummy) == signature(dummy)
+    def f(x, y=None, **kwargs): return None
+    assert f == doc_inherit("")(f)
+    assert signature(f) == signature(doc_inherit("")(f))
 
 
 def test_function():
-    assert inspect.getdoc(dummy) == "valid"
+    @doc_inherit("", style=style)
+    def f(x, y=None, **kwargs): return None
+    assert inspect.getdoc(f) == "valid"
 
 
 def test_method():

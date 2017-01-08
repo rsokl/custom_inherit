@@ -1,4 +1,4 @@
-from custom_inherit._style_store import parent, numpy, reST
+from custom_inherit._style_store import parent, numpy, reST, google, numpy_napoleon
 
 def test_parent():
     assert parent("a", "b") == "b"
@@ -80,6 +80,7 @@ def test_numpy():
     assert numpy(None, 'valid') == 'valid'
     assert numpy(prnt.__doc__, child.__doc__) == numpy_out
 
+
 def prnt2():
     """ Parent's front-matter
         +++++++++++
@@ -96,6 +97,7 @@ def prnt2():
 
         Empty
         ~~~~~"""
+    pass
 
 
 def child2():
@@ -110,11 +112,13 @@ def child2():
         Child-Only
         ##########
         child-only"""
+    pass
 
 
 reST_out = "Child's front-matter\ncontinued\n++bad+\n\n+++++++++++\nParent-Only\n+++++++++++\nparams" \
            "\n    indented\n\nmulti-line\n\nShared\n******\nchild-shared\n\nEmpty\n~~~~~\n\n\n##########" \
            "\nChild-Only\n##########\nchild-only"
+
 
 def test_reST():
     assert reST(None, None) == ''
@@ -122,3 +126,5 @@ def test_reST():
     assert reST('valid', None) == 'valid'
     assert reST(None, 'valid') == 'valid'
     assert reST(prnt2.__doc__, child2.__doc__) == reST_out
+
+
