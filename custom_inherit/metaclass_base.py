@@ -56,7 +56,7 @@ class DocInheritorBase(type):
             try:
                 child_attr.__doc__ = doc
             except TypeError as err:
-                if type(child_attr) is in (property, abstractproperty):  # property.__doc__ is read-only in Python 2
+                if type(child_attr) in (property, abstractproperty):  # property.__doc__ is read-only in Python 2
                     new_prop = property(fget=child_attr.fget,
                                         fset=child_attr.fset,
                                         fdel=child_attr.fdel,
