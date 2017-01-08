@@ -1,5 +1,6 @@
 import six
 import inspect
+import pytest
 from custom_inherit import DocInheritMeta
 from abc import ABCMeta, abstractmethod, abstractproperty
 from types import MethodType, FunctionType
@@ -12,6 +13,7 @@ except ImportError:
 
 def style(x, y): return "valid"
 
+#### With ABC
 
 @six.add_metaclass(DocInheritMeta(style=style, abstract_base_class=True))
 class Parent(object):
@@ -108,3 +110,69 @@ def test_abstract_property():
     assert inspect.getdoc(Kid.absproperty) == "valid"
 
 
+
+### Without ABC
+
+@six.add_metaclass(DocInheritMeta(style=style))
+class Parent2(object):
+    def method(self, x, y=None):
+        """"""
+        pass
+
+    @classmethod
+    def clsmthd(cls):
+        """"""
+        pass
+
+    @staticmethod
+    def static():
+        """"""
+        pass
+
+    @property
+    def prop(self):
+        """"""
+        return None
+
+
+class Kid2(Parent2):
+
+    def kid_method(self):
+        """kid"""
+        pass
+
+    def method(self, x, y=None): pass
+
+    @classmethod
+    def clsmthd(cls): pass
+
+    @staticmethod
+    def static(): pass
+
+    @property
+    def prop(self): return None
+    
+    
+def test_sideeffect2():
+    assert inspect.getdoc(Kid2.kid_method) == "kid"
+    assert signature(Kid2.method) == signature(Parent.method)
+
+
+def test_method2():
+    assert isinstance(Kid2().method, MethodType)
+    assert inspect.getdoc(Kid2.method) == "valid"
+
+
+def test_classmethod2():
+    assert inspect.ismethod(Kid2.clsmthd) and Kid2.clsmthd.__self__ is Kid2
+    assert inspect.getdoc(Kid2.clsmthd) == "valid"
+
+
+def test_staticmethod2():
+    assert isinstance(Kid2().static, FunctionType)
+    assert inspect.getdoc(Kid2.static) == "valid"
+
+
+def test_property2():
+    assert isinstance(Kid2.prop, property)
+    assert inspect.getdoc(Kid2.prop) == "valid"
