@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from abc import ABCMeta
 from .metaclass_base import DocInheritorBase
-from .style_store import *
+from .style_store import parent, numpy, reST
 from .decorator_base import DocInheritDecorator
 from .style_store import __all__ as all_styles
 

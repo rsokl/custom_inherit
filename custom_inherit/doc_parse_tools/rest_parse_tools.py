@@ -60,15 +60,14 @@ def parse_rest_doc(doc):
                 body.append(line)
 
         except StopIteration:
-            if body:
-                section.body = "\n".join(body).rstrip()
-                doc_sections.update([(header.strip(), section)])
+            section.body = "\n".join(body).rstrip()
+            doc_sections.update([(header.strip(), section)])
             break
     return doc_sections
 
 
 def merge_rest_docs(prnt_doc=None, child_doc=None):
-
+    """ See custom_inherit.style_store.reST for details. """
     prnt_sections = parse_rest_doc(prnt_doc)
     child_sections = parse_rest_doc(child_doc)
 
@@ -79,4 +78,4 @@ def merge_rest_docs(prnt_doc=None, child_doc=None):
         if not header.body:
             prnt_sections.popitem(last=False)
 
-    return "\n\n".join(("\n".join((x.header, x.body)) for x in prnt_sections.values()))
+    return "\n\n".join(("\n".join((x.header, x.body)) for x in prnt_sections.values())).lstrip()
