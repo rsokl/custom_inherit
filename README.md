@@ -1,5 +1,8 @@
 # custom_inherit
 
+[![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit)
+[![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
+
 ## Contents
  - [Overview](#overview)
  - [Basic Usage](#basic)
