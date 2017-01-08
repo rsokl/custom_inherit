@@ -35,6 +35,7 @@ def prnt():
         References
         ----------
         ref """
+    pass
 
 
 def child():
@@ -62,13 +63,14 @@ def child():
         --------
         example
         """
+    pass
 
 
 numpy_out = 'first line\n\nDeprecation Warning\n-------------------\ndep\n\nAttributes\n----------\nparams\n    ' \
             'indented\n\nmulti-line\n\nExtended Summary\n----------------\nextended\n\nParameters\n----------\n' \
             'params\n\nReturns\n-------\nreturn\n\nYields\n------\nyield\n\nOther Parameters\n----------------\nother' \
             '\n\nRaises\n------\nraise\n\nSee Also\n--------\nsee\n\nNotes\n-----\nnote\n\nReferences\n----------' \
-            '\nref \n\nExamples\n--------\nexample'
+            '\nref\n\nExamples\n--------\nexample'
 
 
 def test_numpy():

@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from ._doc_parse_tools import merge_numpy_docs, merge_rest_docs
+from ._doc_parse_tools import merge_numpy_docs, merge_rest_docs, merge_google_napoleon_docs, merge_numpy_napoleon_docs
 
 """ Docstring inheritance-style implementations.
 
@@ -38,8 +38,7 @@ def parent(prnt_doc, child_doc):
 
 
 def numpy(prnt_doc, child_doc):
-    """ The numpy-styled docstrings from the parent and child are merged gracefully
-        with nice formatting.
+    """ Merges numpy-styled docstrings from the parent and child.
 
         Specifically, any docstring section that appears in the parent's docstring that
         is not present in the child's is inherited. Otherwise, the child's docstring
@@ -67,7 +66,7 @@ def numpy(prnt_doc, child_doc):
                         blah-y
 
                     Raises
-                    -------
+                    ------
                     NotImplemented Error'''
 
             - child's docstring:
@@ -110,14 +109,11 @@ def reST(prnt_doc, child_doc):
         sections such that the child's section is used, wherever present, otherwise the parent's
         section is used.
 
-        Sections are delimited by any type of section title. For more details, see:
+        Sections are delimited by any type of reST section title. For more details, see:
         http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections
 
         Any whitespace that can be uniformly removed from a docstring's second line and onwards is
         removed. Sections in the resulting docstring will be separated by a single blank line.
-
-        Any whitespace that can be uniformly removed from a docstring's second line and onwards is
-        removed. Sections will be separated by a single blank line.
 
         Example:
           parent - ''' Header1
@@ -155,3 +151,129 @@ def reST(prnt_doc, child_doc):
                        content for NewHeader '''
             """
     return merge_rest_docs(prnt_doc, child_doc)
+
+
+def numpy_napoleon(prnt_doc, child_doc):
+    """ Behaves identically to the 'numpy' style, but abides by the docstring sections
+        specified by the "Napoleon" standard.
+
+        For more info regarding the Napoleon standard, see:
+        http://sphinxcontrib-napoleon.readthedocs.io/en/latest/index.html#docstring-sections
+
+        Example:
+            - parent's docstring:
+
+                ''' Parent's line
+
+                    Keyword Arguments
+                    -----------------
+                    x: int
+                        blah-x
+                    y: Union[None, int]
+                        blah-y
+
+                    Raises
+                    ------
+                    NotImplemented Error'''
+
+            - child's docstring:
+
+                ''' Child's line
+
+                    Returns
+                    -------
+                    int
+
+                    Notes
+                    -----
+                    notes blah blah'''
+
+            - docstring that is ultimately inherited:
+
+                ''' Child's line
+
+                    Keyword Arguments
+                    -----------------
+                    x: int
+                        blah-x
+                    y: Union[None, int]
+                        blah-y
+
+                    Returns
+                    -------
+                    int
+
+                    Notes
+                    -----
+                    notes blah blah'''
+    """
+    return merge_numpy_napoleon_docs(prnt_doc, child_doc)
+
+
+def google(prnt_doc, child_doc):
+    """ Merges google-styled docstrings from the parent and child, abiding to the docstring sections
+        specified by the "Napoleon" standard.
+
+        Specifically, any docstring section that appears in the parent's docstring that
+        is not present in the child's is inherited. Otherwise, the child's docstring
+        section is utilized. An exception to this is if the parent docstring contains a
+        "Raises" section, but the child's attribute's docstring contains a "Returns" or
+        "Yields" section instead. In this instance, the "Raises" section will not appear in the
+        inherited docstring.
+
+        Any whitespace that can be uniformly removed from a docstring's second line and onwards is
+        removed. Sections in the resulting docstring will be separated by a single blank line.
+
+        For more info regarding the Napoleon standard, see:
+        http://sphinxcontrib-napoleon.readthedocs.io/en/latest/index.html#docstring-sections
+
+        For details on the google docstring style, see:
+        http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google
+
+        Example:
+            - parent's docstring:
+
+                ''' Parent's line
+
+                    A
+                    ----------
+                    x: int
+                        blah-x
+                    y: Union[None, int]
+                        blah-y
+
+                    Raises
+                    ------
+                    NotImplemented Error'''
+
+            - child's docstring:
+
+                ''' Child's line
+
+                    Returns
+                    -------
+                    int
+
+                    Notes
+                    -----
+                    notes blah blah'''
+
+            - docstring that is ultimately inherited:
+
+                ''' Child's line
+
+                    Parameters
+                    ----------
+                    x: int
+                        blah-x
+                    y: Union[None, int]
+                        blah-y
+
+                    Returns
+                    -------
+                    int
+
+                    Notes
+                    -----
+                    notes blah blah'''"""
+    return merge_google_napoleon_docs(prnt_doc, child_doc)

@@ -1,5 +1,4 @@
 from __future__ import absolute_import
-from .numpy_parse_tools import merge_all_sections
 
 from collections import OrderedDict
 import inspect
@@ -44,29 +43,30 @@ def parse_napoleon_doc(doc, style):
     body = []
     while True:
         try:
-            line = next(lines)
-            if line in doc_sections or aliases:
+            line = next(lines).rstrip()
+            header = line if style == "numpy" else (line[:-1] if line.endswith(":") else line)
+            if header and (header in doc_sections or header in aliases):
                 doc_sections[aliases.get(key, key)] = "\n".join(body).rstrip() if body else None
                 body = []
-                key = line
+                key = header
                 if style == "numpy":
                     next(lines)  # skip section delimiter
             else:
                 body.append(line)
         except StopIteration:
-            doc_sections[key] = "\n".join(body)
+            doc_sections[aliases.get(key, key)] = "\n".join(body)
             break
 
     return doc_sections
 
 
 def merge_section(key, prnt_sec, child_sec, style):
-    """ Synthesize a output numpy docstring section.
+    """ Synthesize a output napoleon docstring section.
 
         Parameters
         ----------
         key: str
-            The numpy-section being merged.
+            The napoleon-section being merged.
         prnt_sec: Optional[str]
             The docstring section from the parent's attribute.
         child_sec: Optional[str]
@@ -86,11 +86,36 @@ def merge_section(key, prnt_sec, child_sec, style):
         if style == "numpy":
             header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
         else:
-            header = "\n".join((key, ""))
+            header = "\n".join((key + ":", ""))
 
     body = prnt_sec if child_sec is None else child_sec
 
     return header + body
+
+
+def merge_all_sections(prnt_sctns, child_sctns, style):
+    """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
+
+        Parameters
+        ----------
+        prnt_sctns: OrderedDict[str, Union[None,str]]
+        child_sctns: OrderedDict[str, Union[None,str]]
+
+        Returns
+        -------
+        str
+            Output docstring of the merged docstrings."""
+    doc = []
+
+    prnt_only_raises = prnt_sctns["Raises"] and not (prnt_sctns["Returns"] or prnt_sctns["Yields"])
+    if prnt_only_raises and (child_sctns["Returns"] or child_sctns["Yields"]):
+        prnt_sctns["Raises"] = None
+
+    for key in prnt_sctns:
+        sect = merge_section(key, prnt_sctns[key], child_sctns[key], style)
+        if sect is not None:
+            doc.append(sect)
+    return "\n\n".join(doc) if doc else None
 
 
 def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
@@ -103,6 +128,8 @@ def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
         Any whitespace that can be uniformly removed from a docstring's second line and onwards is
         removed. Sections will be separated by a single blank line.
 
+        Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
+
         Parameters
         ----------
         prnt_doc: Optional[str]
@@ -114,7 +141,8 @@ def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
         -------
         Union[str, None]
             The merged docstring. """
-    merge_all_sections(parse_napoleon_doc(prnt_doc, "numpy"), parse_napoleon_doc(child_doc, "numpy"))
+    style = "numpy"
+    return merge_all_sections(parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style)
 
 
 def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
@@ -127,6 +155,8 @@ def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
         Any whitespace that can be uniformly removed from a docstring's second line and onwards is
         removed. Sections will be separated by a single blank line.
 
+        Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
+
         Parameters
         ----------
         prnt_doc: Optional[str]
@@ -138,4 +168,5 @@ def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
         -------
         Union[str, None]
             The merged docstring. """
-    merge_all_sections(parse_napoleon_doc(prnt_doc, "google"), parse_napoleon_doc(child_doc, "google"))
+    style = "google"
+    return merge_all_sections(parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style)

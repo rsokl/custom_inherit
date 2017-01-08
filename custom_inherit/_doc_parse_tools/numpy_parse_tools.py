@@ -41,7 +41,7 @@ def parse_numpy_doc(doc):
     body = []
     while True:
         try:
-            line = next(lines)
+            line = next(lines).rstrip()
             if line in doc_sections:
                 doc_sections[key] = "\n".join(body).rstrip() if body else None
                 body = []
