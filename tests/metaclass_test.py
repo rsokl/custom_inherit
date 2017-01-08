@@ -1,6 +1,6 @@
 import six
 import inspect
-import pytest
+
 from custom_inherit import DocInheritMeta
 from abc import ABCMeta, abstractmethod, abstractproperty
 from types import MethodType, FunctionType
@@ -13,7 +13,9 @@ except ImportError:
 
 def style(x, y): return "valid"
 
-#### With ABC
+
+""" With ABC"""
+
 
 @six.add_metaclass(DocInheritMeta(style=style, abstract_base_class=True))
 class Parent(object):
@@ -110,8 +112,8 @@ def test_abstract_property():
     assert inspect.getdoc(Kid.absproperty) == "valid"
 
 
+""" Without ABC"""
 
-### Without ABC
 
 @six.add_metaclass(DocInheritMeta(style=style))
 class Parent2(object):
@@ -169,7 +171,7 @@ def test_classmethod2():
 
 
 def test_staticmethod2():
-    assert isinstance(Kid2().static, FunctionType)
+    assert isinstance(Kid2.static, FunctionType)
     assert inspect.getdoc(Kid2.static) == "valid"
 
 
