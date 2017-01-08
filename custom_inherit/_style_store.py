@@ -61,9 +61,9 @@ def numpy(prnt_doc, child_doc):
                     Parameters
                     ----------
                     x: int
-                        blah-x
+                        description of x
                     y: Union[None, int]
-                        blah-y
+                        description of y
 
                     Raises
                     ------
@@ -88,9 +88,9 @@ def numpy(prnt_doc, child_doc):
                     Parameters
                     ----------
                     x: int
-                        blah-x
+                        description of x
                     y: Union[None, int]
-                        blah-y
+                        description of y
 
                     Returns
                     -------
@@ -168,9 +168,9 @@ def numpy_napoleon(prnt_doc, child_doc):
                     Keyword Arguments
                     -----------------
                     x: int
-                        blah-x
+                        description of x
                     y: Union[None, int]
-                        blah-y
+                        description of y
 
                     Raises
                     ------
@@ -195,9 +195,9 @@ def numpy_napoleon(prnt_doc, child_doc):
                     Keyword Arguments
                     -----------------
                     x: int
-                        blah-x
+                        description of x
                     y: Union[None, int]
-                        blah-y
+                        description of y
 
                     Returns
                     -------
@@ -235,45 +235,39 @@ def google(prnt_doc, child_doc):
 
                 ''' Parent's line
 
-                    A
-                    ----------
-                    x: int
-                        blah-x
-                    y: Union[None, int]
-                        blah-y
+                    Args:
+                        x: int
+                            description of x
+                        y: Union[None, int]
+                            description of y
 
-                    Raises
-                    ------
-                    NotImplemented Error'''
+                    Raises:
+                        NotImplemented Error'''
 
             - child's docstring:
 
                 ''' Child's line
 
-                    Returns
-                    -------
-                    int
+                    Returns:
+                        int
 
-                    Notes
-                    -----
-                    notes blah blah'''
+                    Notes:
+                        notes blah blah'''
 
             - docstring that is ultimately inherited:
 
                 ''' Child's line
 
-                    Parameters
-                    ----------
-                    x: int
-                        blah-x
-                    y: Union[None, int]
-                        blah-y
+                    Parameters:
+                        x: int
+                            description of x
+                        y: Union[None, int]
+                            description of y
 
-                    Returns
-                    -------
-                    int
+                    Returns:
+                        int
 
-                    Notes
-                    -----
-                    notes blah blah'''"""
+                    Notes:
+                        notes blah blah'''
+        """
     return merge_google_napoleon_docs(prnt_doc, child_doc)

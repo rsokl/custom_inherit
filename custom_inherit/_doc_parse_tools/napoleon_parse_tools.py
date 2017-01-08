@@ -56,7 +56,6 @@ def parse_napoleon_doc(doc, style):
         except StopIteration:
             doc_sections[aliases.get(key, key)] = "\n".join(body)
             break
-
     return doc_sections
 
 

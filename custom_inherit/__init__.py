@@ -1,7 +1,7 @@
 from __future__ import absolute_import as _absolute_import
 from abc import ABCMeta as _ABCMeta
 from ._metaclass_base import DocInheritorBase as _DocInheritorBase
-from ._style_store import parent, numpy, reST
+from ._style_store import parent, numpy, reST, numpy_napoleon, google
 from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
 
 try:
