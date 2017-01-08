@@ -119,6 +119,9 @@ def merge_numpy_docs(prnt_doc=None, child_doc=None):
         sections such that the child's section is used, wherever present, otherwise the parent's
         section is used.
 
+        Any whitespace that can be uniformly removed from a docstring's second line and onwards is
+        removed. Sections will be separated by a single blank line.
+
         Parameters
         ----------
         prnt_doc: Optional[str]
