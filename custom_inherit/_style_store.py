@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from .doc_parse_tools import merge_numpy_docs, merge_rest_docs
+from ._doc_parse_tools import merge_numpy_docs, merge_rest_docs
 
 """ Docstring inheritance-style implementations.
 
@@ -20,7 +20,7 @@ from .doc_parse_tools import merge_numpy_docs, merge_rest_docs
                 return final_docstring
 
     and log this using `custom_inherit.add_style(your_style)`. To permanently save your function,
-    define your function within custom_inherit/style_store.py, and log it in custom_inherit.style_store.__all__.
+    define your function within custom_inherit/_style_store.py, and log it in custom_inherit.style_store.__all__.
     Your style will then be available as 'your_style' (i.e. whatever you named the function).
 """
 

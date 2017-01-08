@@ -1,14 +1,13 @@
-from __future__ import absolute_import
-from abc import ABCMeta
-from .metaclass_base import DocInheritorBase
-from .style_store import parent, numpy, reST
-from .decorator_base import DocInheritDecorator
-from .style_store import __all__ as all_styles
+from __future__ import absolute_import as _absolute_import
+from abc import ABCMeta as _ABCMeta
+from ._metaclass_base import DocInheritorBase as _DocInheritorBase
+from ._style_store import parent, numpy, reST
+from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
 
 try:
-    basestring
+    _basestring = basestring
 except NameError:
-    basestring = str  # Python 2 -> 3 alias
+    _basestring = str  # Python 2 -> 3 alias
 
 
 __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"]
@@ -17,7 +16,7 @@ __version__ = "2.0.3"
 
 def _check_style_function(style_func):
     out = style_func("", "")
-    if not isinstance(out, basestring) and out is not None:
+    if not isinstance(out, _basestring) and out is not None:
         raise TypeError
     return None
 
@@ -103,7 +102,7 @@ class _Store(object):
         """ D.items() -> a set-like object providing a view on D's items"""
         return self._store.items()
 
-store = _Store([(key, getattr(style_store, key)) for key in style_store.__all__])
+store = _Store([(key, getattr(_style_store, key)) for key in _style_store.__all__])
 
 
 def add_style(style_name, style_func):
@@ -151,11 +150,11 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         custom_inherit.DocInheritorBase"""
 
     merge_func = store[style]
-    metaclass = DocInheritorBase
+    metaclass = _DocInheritorBase
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
 
-    return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (ABCMeta, metaclass), {})
+    return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (_ABCMeta, metaclass), {})
 
 
 def doc_inherit(parent, style="parent"):
@@ -181,6 +180,6 @@ def doc_inherit(parent, style="parent"):
         conjunction with other decorators, such as `@property`, `@staticmethod`, etc."""
 
     merge_func = store[style]
-    decorator = DocInheritDecorator
+    decorator = _DocInheritDecorator
     decorator.doc_merger = staticmethod(merge_func)
     return decorator(parent)

@@ -1,4 +1,4 @@
-from custom_inherit.style_store import parent, numpy, reST
+from custom_inherit._style_store import parent, numpy, reST
 
 def test_parent():
     assert parent("a", "b") == "b"

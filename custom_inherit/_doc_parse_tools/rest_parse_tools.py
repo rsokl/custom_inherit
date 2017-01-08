@@ -5,6 +5,7 @@ import string
 
 __all__ = ["merge_rest_docs"]
 
+
 def is_delimiter(line):
     """ True if a line consists only of a single punctuation character."""
     return bool(line) and line[0] in string.punctuation and line[0]*len(line) == line
