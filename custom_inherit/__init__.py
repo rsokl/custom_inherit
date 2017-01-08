@@ -12,7 +12,7 @@ except NameError:
 
 
 __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"]
-__version__ = "2.0.2"
+__version__ = "2.0.3"
 
 
 def _check_style_function(style_func):
