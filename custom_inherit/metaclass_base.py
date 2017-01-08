@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from abc import abstractproperty
-from types import FunctionType
+from types import FunctionType, MethodType
 
 """ Exposes abstract base meta class to be inherited by inheritance-style meta classes.
 
@@ -33,7 +33,7 @@ class DocInheritorBase(type):
 
         # inherit docstring for method, static-method, class-method, abstract-method, decorated-method, and property
         for attr, attribute in class_dict.items():
-            is_doc_type = isinstance(attribute, (FunctionType, classmethod, staticmethod, property))
+            is_doc_type = isinstance(attribute, (FunctionType, MethodType, classmethod, staticmethod, property))
 
             if (attr.startswith("__") and attr.endswith("__")) or not is_doc_type:
                 continue
