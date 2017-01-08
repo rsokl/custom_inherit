@@ -19,7 +19,6 @@ def parse_numpy_doc(doc):
 
     doc_sections = OrderedDict([("Short Summary", None),
                                 ("Deprecation Warning", None),
-                                ("Parameters", None),
                                 ("Attributes", None),
                                 ("Extended Summary", None),
                                 ("Parameters", None),
