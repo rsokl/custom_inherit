@@ -131,7 +131,7 @@ def merge_numpy_docs(prnt_doc=None, child_doc=None):
 
         Returns
         -------
-        Optional[str]
+        Union[str, None]
             The merged docstring.
         """
     return merge_all_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))
