@@ -25,7 +25,7 @@ from ._doc_parse_tools import merge_numpy_docs, merge_rest_docs, merge_google_na
 """
 
 # All built-in styles must be logged in the __all__ field.
-__all__ = ["parent", "numpy", "reST"]
+__all__ = ["parent", "numpy", "reST", "google", "numpy_napoleon"]
 
 
 def parent(prnt_doc, child_doc):

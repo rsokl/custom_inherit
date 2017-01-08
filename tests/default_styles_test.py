@@ -1,10 +1,10 @@
-from custom_inherit._style_store import parent, numpy, reST, google, numpy_napoleon
+import custom_inherit
 
 
 def test_parent():
-    assert parent("a", "b") == "b"
-    assert parent("a", None) == "a"
-    assert parent(None, None) is None
+    assert custom_inherit.store["parent"]("a", "b") == "b"
+    assert custom_inherit.store["parent"]("a", None) == "a"
+    assert custom_inherit.store["parent"](None, None) is None
 
 
 def test_numpy():
@@ -72,11 +72,11 @@ def test_numpy():
                 '\n----------------\nother\n\nRaises\n------\nraise\n\nSee Also\n--------\nsee\n\n' \
                 'Notes\n-----\nnote\n\nReferences\n----------' \
                 '\nref\n\nExamples\n--------\nexample'
-    assert numpy(None, None) is None
-    assert numpy('', '') is None
-    assert numpy('valid', None) == 'valid'
-    assert numpy(None, 'valid') == 'valid'
-    assert numpy(prnt.__doc__, child.__doc__) == numpy_out
+    assert custom_inherit.store["numpy"](None, None) is None
+    assert custom_inherit.store["numpy"]('', '') is None
+    assert custom_inherit.store["numpy"]('valid', None) == 'valid'
+    assert custom_inherit.store["numpy"](None, 'valid') == 'valid'
+    assert custom_inherit.store["numpy"](prnt.__doc__, child.__doc__) == numpy_out
 
 
 def test_reST():
@@ -117,11 +117,11 @@ def test_reST():
                "\n    indented\n\nmulti-line\n\nShared\n******\nchild-shared\n\nEmpty\n~~~~~\n\n\n##########" \
                "\nChild-Only\n##########\nchild-only"
 
-    assert reST(None, None) == ''
-    assert reST('', '') == ''
-    assert reST('valid', None) == 'valid'
-    assert reST(None, 'valid') == 'valid'
-    assert reST(prnt2.__doc__, child2.__doc__) == reST_out
+    assert custom_inherit.store["reST"](None, None) == ''
+    assert custom_inherit.store["reST"]('', '') == ''
+    assert custom_inherit.store["reST"]('valid', None) == 'valid'
+    assert custom_inherit.store["reST"](None, 'valid') == 'valid'
+    assert custom_inherit.store["reST"](prnt2.__doc__, child2.__doc__) == reST_out
 
 
 def test_numpy_napoleon():
@@ -220,11 +220,11 @@ def test_numpy_napoleon():
           "\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n----------\nref\n\nTodo\n----\ntodo\n\n" \
           "Examples\n--------\nexample"
 
-    assert numpy_napoleon(None, None) is None
-    assert numpy_napoleon('', '') is None
-    assert numpy_napoleon('valid', None) == 'valid'
-    assert numpy_napoleon(None, 'valid') == 'valid'
-    assert numpy_napoleon(prnt3.__doc__, child3.__doc__) == out
+    assert custom_inherit.store["numpy_napoleon"](None, None) is None
+    assert custom_inherit.store["numpy_napoleon"]('', '') is None
+    assert custom_inherit.store["numpy_napoleon"]('valid', None) == 'valid'
+    assert custom_inherit.store["numpy_napoleon"](None, 'valid') == 'valid'
+    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__, child3.__doc__) == out
 
 
 def test_google_napoleon():
@@ -302,8 +302,8 @@ def test_google_napoleon():
           "section\n\nReturns:\n    return\n\nYields:\n    yield\n\nRaises:\n    raise\n\nNotes:\n    note\n\n" \
           "Warns:\n    warns\n\nSee Also:\n    see\n\nReferences:\n    ref\n\nTodo:\n    todo\n\nExamples:\n    example"
 
-    assert google(None, None) is None
-    assert google('', '') is None
-    assert google('valid', None) == 'valid'
-    assert google(None, 'valid') == 'valid'
-    assert google(prnt.__doc__, child.__doc__) == out
+    assert custom_inherit.store["google"](None, None) is None
+    assert custom_inherit.store["google"]('', '') is None
+    assert custom_inherit.store["google"]('valid', None) == 'valid'
+    assert custom_inherit.store["google"](None, 'valid') == 'valid'
+    assert custom_inherit.store["google"](prnt.__doc__, child.__doc__) == out
