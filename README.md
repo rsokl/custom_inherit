@@ -142,30 +142,34 @@ For the "numpy", "google", and "napoleon_numpy" inheritance styles, one then onl
 
 The built-in styles are:
 
-    - parent:   Wherever the docstring for a child-class' attribute (or for the class itself) is
-                `None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
+- `parent`: Wherever the docstring for a child-class' attribute (or for the class itself) is
+	`None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
 
-    - numpy:    NumPy-styled docstrings from the parent and child are merged gracefully
-                with nice formatting. The child's docstring sections take precedence in the case of overlap. 
-    
-    - google:   Google-styled docstrings from the parent and child are merged gracefully
-                with nice formatting. The child's docstring sections take precedence in the case of overlap.
-		This adheres to the napoleon specification for the Google style.
+- `numpy`: NumPy-styled docstrings from the parent and child are merged gracefully
+	with nice formatting. The child's docstring sections take precedence in the case of overlap. 
 
-    - numpy_napoleon:   NumPy-styled docstrings from the parent and child are merged gracefully
-                with nice formatting. The child's docstring sections take precedence in the case of overlap.
-		This adheres to the napoleon specification for the NumPy style.
+- `google`: Google-styled docstrings from the parent and child are merged gracefully
+	with nice formatting. The child's docstring sections take precedence in the case of overlap.
+	This adheres to the napoleon specification for the Google style.
 
-    - reST:     reST-styled docstrings from the parent and child are merged gracefully
-                with nice formatting. Docstring sections are specified by reST section titles
-		The child's docstring sections take precedence in the case of overlap.
+- `numpy_napoleon`: NumPy-styled docstrings from the parent and child are merged gracefully
+	with nice formatting. The child's docstring sections take precedence in the case of overlap.
+	This adheres to the napoleon specification for the NumPy style.
+
+- `reST`: reST-styled docstrings from the parent and child are merged gracefully
+	with nice formatting. Docstring sections are specified by reST section titles
+	The child's docstring sections take precedence in the case of overlap.
 
 ## Making New Inheritance Styles<a name="new" \a>
-Implementing your inheritance style is simple. Wherever a style parameter is to be specified, one may supply a function of the form `func(prnt_doc: str, child_doc: str) -> str`, which merges the docstrings of the
-parent with that of the child to produce an output string.
+Implementing your inheritance style is simple. 
 
-Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name wherever a style parameter is specified.
+- Provide an inheritance style on the fly wherever a style parameter is specified:
+    - Supply any function of the form: `func(prnt_doc: str, child_doc: str) -> str`
 
+- Log an inheritance style, and refer to it by name wherever a style parameter is specified, using either:
+    - `custom_inherit.store["my_style"] = func` 
+    - `custom_inherit.add_style("my_style", func)`. 
+    
 ## Installation & Getting Started<a name="install" \a>
 Install via pip:
 
@@ -204,7 +208,7 @@ custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
 
         Parameters
         ----------
-        style: Union[Any, Callable[[str, str], str]], optional (default: "parent")
+        style: Union[Hashable, Callable[[str, str], str]], optional (default: "parent")
             A valid inheritance-scheme style ID or function that merges two docstrings.
 
         abstract_base_class: bool, optional(default: False)
@@ -230,7 +234,7 @@ custom_inherit.doc_inherit(parent, style="parent"):
             The docstring, or object of which the docstring is utilized as the
             parent docstring during the docstring merge.
 
-        style : Union[Any, Callable[[str, str], str]], optional (default: "parent")
+        style : Union[Hashable, Callable[[str, str], str]], optional (default: "parent")
             A valid inheritance-scheme style ID or function that merges two docstrings.
 
         Returns
@@ -258,7 +262,7 @@ custom_inherit.add_style(style_name, style_func):
 
         Parameters
         ----------
-        style_name : Any
+        style_name : Hashable
             The identifier of the style being logged
         style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
             The style function that merges two docstrings into a single docstring."""
