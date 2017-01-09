@@ -145,19 +145,21 @@ The built-in styles are:
 - `parent`: Wherever the docstring for a child-class' attribute (or for the class itself) is
 	`None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
 
-- `numpy`: NumPy-styled docstrings from the parent and child are merged gracefully
-	with nice formatting. The child's docstring sections take precedence in the case of overlap. 
+- `numpy`: [NumPy-styled docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard) 
+           from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence 
+	   in the case of overlap. 
 
 - `google`: Google-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
-	This adheres to the napoleon specification for the Google style.
+	This adheres to the [napoleon specification for the Google style] (http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google-style-python-docstrings).
 
 - `numpy_napoleon`: NumPy-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
-	This adheres to the napoleon specification for the NumPy style.
+	This adheres to the [napoleon specification for the NumPy style](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html#example-numpy).
 
 - `reST`: reST-styled docstrings from the parent and child are merged gracefully
-	with nice formatting. Docstring sections are specified by reST section titles
+	with nice formatting. Docstring sections are specified by 
+	[reST section titles](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections).
 	The child's docstring sections take precedence in the case of overlap.
 
 ## Making New Inheritance Styles<a name="new" \a>
