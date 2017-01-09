@@ -1,6 +1,6 @@
 """ Tests behavior of custom_inherit._Store """
 
-from custom_inherit import _Store, store, style_store
+from custom_inherit import _Store, store, _style_store
 
 import pytest
 
@@ -49,7 +49,7 @@ def test_Store():
 
 def test_store():
     assert isinstance(store, _Store)
-    assert set(store.items()) == set((key, getattr(style_store, key)) for key in style_store.__all__)
+    assert set(store.items()) == set((key, getattr(_style_store, key)) for key in _style_store.__all__)
     assert "parent" in store.keys()
     assert "numpy" in store.keys()
 

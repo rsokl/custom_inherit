@@ -8,7 +8,7 @@ from types import FunctionType, MethodType
     properties, methods (including classmethod, staticmethod, decorated methods)
 
     This merge-style must be implemented via the static methods `class_doc_inherit`
-    and `attr_doc_inherit`. See custom_inherit/style_store.py for such implementations."""
+    and `attr_doc_inherit`. See custom_inherit/_style_store.py for such implementations."""
 
 __all__ = ["DocInheritorBase"]
 
