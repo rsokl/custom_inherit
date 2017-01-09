@@ -146,8 +146,8 @@ The built-in styles are:
 	`None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
 
 - `numpy`: [NumPy-styled docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard) 
-           from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence 
-	   in the case of overlap. 
+        from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence 
+	in the case of overlap. 
 
 - `google`: Google-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
@@ -197,7 +197,8 @@ effect immediately within your installed version of custom_inherit, type:
 and then get started with
 
 ```python
-   from custom_inherit import DocInheritMeta
+   from custom_inherit import DocInheritMeta, doc_inherit, store
+   # print(store) shows you the available styles
 ```
 
 ## Documentation<a name="doc" \a>
