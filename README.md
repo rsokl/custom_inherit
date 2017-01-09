@@ -8,20 +8,34 @@
  - [Basic Usage](#basic)
   - [Inheriting Docstrings Using a Metaclass](#meta)
   - [Inheriting Docstrings Using a Decorator](#dec)
- - [Advanced Usage](#advanced)
+ - [Advanced Usage (ABCMeta)](#advanced)
  - [Built-in Styles](#builtin)
- - [Making New inheritance Styles](#new)
+ - [Making New Inheritance Styles](#new)
  - [Installation & Getting Started](#install)
  - [Documentation](#doc)
 
 ## Overview<a name="overview"\a>
-The Python package `custom_inherit` provides the capability for a class or a function (or method, property, ...) to inherit docstrings from a parents in customizable ways. For instance, the built-in "numpy" inheritance style will merge a parent's and child's respective docstrings in a nice way, based on their [numpy-style docstring sections](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard).
+The Python package `custom_inherit` provides convenient, light-weight tools for inheriting docstrings in customizeable ways.
 
-This package has been tested (and works) in both Python 2.7 and Python 3.5.
+>Compatible with Python 2.7, 3.5, 3.6
+
+### Features
+- A metaclass that instructs children to inherit docstrings for their attributes from their parents, using custom docstring inheritance styles. This works for all varieties of methods (instance, static, class) and properties, including abstract ones.
+- A decorator that merges a string/docstring with the docstring of the decorated object using custom styles. This can decorate functions as well as all varieties of class attributes.
+- Built-in docstring merging styles for popular docstring specifications:
+    - [NumPy docstring specification](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard)
+    - [Napoleon docstring specifications](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/index.html#id1) (for both [Google](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google-style-python-docstrings) and [NumPy](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html#example-numpy) styles)
+    - Merging based on [reST sections](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections)
+    - Simple inheritance from a parent, if the docstring is not overwritten ([deprecated in Python 3.5](https://docs.python.org/3/library/inspect.html#inspect.getdoc))
+- A simple interface for using your own docstring inheritance style.
+
+### Implementation Notes
+- These tools are compatible with [Sphinx](http://www.sphinx-doc.org/en/1.5.1/) - the inherited docstrings will be rendered by this package.
+- The metaclass and decorator provided by `custom_inherit` revise the doctrings of objects upon their initial construction and do not wrap them. Thus they do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.  
 
 ## Basic Usage<a name="basic"\a>
 ### Inheriting Docstrings Using a Metaclass<a name="meta"\a>
-`custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent, and their properties, methods, static methods, class methods, abstract methods, and decorated methods (**whew**).
+`custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent. Thus a child's attributes (methods, classmethods, staticmethods, properties, and their abstract counterparts) will inherit documentation from its parent's attribute, and the resulting docstring is synthesized according to a customizable style.
 
 The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the built-in "numpy" style of inheritance:
 
@@ -97,7 +111,7 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
 
    def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
 
-   def parent():
+   def parent():  # parent can be any object with a docstring, or simply a string itself
 	   """ docstring to inherit from"""
 
    @doc_inherit(parent, style=my_style)
@@ -110,10 +124,10 @@ Given the customized (albeit stupid) inheritance style specified in this example
 ```python
    """docstring to inherit from
       -----
-	  docstring to inherit into"""
+      docstring to inherit into"""
 ```
 
-## Advanced Usage<a name="advanced" \a>
+## Advanced Usage (ABCMeta)<a name="advanced" \a>
 A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class can be passed `DocInheritMeta(abstract_base_class=True)`, and it will have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), plus all of its derived classes will inherit the docstrings for the methods/properties that they implement:
 
 ```python
@@ -122,35 +136,35 @@ A very natural, but more advanced use case for docstring inheritance is to defin
       ...
 ```
 
-As shown in the example above, for the "numpy" inheritance style, one then only needs to specify the "Returns" or "Yields" section in the derived class' docstring for it to have a fully-detailed docstring.
+For the "numpy", "google", and "napoleon_numpy" inheritance styles, one then only needs to specify the "Returns" or "Yields" section in the derived class' attribute docstring for it to have a fully-detailed docstring.
 
 ## Built-in Styles<a name="builtin" \a>
 
 The built-in styles are:
 
     - parent:   Wherever the docstring for a child-class' attribute (or for the class itself) is
-                `None`, inherit the corresponding docstring from the parent.
+                `None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
 
-                *NOTE* As of Python 3.5, this is the default behavior of the built-in function
-                inspect.getdoc, and thus this style is effectively deprecated Python 3.(>=5).
+    - numpy:    NumPy-styled docstrings from the parent and child are merged gracefully
+                with nice formatting. The child's docstring sections take precedence in the case of overlap. 
+    
+    - google:   Google-styled docstrings from the parent and child are merged gracefully
+                with nice formatting. The child's docstring sections take precedence in the case of overlap.
+		This adheres to the napoleon specification for the Google style.
 
-    - numpy:    The numpy-styled docstrings from the parent and child are merged gracefully
-                with nice formatting.
+    - numpy_napoleon:   NumPy-styled docstrings from the parent and child are merged gracefully
+                with nice formatting. The child's docstring sections take precedence in the case of overlap.
+		This adheres to the napoleon specification for the NumPy style.
 
-                Specifically, any docstring section that appears in the parent's docstring that
-                is not present in the child's is inherited. Otherwise, the child's docstring
-                section is utilized. An exception to this is if the parent docstring contains a
-                "Raises" section, but the child's attribute's docstring contains a "Returns" or
-                "Yields" section instead. In this instance, the "Raises" section will not appear
-				in the inherited docstring.
+    - reST:     reST-styled docstrings from the parent and child are merged gracefully
+                with nice formatting. Docstring sections are specified by reST section titles
+		The child's docstring sections take precedence in the case of overlap.
 
 ## Making New Inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. Wherever a style parameter is to be specified, one may supply a function of the form `func(prnt_doc: str, child_doc: str) -> str`, which merges the docstrings of the
 parent with that of the child to produce an output string.
 
 Alternatively, one may log the style in the dictionary `custom_inherit.store`. I.e. `custom_inherit.store["my_style"] = func` or `custom_inherit.add_style("my_style", func)`. Having done this, your logged function may now be referred to by name wherever a style parameter is specified.
-
-Lastly, one can add custom inheritance functions to `custom_inherit/style_store.py`. This will permanently log the custom inheritance function as a built-in style.
 
 ## Installation & Getting Started<a name="install" \a>
 Install via pip:
