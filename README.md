@@ -1,5 +1,7 @@
 # custom_inherit
 
+>Compatible with Python 2.7, 3.5, 3.6
+
 [![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit)
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 
@@ -16,8 +18,6 @@
 
 ## Overview<a name="overview"\a>
 The Python package `custom_inherit` provides convenient, light-weight tools for inheriting docstrings in customizeable ways.
-
->Compatible with Python 2.7, 3.5, 3.6
 
 ### Features
 - A metaclass that instructs children to inherit docstrings for their attributes from their parents, using custom docstring inheritance styles. This works for all varieties of methods (instance, static, class) and properties, including abstract ones.
