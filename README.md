@@ -29,9 +29,9 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
     - Simple inheritance from a parent, if the docstring is not overwritten ([deprecated in Python 3.5](https://docs.python.org/3/library/inspect.html#inspect.getdoc))
 - A simple interface for using your own docstring inheritance style.
 
-### Implementation Notes
+### Implementation Notes (no side effects!)
 - These tools are compatible with [Sphinx](http://www.sphinx-doc.org/en/1.5.1/) - the inherited docstrings will be rendered by this package.
-- The metaclass and decorator provided by `custom_inherit` revise the doctrings of objects upon their initial construction and do not wrap them. Thus they do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.  
+- These tools do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.
 
 ## Basic Usage<a name="basic"\a>
 ### Inheriting Docstrings Using a Metaclass<a name="meta"\a>
