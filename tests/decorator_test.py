@@ -1,8 +1,8 @@
-import six
-import inspect
-
 from custom_inherit import doc_inherit
+
 from abc import ABCMeta, abstractproperty, abstractmethod
+from inspect import getdoc, ismethod
+from six import add_metaclass
 from types import FunctionType, MethodType
 
 try:
@@ -14,7 +14,7 @@ except ImportError:
 def style(x, y): return "valid"
 
 
-@six.add_metaclass(ABCMeta)
+@add_metaclass(ABCMeta)
 class Kid(object):
 
     @classmethod
@@ -64,34 +64,34 @@ def test_sideeffect():
 def test_function():
     @doc_inherit("", style=style)
     def f(x, y=None, **kwargs): return None
-    assert inspect.getdoc(f) == "valid"
+    assert getdoc(f) == "valid"
 
 
 def test_method():
     assert isinstance(Kid2().method, MethodType)
-    assert inspect.getdoc(Kid2.method) == "valid"
+    assert getdoc(Kid2.method) == "valid"
 
 
 def test_classmethod():
-    assert inspect.ismethod(Kid.clsmthd) and Kid.clsmthd.__self__ is Kid
-    assert inspect.getdoc(Kid.clsmthd) == "valid"
+    assert ismethod(Kid.clsmthd) and Kid.clsmthd.__self__ is Kid
+    assert getdoc(Kid.clsmthd) == "valid"
 
 
 def test_staticmethod():
     assert isinstance(Kid.static, FunctionType)
-    assert inspect.getdoc(Kid.static) == "valid"
+    assert getdoc(Kid.static) == "valid"
 
 
 def test_property():
     assert isinstance(Kid.prop, property)
-    assert inspect.getdoc(Kid.prop) == "valid"
+    assert getdoc(Kid.prop) == "valid"
 
 
 def test_abstract_method():
     assert 'absmthd' in Kid.__abstractmethods__
-    assert inspect.getdoc(Kid.absmthd) == "valid"
+    assert getdoc(Kid.absmthd) == "valid"
 
 
 def test_abstract_property():
     assert 'absproperty' in Kid.__abstractmethods__
-    assert inspect.getdoc(Kid.absproperty) == "valid"
+    assert getdoc(Kid.absproperty) == "valid"
