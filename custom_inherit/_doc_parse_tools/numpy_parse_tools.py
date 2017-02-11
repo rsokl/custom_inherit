@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from collections import OrderedDict
-import inspect
+from inspect import cleandoc
 
 __all__ = ["merge_numpy_docs"]
 
@@ -34,7 +34,7 @@ def parse_numpy_doc(doc):
     if not doc:
         return doc_sections
 
-    doc = inspect.cleandoc(doc)
+    doc = cleandoc(doc)
     lines = iter(doc.splitlines())
 
     key = "Short Summary"
