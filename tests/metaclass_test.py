@@ -10,7 +10,8 @@ except ImportError:
     from inspect import getargspec as signature
 
 
-def style(x, y): return "valid"
+def style(x, y):
+    return "valid"
 
 
 """ With ABC"""
@@ -49,26 +50,31 @@ class Parent(object):
 
 
 class Kid(Parent):
-
     def kid_method(self):
         """kid"""
         pass
 
-    def method(self, x, y=None): pass
+    def method(self, x, y=None):
+        pass
 
     @classmethod
-    def clsmthd(cls): pass
+    def clsmthd(cls):
+        pass
 
     @staticmethod
-    def static(): pass
+    def static():
+        pass
 
     @property
-    def prop(self): return None
+    def prop(self):
+        return None
 
-    def absmthd(self): pass
+    def absmthd(self):
+        pass
 
     @property
-    def absproperty(self): return None
+    def absproperty(self):
+        return None
 
 
 def test_abc():
@@ -137,23 +143,26 @@ class Parent2(object):
 
 
 class Kid2(Parent2):
-
     def kid_method(self):
         """kid"""
         pass
 
-    def method(self, x, y=None): pass
+    def method(self, x, y=None):
+        pass
 
     @classmethod
-    def clsmthd(cls): pass
+    def clsmthd(cls):
+        pass
 
     @staticmethod
-    def static(): pass
+    def static():
+        pass
 
     @property
-    def prop(self): return None
-    
-    
+    def prop(self):
+        return None
+
+
 def test_sideeffect2():
     assert getdoc(Kid2.kid_method) == "kid"
     assert signature(Kid2.method) == signature(Parent.method)

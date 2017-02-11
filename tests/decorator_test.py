@@ -11,12 +11,12 @@ except ImportError:
     from inspect import getargspec as signature
 
 
-def style(x, y): return "valid"
+def style(x, y):
+    return "valid"
 
 
 @add_metaclass(ABCMeta)
 class Kid(object):
-
     @classmethod
     @doc_inherit("", style=style)
     def clsmthd(cls):
@@ -56,14 +56,18 @@ class Kid2(object):
 
 
 def test_sideeffect():
-    def f(x, y=None, **kwargs): return None
+    def f(x, y=None, **kwargs):
+        return None
+
     assert f == doc_inherit("")(f)
     assert signature(f) == signature(doc_inherit("")(f))
 
 
 def test_function():
     @doc_inherit("", style=style)
-    def f(x, y=None, **kwargs): return None
+    def f(x, y=None, **kwargs):
+        return None
+
     assert getdoc(f) == "valid"
 
 
