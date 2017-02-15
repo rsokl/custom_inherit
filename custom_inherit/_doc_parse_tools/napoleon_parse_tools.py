@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from collections import OrderedDict
-import inspect
+from inspect import cleandoc
 
 __all__ = ["merge_google_napoleon_docs", "merge_numpy_napoleon_docs"]
 
@@ -36,7 +36,7 @@ def parse_napoleon_doc(doc, style):
 
     assert style in ("google", "numpy")
 
-    doc = inspect.cleandoc(doc)
+    doc = cleandoc(doc)
     lines = iter(doc.splitlines())
 
     key = "Short Summary"

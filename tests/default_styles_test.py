@@ -76,11 +76,11 @@ def test_numpy():
     assert custom_inherit.store["numpy"]('', '') is None
     assert custom_inherit.store["numpy"]('valid', None) == 'valid'
     assert custom_inherit.store["numpy"](None, 'valid') == 'valid'
-    assert custom_inherit.store["numpy"](prnt.__doc__, child.__doc__) == numpy_out
+    assert custom_inherit.store["numpy"](prnt.__doc__,
+                                         child.__doc__) == numpy_out
 
 
 def test_reST():
-
     def prnt2():
         """ Parent's front-matter
             +++++++++++
@@ -121,7 +121,8 @@ def test_reST():
     assert custom_inherit.store["reST"]('', '') == ''
     assert custom_inherit.store["reST"]('valid', None) == 'valid'
     assert custom_inherit.store["reST"](None, 'valid') == 'valid'
-    assert custom_inherit.store["reST"](prnt2.__doc__, child2.__doc__) == reST_out
+    assert custom_inherit.store["reST"](prnt2.__doc__,
+                                        child2.__doc__) == reST_out
 
 
 def test_numpy_napoleon():
@@ -224,7 +225,8 @@ def test_numpy_napoleon():
     assert custom_inherit.store["numpy_napoleon"]('', '') is None
     assert custom_inherit.store["numpy_napoleon"]('valid', None) == 'valid'
     assert custom_inherit.store["numpy_napoleon"](None, 'valid') == 'valid'
-    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__, child3.__doc__) == out
+    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__,
+                                                  child3.__doc__) == out
 
 
 def test_google_napoleon():

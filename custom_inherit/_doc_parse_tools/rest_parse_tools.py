@@ -1,14 +1,14 @@
 from __future__ import absolute_import
 from collections import OrderedDict
-import inspect
-import string
+from inspect import cleandoc
+from string import punctuation
 
 __all__ = ["merge_rest_docs"]
 
 
 def is_delimiter(line):
     """ True if a line consists only of a single punctuation character."""
-    return bool(line) and line[0] in string.punctuation and line[0]*len(line) == line
+    return bool(line) and line[0] in punctuation and line[0]*len(line) == line
 
 
 def parse_rest_doc(doc):
@@ -31,7 +31,7 @@ def parse_rest_doc(doc):
     if not doc:
         return doc_sections
 
-    doc = inspect.cleandoc(doc)
+    doc = cleandoc(doc)
     lines = iter(doc.splitlines())
 
     header = ''
