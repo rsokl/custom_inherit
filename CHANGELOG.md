@@ -1,3 +1,6 @@
+### 2.1.1 (2/15/2017)
+- Added compatibility with Python 3.3 & 3.4
+
 ### 2.1.0 (1/8/2017)
 - [Napoleon](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/index.html#id1) docstring specifications for Google and NumPy docstring formats are supported as defaults ('google' and 'numpy_napoleon').
 - [reST section-delimited](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections) docstring inheritance is supported via the default style 'reST'. 
