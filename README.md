@@ -1,6 +1,6 @@
 # custom_inherit
 
->Compatible with Python 2.7, 3.5, 3.6
+>Compatible with Python 2.7, 3.{3,4,5,6}
 
 [![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit)
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
