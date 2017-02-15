@@ -55,7 +55,7 @@ class DocInheritorBase(type):
             doc = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
             try:
                 child_attr.__doc__ = doc
-            except TypeError as err:
+            except (TypeError, AttributeError) as err:
                 if type(child_attr) in (property, abstractproperty):  # property.__doc__ is read-only in Python 2
                     new_prop = property(fget=child_attr.fget,
                                         fset=child_attr.fset,
