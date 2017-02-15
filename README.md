@@ -89,8 +89,8 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
       -----
       Some notes here."""
 ```
-(note that the "Raises" section of the parent's method is left out, because the child
- class implements a "Returns" section. Jump [ahead](#builtin) for a detailed description
+(note the special case where the "Raises" section of the parent's method is left out, because the child
+ class implements a "Returns" section instead. Jump [ahead](#builtin) for a detailed description
  of the "numpy" style)
 
 Keep in mind that the syntax for deriving from a meta class is slightly different in Python 2:
@@ -161,6 +161,8 @@ Utilize a built-in style by specifying any of the following names (as a string),
 	with nice formatting. Docstring sections are specified by 
 	[reST section titles](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections).
 	The child's docstring sections take precedence in the case of overlap.
+
+For the `numpy`, `numpy_napoleon`, and `google` styles, if the parent's docstring contains a "Raises" section and the child's docstring implements a "Returns" or a "Yields" section instead, then the "Raises" section is not included in the resulting docstring. This is to accomodate for the relatively common use case in which an abstract method/property raises `NotImplementedError`. Child classes that implement this method/property clearly will not raise this. Of course, any "Raises" section that is explicitly included in the child's docstring will appear in the resulting docstring.
 
 ## Making New Inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. 
