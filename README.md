@@ -164,6 +164,8 @@ Utilize a built-in style by specifying any of the following names (as a string),
 
 For the `numpy`, `numpy_napoleon`, and `google` styles, if the parent's docstring contains a "Raises" section and the child's docstring implements a "Returns" or a "Yields" section instead, then the "Raises" section is not included in the resulting docstring. This is to accomodate for the relatively common use case in which an abstract method/property raises `NotImplementedError`. Child classes that implement this method/property clearly will not raise this. Of course, any "Raises" section that is explicitly included in the child's docstring will appear in the resulting docstring.
 
+Detailed documentation and example cases for the default styles can be found [here](https://github.com/meowklaski/custom_inherit/blob/master/custom_inherit/_style_store.py)
+
 ## Making New Inheritance Styles<a name="new" \a>
 Implementing your inheritance style is simple. 
 
