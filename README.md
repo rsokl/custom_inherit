@@ -238,8 +238,8 @@ custom_inherit.doc_inherit(parent, style="parent"):
         Parameters
         ----------
         parent : Union[str, Any]
-            The docstring, or object of which the docstring is utilized as the
-            parent docstring during the docstring merge.
+            The object whose docstring, is utilized as the parent docstring 
+	    during the docstring merge. Or, a string can be provided directly.
 
         style : Union[Hashable, Callable[[str, str], str]], optional (default: "parent")
             A valid inheritance-scheme style ID or function that merges two docstrings.
@@ -260,7 +260,7 @@ custom_inherit.remove_style(style):
 
         Parameters
         ----------
-        style: Any
+        style: Hashable
             The inheritance-scheme style ID to be removed."""
 
 
