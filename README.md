@@ -6,15 +6,15 @@
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 
 ## Contents
- - [Overview](#https://github.com/meowklaski/custom_inherit#overview)
- - [Basic Usage](#https://github.com/meowklaski/custom_inherit#basic)
-  - [Inheriting Docstrings Using a Metaclass](#https://github.com/meowklaski/custom_inherit#meta)
-  - [Inheriting Docstrings Using a Decorator](#https://github.com/meowklaski/custom_inherit#dec)
- - [Advanced Usage (ABCMeta)](#https://github.com/meowklaski/custom_inherit#advanced)
- - [Built-in Styles](#https://github.com/meowklaski/custom_inherit#builtin)
- - [Making New Inheritance Styles](#https://github.com/meowklaski/custom_inherit#new)
- - [Installation & Getting Started](#https://github.com/meowklaski/custom_inherit#install)
- - [Documentation](#https://github.com/meowklaski/custom_inherit#doc)
+ - [Overview](#overview)
+ - [Basic Usage](#basic-usage)
+  - [Inheriting Docstrings Using a Metaclass](#inheriting-docstrings-using-a-metaclass)
+  - [Inheriting Docstrings Using a Decorator](#inheriting-docstrings-using-a-decorator)
+ - [Advanced Usage (ABCMeta)](#advanced-usage)
+ - [Built-in Styles](#built-in-styles)
+ - [Making New Inheritance Styles](#making-new-inheritance-styles)
+ - [Installation & Getting Started](#installation-and-getting-started)
+ - [Documentation](#documentation)
 
 ## Overview
 The Python package `custom_inherit` provides convenient, light-weight tools for inheriting docstrings in customizeable ways.
@@ -40,33 +40,33 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
 The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the built-in "numpy" style of inheritance:
 
 ```python
-   from custom_inherit import DocInheritMeta
+from custom_inherit import DocInheritMeta
 
-   class Parent(metaclass=DocInheritMeta(style="numpy")):
-       def meth(self, x, y=None):
-           """ Parameters
-               ----------
-               x: int
-                  blah-x
-               y: Optional[int]
-                  blah-y
-               Raises
-               ------
-               NotImplementedError"""
-            raise NotImplementedError
+class Parent(metaclass=DocInheritMeta(style="numpy")):
+   def meth(self, x, y=None):
+       """ Parameters
+           ----------
+           x: int
+              blah-x
+           y: Optional[int]
+              blah-y
+           Raises
+           ------
+           NotImplementedError"""
+       raise NotImplementedError
 
-    class Child(Parent):
-        def meth(self, x, y=None):
-            """ Method description
+class Child(Parent):
+    def meth(self, x, y=None):
+        """ Method description
 
-                Returns
-                -------
-                int
+            Returns
+            -------
+            int
 
-                Notes
-                -----
-                Some notes here."""
-            return 0
+            Notes
+            -----
+            Some notes here."""
+        return 0
 ```
 
 Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstring of `Child.meth` will be:
@@ -127,7 +127,7 @@ Given the customized (albeit stupid) inheritance style specified in this example
       docstring to inherit into"""
 ```
 
-## Advanced Usage (ABCMeta)<a name="advanced" \a>
+## Advanced Usage
 A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class can be passed `DocInheritMeta(abstract_base_class=True)`, and it will have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), plus all of its derived classes will inherit the docstrings for the methods/properties that they implement:
 
 ```python
@@ -176,7 +176,7 @@ Implementing your inheritance style is simple.
     - `custom_inherit.store["my_style"] = func` 
     - `custom_inherit.add_style("my_style", func)`. 
     
-## Installation & Getting Started<a name="install" \a>
+## Installation and Getting Started
 Install via pip:
 
 ```
