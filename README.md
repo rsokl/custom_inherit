@@ -6,17 +6,17 @@
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 
 ## Contents
- - [Overview](#overview)
- - [Basic Usage](#basic)
-  - [Inheriting Docstrings Using a Metaclass](#meta)
-  - [Inheriting Docstrings Using a Decorator](#dec)
- - [Advanced Usage (ABCMeta)](#advanced)
- - [Built-in Styles](#builtin)
- - [Making New Inheritance Styles](#new)
- - [Installation & Getting Started](#install)
- - [Documentation](#doc)
+ - [Overview](#https://github.com/meowklaski/custom_inherit#overview)
+ - [Basic Usage](#https://github.com/meowklaski/custom_inherit#basic)
+  - [Inheriting Docstrings Using a Metaclass](#https://github.com/meowklaski/custom_inherit#meta)
+  - [Inheriting Docstrings Using a Decorator](#https://github.com/meowklaski/custom_inherit#dec)
+ - [Advanced Usage (ABCMeta)](#https://github.com/meowklaski/custom_inherit#advanced)
+ - [Built-in Styles](#https://github.com/meowklaski/custom_inherit#builtin)
+ - [Making New Inheritance Styles](#https://github.com/meowklaski/custom_inherit#new)
+ - [Installation & Getting Started](#https://github.com/meowklaski/custom_inherit#install)
+ - [Documentation](#https://github.com/meowklaski/custom_inherit#doc)
 
-## Overview<a name="overview"\a>
+## Overview
 The Python package `custom_inherit` provides convenient, light-weight tools for inheriting docstrings in customizeable ways.
 
 ### Features
@@ -33,8 +33,8 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
 - These tools are compatible with [Sphinx](http://www.sphinx-doc.org/en/1.5.1/) - the inherited docstrings will be rendered by this package.
 - These tools do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.
 
-## Basic Usage<a name="basic"\a>
-### Inheriting Docstrings Using a Metaclass<a name="meta"\a>
+## Basic Usage
+### Inheriting Docstrings Using a Metaclass
 `custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent. Thus a child's attributes (methods, classmethods, staticmethods, properties, and their abstract counterparts) will inherit documentation from its parent's attribute, and the resulting docstring is synthesized according to a customizable style.
 
 The style of the inheritance scheme can be specified explicitly when passing `DocInheritMeta` its arguments. Here is a simple usage example using the built-in "numpy" style of inheritance:
@@ -42,7 +42,7 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
 ```python
    from custom_inherit import DocInheritMeta
 
-   class Parent(metaclass=DocInheritMeta(style="numpy"))
+   class Parent(metaclass=DocInheritMeta(style="numpy")):
        def meth(self, x, y=None):
            """ Parameters
                ----------
@@ -53,7 +53,7 @@ The style of the inheritance scheme can be specified explicitly when passing `Do
                Raises
                ------
                NotImplementedError"""
-               raise NotImplementedError
+            raise NotImplementedError
 
     class Child(Parent):
         def meth(self, x, y=None):
@@ -98,12 +98,12 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
 ```python
    from custom_inherit import DocInheritMeta
 
-   class Parent(object)
-      __metaclass__ = DocInheritMeta(style="numpy")
-      ...
+   class Parent(object):
+       __metaclass__ = DocInheritMeta(style="numpy")
+       ...
 ```
 
-### Inheriting Docstrings Using a Decorator<a name="dec" \a>
+### Inheriting Docstrings Using a Decorator
 `custom_inherit` also exposes a decorator capable of mediating docstring inheritance on an individual function (or property, method, etc.) level. In this example, we provide our own custom inheritance style-function on the fly (rather than using a built-in style):
 
 ```python
@@ -112,7 +112,7 @@ Keep in mind that the syntax for deriving from a meta class is slightly differen
    def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
 
    def parent():  # parent can be any object with a docstring, or simply a string itself
-	   """ docstring to inherit from"""
+       """ docstring to inherit from"""
 
    @doc_inherit(parent, style=my_style)
    def child():
@@ -133,12 +133,12 @@ A very natural, but more advanced use case for docstring inheritance is to defin
 ```python
    # Parent is now an abstract base class
    class Parent(metaclass=DocInheritMeta(style="numpy", abstract_base_class=True)):
-      ...
+       ...
 ```
 
 For the "numpy", "google", and "napoleon_numpy" inheritance styles, one then only needs to specify the "Returns" or "Yields" section in the derived class' attribute docstring for it to have a fully-detailed docstring.
 
-## Built-in Styles<a name="builtin" \a>
+## Built-in Styles
 
 Utilize a built-in style by specifying any of the following names (as a string), wherever the `style` parameter is to be specified. The built-in styles are:
 
@@ -166,7 +166,7 @@ For the `numpy`, `numpy_napoleon`, and `google` styles, if the parent's docstrin
 
 Detailed documentation and example cases for the default styles can be found [here](https://github.com/meowklaski/custom_inherit/blob/master/custom_inherit/_style_store.py)
 
-## Making New Inheritance Styles<a name="new" \a>
+## Making New Inheritance Styles
 Implementing your inheritance style is simple. 
 
 - Provide an inheritance style on the fly wherever a style parameter is specified:
@@ -205,11 +205,11 @@ and then get started with
    # print(store) shows you the available styles
 ```
 
-## Documentation<a name="doc" \a>
+## Documentation
 Documentation is available via `help(custom_inherit)`.
 
 ```python
-custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False)
+custom_inherit.DocInheritMeta(style="parent", abstract_base_class=False):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
         properties, methods (including classmethod, staticmethod, decorated methods).
 
