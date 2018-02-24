@@ -1,10 +1,8 @@
 # custom_inherit
 
->Compatible with Python 2.7, 3.{3,4,5,6}
-
-[![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit)
-[![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
-
+[![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit/builds/345518894?utm_source=github_status&utm_medium=notification#)
+[![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://pypi.python.org/pypi/custom_inherit)
+[![Python version support](https://img.shields.io/badge/python-2.7%203.3%203.4%203.5%203.6%203.7-blue.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 ## Contents
  - [Overview](#overview)
  - [Basic Usage](#basic-usage)
@@ -32,6 +30,7 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
 ### Implementation Notes
 - These tools are compatible with [Sphinx](http://www.sphinx-doc.org/en/1.5.1/) - the inherited docstrings will be rendered by this package.
 - These tools do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.
+- No dependencies.
 
 ## Basic Usage
 ### Inheriting Docstrings Using a Metaclass
@@ -48,8 +47,10 @@ class Parent(metaclass=DocInheritMeta(style="numpy")):
            ----------
            x: int
               blah-x
+              
            y: Optional[int]
               blah-y
+           
            Raises
            ------
            NotImplementedError"""
@@ -78,6 +79,7 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
       ----------
       x: int
          blah-x
+         
       y: Optional[int]
          blah-y
 
@@ -96,44 +98,44 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
 Keep in mind that the syntax for deriving from a meta class is slightly different in Python 2:
 
 ```python
-   from custom_inherit import DocInheritMeta
+from custom_inherit import DocInheritMeta
 
-   class Parent(object):
-       __metaclass__ = DocInheritMeta(style="numpy")
-       ...
+class Parent(object):
+   __metaclass__ = DocInheritMeta(style="numpy")
+   ...
 ```
 
 ### Inheriting Docstrings Using a Decorator
 `custom_inherit` also exposes a decorator capable of mediating docstring inheritance on an individual function (or property, method, etc.) level. In this example, we provide our own custom inheritance style-function on the fly (rather than using a built-in style):
 
 ```python
-   from custom_inherit import doc_inherit
+from custom_inherit import doc_inherit
 
-   def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
+def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
 
-   def parent():  # parent can be any object with a docstring, or simply a string itself
-       """ docstring to inherit from"""
+def parent():  # parent can be any object with a docstring, or simply a string itself
+   """ docstring to inherit from"""
 
-   @doc_inherit(parent, style=my_style)
-   def child():
-       """ docstring to inherit into"""
+@doc_inherit(parent, style=my_style)
+def child():
+   """ docstring to inherit into"""
 ```
 
 Given the customized (albeit stupid) inheritance style specified in this example, the inherited docsting of `child`, in this instance, will be:
 
 ```python
-   """docstring to inherit from
-      -----
-      docstring to inherit into"""
+"""docstring to inherit from
+  -----
+  docstring to inherit into"""
 ```
 
 ## Advanced Usage
 A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class can be passed `DocInheritMeta(abstract_base_class=True)`, and it will have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), plus all of its derived classes will inherit the docstrings for the methods/properties that they implement:
 
 ```python
-   # Parent is now an abstract base class
-   class Parent(metaclass=DocInheritMeta(style="numpy", abstract_base_class=True)):
-       ...
+# Parent is now an abstract base class
+class Parent(metaclass=DocInheritMeta(style="numpy", abstract_base_class=True)):
+   ...
 ```
 
 For the "numpy", "google", and "napoleon_numpy" inheritance styles, one then only needs to specify the "Returns" or "Yields" section in the derived class' attribute docstring for it to have a fully-detailed docstring.
@@ -151,7 +153,7 @@ Utilize a built-in style by specifying any of the following names (as a string),
 
 - `"google"`: Google-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
-	This adheres to the [napoleon specification for the Google style] (http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google-style-python-docstrings).
+	This adheres to the [napoleon specification for the Google style](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google-style-python-docstrings).
 
 - `"numpy_napoleon"`: NumPy-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
@@ -201,8 +203,8 @@ effect immediately within your installed version of custom_inherit, type:
 and then get started with
 
 ```python
-   from custom_inherit import DocInheritMeta, doc_inherit, store
-   # print(store) shows you the available styles
+from custom_inherit import DocInheritMeta, doc_inherit, store
+# print(store) shows you the available styles
 ```
 
 ## Documentation
