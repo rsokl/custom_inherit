@@ -32,6 +32,10 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
 - These tools do not obfuscate function signatures or error traceback messages, nor do they affect performance beyond the initial construction process.
 - No dependencies.
 
+### Projects That Use `custom_inherit`
+- [Toyplot](https://toyplot.readthedocs.io/en/stable/)
+- [p2p-project](https://github.com/p2p-today/p2p-project)
+
 ## Basic Usage
 ### Inheriting Docstrings Using a Metaclass
 `custom_inherit` exposes a  [metaclass](https://docs.python.org/3/reference/datamodel.html#customizing-class-creation), `DocInheritMeta()`, that, when derived from by a class, will automatically mediate docstring inheritance for all subsequent derived classes of that parent. Thus a child's attributes (methods, classmethods, staticmethods, properties, and their abstract counterparts) will inherit documentation from its parent's attribute, and the resulting docstring is synthesized according to a customizable style.
