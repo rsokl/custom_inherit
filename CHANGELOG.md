@@ -1,3 +1,9 @@
+### 2.2.0 (3/27/2018)
+- Previously, the class docstring inherited only from the most immediate parent class that has a docstring. Now,
+the "parent" docstring is accumulated by successively merging the accumulated string with the docstring of
+the next-parent in the mro. This accumulated docstring is then merged with the docstring of the present class. This permits sensible class-docstring inheritance in cases of multiple inheritance.
+- Minor code refactoring.
+
 ### 2.1.1 (2/15/2017)
 - Added compatibility with Python 3.3 & 3.4
 
