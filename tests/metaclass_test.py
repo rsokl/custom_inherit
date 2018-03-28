@@ -186,3 +186,31 @@ def test_staticmethod2():
 def test_property2():
     assert isinstance(Kid2.prop, property)
     assert getdoc(Kid2.prop) == "valid"
+
+
+
+def test_class_docstring():
+    class Parent(metaclass=DocInheritMeta(style="numpy")):
+        """
+        Parent class.
+
+        Returns
+        -------
+        foo
+        """
+
+    class Mixin:
+        """
+        This is mixin which does something.
+
+        """
+
+    class Child(Mixin, Parent):
+        """
+        Attributes
+        ----------
+        bar
+        """
+
+    assert getdoc(Child) == \
+           'This is mixin which does something.\n\nAttributes\n----------\nbar\n\nReturns\n-------\nfoo'

@@ -20,16 +20,19 @@ class DocInheritorBase(type):
         This merge-style must be implemented via the static methods `class_doc_inherit`
         and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
     def __new__(mcs, class_name, class_bases, class_dict):
-        # inherit class docstring
-        clsdoc = class_dict.get("__doc__", None)
-        prnt_cls_doc = None
+        # inherit class docstring: the docstring is constructed by traversing
+        # the mro for the class and merging their docstrings, with each next
+        # docstring as serving as the 'parent', and the accumulated docstring
+        # serving as the 'child'
+        this_doc = class_dict.get("__doc__", None)
         for mro_cls in (mro_cls for base in class_bases for mro_cls in base.mro()):
             prnt_cls_doc = mro_cls.__doc__
             if prnt_cls_doc is not None:
                 if prnt_cls_doc == "The most base type":
                     prnt_cls_doc = None
-                break
-        class_dict["__doc__"] = mcs.class_doc_inherit(prnt_cls_doc, clsdoc)
+            this_doc = mcs.class_doc_inherit(prnt_cls_doc, this_doc)
+
+        class_dict["__doc__"] = this_doc
 
         # inherit docstring for method, static-method, class-method, abstract-method, decorated-method, and property
         for attr, attribute in class_dict.items():
