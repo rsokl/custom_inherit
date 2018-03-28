@@ -190,7 +190,8 @@ def test_property2():
 
 
 def test_class_docstring():
-    class Parent(metaclass=DocInheritMeta(style="numpy")):
+    @add_metaclass(DocInheritMeta(style=style))
+    class Parent:
         """
         Parent class.
 
