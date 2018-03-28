@@ -190,8 +190,8 @@ def test_property2():
 
 
 def test_class_docstring():
-    @add_metaclass(DocInheritMeta(style=style))
-    class Parent:
+    @add_metaclass(DocInheritMeta(style="numpy"))
+    class Parent(object):
         """
         Parent class.
 
@@ -200,7 +200,7 @@ def test_class_docstring():
         foo
         """
 
-    class Mixin:
+    class Mixin(object):
         """
         This is mixin which does something.
 
