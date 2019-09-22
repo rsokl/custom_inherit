@@ -115,7 +115,7 @@ class Parent(object):
 ```python
 from custom_inherit import doc_inherit
 
-def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
+def my_style(prnt_doc, child_doc): return "\n-----".join([prnt_doc, child_doc])
 
 def parent():  # parent can be any object with a docstring, or simply a string itself
    """ docstring to inherit from"""
@@ -132,6 +132,9 @@ Given the customized (albeit stupid) inheritance style specified in this example
   -----
   docstring to inherit into"""
 ```
+
+Note: docstring merging is not implemented for inheritance with decorators. You must define a custom inheritance style (with the above format); otherwise the child docstring will overwrite the parent docstring.
+
 
 ## Advanced Usage
 A very natural, but more advanced use case for docstring inheritance is to define an [abstract base class](https://docs.python.org/3/library/abc.html#abc.ABCMeta) that has detailed docstrings for its abstract methods/properties. This class can be passed `DocInheritMeta(abstract_base_class=True)`, and it will have inherited from [abc.ABCMeta](https://docs.python.org/3/library/abc.html#abc.ABCMeta), plus all of its derived classes will inherit the docstrings for the methods/properties that they implement:
