@@ -50,7 +50,9 @@ class _Store(object):
             style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
                 The style function that merges two docstrings into a single docstring."""
         try:
-            _check_style_function(style_func)
+            # hack: disable type checking to allow for specific CellEngine functionality
+            # _check_style_function(style_func)
+            pass
         except TypeError:
             raise TypeError("The style store only stores callables of the form: "
                             "\n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
