@@ -1,3 +1,9 @@
+### 2.2.1 (10/06/2019)
+- Dropping support for Python 3.3
+- Adding support for Python 3.8
+- This will be the final version of `custom_inherit` to support Python 2.7
+- Minor code refactoring (formatting with black & isort)
+
 ### 2.2.0 (3/27/2018)
 - Previously, the class docstring inherited only from the most immediate parent class that has a docstring. Now,
 the "parent" docstring is accumulated by successively merging the accumulated string with the docstring of

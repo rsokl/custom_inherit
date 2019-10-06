@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+
 from abc import abstractproperty
 from types import FunctionType, MethodType
 
@@ -15,10 +16,11 @@ __all__ = ["DocInheritorBase"]
 
 class DocInheritorBase(type):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
-        properties, methods (including classmethod, staticmethod, decorated methods).
+    properties, methods (including classmethod, staticmethod, decorated methods).
 
-        This merge-style must be implemented via the static methods `class_doc_inherit`
-        and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
+    This merge-style must be implemented via the static methods `class_doc_inherit`
+    and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
+
     def __new__(mcs, class_name, class_bases, class_dict):
         # inherit class docstring: the docstring is constructed by traversing
         # the mro for the class and merging their docstrings, with each next
@@ -36,7 +38,10 @@ class DocInheritorBase(type):
 
         # inherit docstring for method, static-method, class-method, abstract-method, decorated-method, and property
         for attr, attribute in class_dict.items():
-            is_doc_type = isinstance(attribute, (FunctionType, MethodType, classmethod, staticmethod, property))
+            is_doc_type = isinstance(
+                attribute,
+                (FunctionType, MethodType, classmethod, staticmethod, property),
+            )
 
             if (attr.startswith("__") and attr.endswith("__")) or not is_doc_type:
                 continue
@@ -45,8 +50,12 @@ class DocInheritorBase(type):
             child_attr = attribute if not is_static_or_class else attribute.__func__
 
             prnt_attr_doc = None
-            for mro_cls in (mro_cls for base in class_bases
-                            for mro_cls in base.mro() if hasattr(mro_cls, attr)):
+            for mro_cls in (
+                mro_cls
+                for base in class_bases
+                for mro_cls in base.mro()
+                if hasattr(mro_cls, attr)
+            ):
                 prnt_attr_doc = getattr(mro_cls, attr).__doc__
 
                 if prnt_attr_doc is not None:
@@ -61,10 +70,12 @@ class DocInheritorBase(type):
             # property.__doc__ is read-only in Python 2 (TypeError), 3.3 - 3.4 (AttributeError)
             except (TypeError, AttributeError) as err:
                 if type(child_attr) in (property, abstractproperty):
-                    new_prop = property(fget=child_attr.fget,
-                                        fset=child_attr.fset,
-                                        fdel=child_attr.fdel,
-                                        doc=doc)
+                    new_prop = property(
+                        fget=child_attr.fget,
+                        fset=child_attr.fset,
+                        fdel=child_attr.fdel,
+                        doc=doc,
+                    )
                     if isinstance(child_attr, abstractproperty):
                         new_prop = abstractproperty(new_prop)
                     class_dict[attr] = new_prop
@@ -77,33 +88,32 @@ class DocInheritorBase(type):
     def class_doc_inherit(prnt_cls_doc, child_doc):
         """ Merge the docstrings of a parent class and its child.
 
-            Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_doc: Union[None, str]
+        Parameters
+        ----------
+        prnt_cls_doc: Union[None, str]
+        child_doc: Union[None, str]
 
-            Raises
-            ------
-            NotImplementedError"""
+        Raises
+        ------
+        NotImplementedError"""
         raise NotImplementedError
 
     @staticmethod
     def attr_doc_inherit(prnt_attr_doc, child_doc):
         """ Merge the docstrings of method or property from parent class and the corresponding
-            attribute of its child.
+        attribute of its child.
 
-            Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_doc: Union[None, str]
+        Parameters
+        ----------
+        prnt_attr_doc: Union[None, str]
+        child_doc: Union[None, str]
 
-            Raises
-            ------
-            NotImplementedError
+        Raises
+        ------
+        NotImplementedError
 
-            Notes
-            -----
-            This works for properties, methods, static methods, class methods, and
-            decorated methods/properties."""
+        Notes
+        -----
+        This works for properties, methods, static methods, class methods, and
+        decorated methods/properties."""
         raise NotImplementedError
-

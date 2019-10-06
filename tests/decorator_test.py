@@ -1,9 +1,10 @@
-from custom_inherit import doc_inherit
-
-from abc import ABCMeta, abstractproperty, abstractmethod
+from abc import ABCMeta, abstractmethod, abstractproperty
 from inspect import getdoc, ismethod
-from six import add_metaclass
 from types import FunctionType, MethodType
+
+from six import add_metaclass
+
+from custom_inherit import doc_inherit
 
 try:
     from inspect import signature
@@ -92,10 +93,10 @@ def test_property():
 
 
 def test_abstract_method():
-    assert 'absmthd' in Kid.__abstractmethods__
+    assert "absmthd" in Kid.__abstractmethods__
     assert getdoc(Kid.absmthd) == "valid"
 
 
 def test_abstract_property():
-    assert 'absproperty' in Kid.__abstractmethods__
+    assert "absproperty" in Kid.__abstractmethods__
     assert getdoc(Kid.absproperty) == "valid"

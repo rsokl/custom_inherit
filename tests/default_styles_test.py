@@ -66,18 +66,19 @@ def test_numpy():
             """
         pass
 
-    numpy_out = 'first line\n\nDeprecation Warning\n-------------------\ndep\n\nAttributes\n----------\nparams\n    ' \
-                'indented\n\nmulti-line\n\nExtended Summary\n----------------\nextended\n\nParameters\n----------\n' \
-                'params\n\nReturns\n-------\nreturn\n\nYields\n------\nyield\n\nOther Parameters' \
-                '\n----------------\nother\n\nRaises\n------\nraise\n\nSee Also\n--------\nsee\n\n' \
-                'Notes\n-----\nnote\n\nReferences\n----------' \
-                '\nref\n\nExamples\n--------\nexample'
+    numpy_out = (
+        "first line\n\nDeprecation Warning\n-------------------\ndep\n\nAttributes\n----------\nparams\n    "
+        "indented\n\nmulti-line\n\nExtended Summary\n----------------\nextended\n\nParameters\n----------\n"
+        "params\n\nReturns\n-------\nreturn\n\nYields\n------\nyield\n\nOther Parameters"
+        "\n----------------\nother\n\nRaises\n------\nraise\n\nSee Also\n--------\nsee\n\n"
+        "Notes\n-----\nnote\n\nReferences\n----------"
+        "\nref\n\nExamples\n--------\nexample"
+    )
     assert custom_inherit.store["numpy"](None, None) is None
-    assert custom_inherit.store["numpy"]('', '') is None
-    assert custom_inherit.store["numpy"]('valid', None) == 'valid'
-    assert custom_inherit.store["numpy"](None, 'valid') == 'valid'
-    assert custom_inherit.store["numpy"](prnt.__doc__,
-                                         child.__doc__) == numpy_out
+    assert custom_inherit.store["numpy"]("", "") is None
+    assert custom_inherit.store["numpy"]("valid", None) == "valid"
+    assert custom_inherit.store["numpy"](None, "valid") == "valid"
+    assert custom_inherit.store["numpy"](prnt.__doc__, child.__doc__) == numpy_out
 
 
 def test_reST():
@@ -113,16 +114,17 @@ def test_reST():
             child-only"""
         pass
 
-    reST_out = "Child's front-matter\ncontinued\n++bad+\n\n+++++++++++\nParent-Only\n+++++++++++\nparams" \
-               "\n    indented\n\nmulti-line\n\nShared\n******\nchild-shared\n\nEmpty\n~~~~~\n\n\n##########" \
-               "\nChild-Only\n##########\nchild-only"
+    reST_out = (
+        "Child's front-matter\ncontinued\n++bad+\n\n+++++++++++\nParent-Only\n+++++++++++\nparams"
+        "\n    indented\n\nmulti-line\n\nShared\n******\nchild-shared\n\nEmpty\n~~~~~\n\n\n##########"
+        "\nChild-Only\n##########\nchild-only"
+    )
 
-    assert custom_inherit.store["reST"](None, None) == ''
-    assert custom_inherit.store["reST"]('', '') == ''
-    assert custom_inherit.store["reST"]('valid', None) == 'valid'
-    assert custom_inherit.store["reST"](None, 'valid') == 'valid'
-    assert custom_inherit.store["reST"](prnt2.__doc__,
-                                        child2.__doc__) == reST_out
+    assert custom_inherit.store["reST"](None, None) == ""
+    assert custom_inherit.store["reST"]("", "") == ""
+    assert custom_inherit.store["reST"]("valid", None) == "valid"
+    assert custom_inherit.store["reST"](None, "valid") == "valid"
+    assert custom_inherit.store["reST"](prnt2.__doc__, child2.__doc__) == reST_out
 
 
 def test_numpy_napoleon():
@@ -213,20 +215,21 @@ def test_numpy_napoleon():
             """
         pass
 
-    out = "first line\n\nAttributes\n----------\nparams\n    indented\n\nmulti-line\n\nMethods\n-------\n" \
-          "parent methods\n\nWarning\n-------\nwarnings\n\nParameters\n----------\n" \
-          "alias for Parameters - child's section\n\nOther Parameters\n----------------\nother\n\n" \
-          "Keyword Arguments\n-----------------\nalias for Keyword Arguments - child's section\n\nReturns" \
-          "\n-------\nreturn\n\nYields\n------\nyield\n\nRaises\n------\nraise\n\nNotes\n-----\nnote\n\nWarns" \
-          "\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n----------\nref\n\nTodo\n----\ntodo\n\n" \
-          "Examples\n--------\nexample"
+    out = (
+        "first line\n\nAttributes\n----------\nparams\n    indented\n\nmulti-line\n\nMethods\n-------\n"
+        "parent methods\n\nWarning\n-------\nwarnings\n\nParameters\n----------\n"
+        "alias for Parameters - child's section\n\nOther Parameters\n----------------\nother\n\n"
+        "Keyword Arguments\n-----------------\nalias for Keyword Arguments - child's section\n\nReturns"
+        "\n-------\nreturn\n\nYields\n------\nyield\n\nRaises\n------\nraise\n\nNotes\n-----\nnote\n\nWarns"
+        "\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n----------\nref\n\nTodo\n----\ntodo\n\n"
+        "Examples\n--------\nexample"
+    )
 
     assert custom_inherit.store["numpy_napoleon"](None, None) is None
-    assert custom_inherit.store["numpy_napoleon"]('', '') is None
-    assert custom_inherit.store["numpy_napoleon"]('valid', None) == 'valid'
-    assert custom_inherit.store["numpy_napoleon"](None, 'valid') == 'valid'
-    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__,
-                                                  child3.__doc__) == out
+    assert custom_inherit.store["numpy_napoleon"]("", "") is None
+    assert custom_inherit.store["numpy_napoleon"]("valid", None) == "valid"
+    assert custom_inherit.store["numpy_napoleon"](None, "valid") == "valid"
+    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__, child3.__doc__) == out
 
 
 def test_google_napoleon():
@@ -298,14 +301,16 @@ def test_google_napoleon():
             """
         pass
 
-    out = "first line\n\nAttributes:\n    params\n        - indented\n\n    multi-line\n\nMethods:\n    " \
-          "parent methods\n\nWarning:\n    warnings\n\nParameters:\n    alias for Parameters - child's " \
-          "section\n\nOther Parameters:\n    other\n\nKeyword Arguments:\n    alias for Keyword Arguments - child's " \
-          "section\n\nReturns:\n    return\n\nYields:\n    yield\n\nRaises:\n    raise\n\nNotes:\n    note\n\n" \
-          "Warns:\n    warns\n\nSee Also:\n    see\n\nReferences:\n    ref\n\nTodo:\n    todo\n\nExamples:\n    example"
+    out = (
+        "first line\n\nAttributes:\n    params\n        - indented\n\n    multi-line\n\nMethods:\n    "
+        "parent methods\n\nWarning:\n    warnings\n\nParameters:\n    alias for Parameters - child's "
+        "section\n\nOther Parameters:\n    other\n\nKeyword Arguments:\n    alias for Keyword Arguments - child's "
+        "section\n\nReturns:\n    return\n\nYields:\n    yield\n\nRaises:\n    raise\n\nNotes:\n    note\n\n"
+        "Warns:\n    warns\n\nSee Also:\n    see\n\nReferences:\n    ref\n\nTodo:\n    todo\n\nExamples:\n    example"
+    )
 
     assert custom_inherit.store["google"](None, None) is None
-    assert custom_inherit.store["google"]('', '') is None
-    assert custom_inherit.store["google"]('valid', None) == 'valid'
-    assert custom_inherit.store["google"](None, 'valid') == 'valid'
+    assert custom_inherit.store["google"]("", "") is None
+    assert custom_inherit.store["google"]("valid", None) == "valid"
+    assert custom_inherit.store["google"](None, "valid") == "valid"
     assert custom_inherit.store["google"](prnt.__doc__, child.__doc__) == out

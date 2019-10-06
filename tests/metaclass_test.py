@@ -1,8 +1,10 @@
-from custom_inherit import DocInheritMeta
 from abc import ABCMeta, abstractmethod, abstractproperty
 from inspect import getdoc, ismethod
+from types import FunctionType, MethodType
+
 from six import add_metaclass
-from types import MethodType, FunctionType
+
+from custom_inherit import DocInheritMeta
 
 try:
     from inspect import signature
@@ -108,12 +110,12 @@ def test_property():
 
 
 def test_abstract_method():
-    assert 'absmthd' in Parent.__abstractmethods__
+    assert "absmthd" in Parent.__abstractmethods__
     assert getdoc(Kid.absmthd) == "valid"
 
 
 def test_abstract_property():
-    assert 'absproperty' in Parent.__abstractmethods__
+    assert "absproperty" in Parent.__abstractmethods__
     assert getdoc(Kid.absproperty) == "valid"
 
 
@@ -188,7 +190,6 @@ def test_property2():
     assert getdoc(Kid2.prop) == "valid"
 
 
-
 def test_class_docstring():
     @add_metaclass(DocInheritMeta(style="numpy"))
     class Parent(object):
@@ -213,5 +214,7 @@ def test_class_docstring():
         bar
         """
 
-    assert getdoc(Child) == \
-           'This is mixin which does something.\n\nAttributes\n----------\nbar\n\nReturns\n-------\nfoo'
+    assert (
+        getdoc(Child)
+        == "This is mixin which does something.\n\nAttributes\n----------\nbar\n\nReturns\n-------\nfoo"
+    )
