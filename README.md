@@ -1,6 +1,6 @@
 # custom_inherit
 
-[![Build Status](https://travis-ci.org/meowklaski/custom_inherit.svg?branch=master)](https://travis-ci.org/meowklaski/custom_inherit#)
+[![Build Status](https://travis-ci.org/rsokl/custom_inherit.svg?branch=master)](https://travis-ci.org/rsokl/custom_inherit#)
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://pypi.python.org/pypi/custom_inherit)
 [![Python version support](https://img.shields.io/badge/python-2.7%20%20%203.4%20%203.5%20%203.6%20%203.7%203.8-blue.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 ## Contents
