@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+
 from collections import OrderedDict
 from inspect import cleandoc
 
@@ -17,19 +18,23 @@ def parse_numpy_doc(doc):
         OrderedDict[str, Union[None,str]]
             The extracted numpy-styled docstring sections."""
 
-    doc_sections = OrderedDict([("Short Summary", None),
-                                ("Deprecation Warning", None),
-                                ("Attributes", None),
-                                ("Extended Summary", None),
-                                ("Parameters", None),
-                                ("Returns", None),
-                                ("Yields", None),
-                                ("Other Parameters", None),
-                                ("Raises", None),
-                                ("See Also", None),
-                                ("Notes", None),
-                                ("References", None),
-                                ("Examples", None)])
+    doc_sections = OrderedDict(
+        [
+            ("Short Summary", None),
+            ("Deprecation Warning", None),
+            ("Attributes", None),
+            ("Extended Summary", None),
+            ("Parameters", None),
+            ("Returns", None),
+            ("Yields", None),
+            ("Other Parameters", None),
+            ("Raises", None),
+            ("See Also", None),
+            ("Notes", None),
+            ("References", None),
+            ("Examples", None),
+        ]
+    )
 
     if not doc:
         return doc_sections
@@ -75,7 +80,7 @@ def merge_section(key, prnt_sec, child_sec):
         return None
 
     if key == "Short Summary":
-        header = ''
+        header = ""
     else:
         header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
 
@@ -101,7 +106,9 @@ def merge_all_sections(prnt_sctns, child_sctns):
             Output docstring of the merged docstrings."""
     doc = []
 
-    prnt_only_raises = prnt_sctns["Raises"] and not (prnt_sctns["Returns"] or prnt_sctns["Yields"])
+    prnt_only_raises = prnt_sctns["Raises"] and not (
+        prnt_sctns["Returns"] or prnt_sctns["Yields"]
+    )
     if prnt_only_raises and (child_sctns["Returns"] or child_sctns["Yields"]):
         prnt_sctns["Raises"] = None
 

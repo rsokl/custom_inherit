@@ -1,5 +1,7 @@
 from __future__ import absolute_import
-from ._doc_parse_tools import merge_numpy_docs, merge_rest_docs, merge_google_napoleon_docs, merge_numpy_napoleon_docs
+
+from ._doc_parse_tools import (merge_google_napoleon_docs, merge_numpy_docs,
+                               merge_numpy_napoleon_docs, merge_rest_docs)
 
 """ Docstring inheritance-style implementations.
 

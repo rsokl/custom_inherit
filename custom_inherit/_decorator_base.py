@@ -28,7 +28,9 @@ class DocInheritDecorator(object):
             prnt_doc : Union[str, Any]
                 The docstring, or object of which the docstring is utilized as the
                 parent docstring during the docstring merge."""
-        self.prnt_doc = prnt_doc if isinstance(prnt_doc, basestring) else prnt_doc.__doc__
+        self.prnt_doc = (
+            prnt_doc if isinstance(prnt_doc, basestring) else prnt_doc.__doc__
+        )
 
     def __call__(self, func):
         """ Parameters

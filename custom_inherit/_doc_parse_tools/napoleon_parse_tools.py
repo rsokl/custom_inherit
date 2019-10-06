@@ -22,12 +22,34 @@ def parse_napoleon_doc(doc, style):
         OrderedDict[str, Union[None,str]]
             The extracted numpy-styled docstring sections."""
 
-    napoleon_sections = ["Short Summary", "Attributes", "Methods", "Warning", "Note", "Parameters", "Other Parameters",
-                         "Keyword Arguments", "Returns", "Yields", "Raises", "Warns", "See Also", "References", "Todo",
-                         "Example", "Examples"]
+    napoleon_sections = [
+        "Short Summary",
+        "Attributes",
+        "Methods",
+        "Warning",
+        "Note",
+        "Parameters",
+        "Other Parameters",
+        "Keyword Arguments",
+        "Returns",
+        "Yields",
+        "Raises",
+        "Warns",
+        "See Also",
+        "References",
+        "Todo",
+        "Example",
+        "Examples",
+    ]
 
-    aliases = {"Args": "Parameters", "Arguments": "Parameters", "Keyword Args": "Keyword Arguments",
-               "Return": "Returns", "Warnings": "Warning", "Yield": "Yields"}
+    aliases = {
+        "Args": "Parameters",
+        "Arguments": "Parameters",
+        "Keyword Args": "Keyword Arguments",
+        "Return": "Returns",
+        "Warnings": "Warning",
+        "Yield": "Yields",
+    }
 
     doc_sections = OrderedDict([(key, None) for key in napoleon_sections])
 
@@ -44,9 +66,15 @@ def parse_napoleon_doc(doc, style):
     while True:
         try:
             line = next(lines).rstrip()
-            header = line if style == "numpy" else (line[:-1] if line.endswith(":") else line)
+            header = (
+                line
+                if style == "numpy"
+                else (line[:-1] if line.endswith(":") else line)
+            )
             if header and (header in doc_sections or header in aliases):
-                doc_sections[aliases.get(key, key)] = "\n".join(body).rstrip() if body else None
+                doc_sections[aliases.get(key, key)] = (
+                    "\n".join(body).rstrip() if body else None
+                )
                 body = []
                 key = header
                 if style == "numpy":
@@ -80,7 +108,7 @@ def merge_section(key, prnt_sec, child_sec, style):
     assert style in ("google", "numpy")
 
     if key == "Short Summary":
-        header = ''
+        header = ""
     else:
         if style == "numpy":
             header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
@@ -106,7 +134,9 @@ def merge_all_sections(prnt_sctns, child_sctns, style):
             Output docstring of the merged docstrings."""
     doc = []
 
-    prnt_only_raises = prnt_sctns["Raises"] and not (prnt_sctns["Returns"] or prnt_sctns["Yields"])
+    prnt_only_raises = prnt_sctns["Raises"] and not (
+        prnt_sctns["Returns"] or prnt_sctns["Yields"]
+    )
     if prnt_only_raises and (child_sctns["Returns"] or child_sctns["Yields"]):
         prnt_sctns["Raises"] = None
 
@@ -141,7 +171,9 @@ def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
         Union[str, None]
             The merged docstring. """
     style = "numpy"
-    return merge_all_sections(parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style)
+    return merge_all_sections(
+        parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style
+    )
 
 
 def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
@@ -168,4 +200,6 @@ def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
         Union[str, None]
             The merged docstring. """
     style = "google"
-    return merge_all_sections(parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style)
+    return merge_all_sections(
+        parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style
+    )

@@ -1,8 +1,10 @@
 from __future__ import absolute_import as _absolute_import
+
 from abc import ABCMeta as _ABCMeta
-from ._metaclass_base import DocInheritorBase as _DocInheritorBase
-from ._style_store import parent, numpy, reST, numpy_napoleon, google
+
 from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
+from ._metaclass_base import DocInheritorBase as _DocInheritorBase
+from ._style_store import google, numpy, numpy_napoleon, parent, reST
 
 try:
     _basestring = basestring
@@ -52,8 +54,10 @@ class _Store(object):
         try:
             _check_style_function(style_func)
         except TypeError:
-            raise TypeError("The style store only stores callables of the form: "
-                            "\n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]")
+            raise TypeError(
+                "The style store only stores callables of the form: "
+                "\n\tstyle_func(Optional[str], Optional[str]) -> Optional[str]"
+            )
         self._store[style_name] = style_func
 
     def __getitem__(self, item):
@@ -71,7 +75,9 @@ class _Store(object):
                 _check_style_function(item)
                 return item
             except (TypeError, ValueError):
-                raise TypeError("Either a valid style name or style-function must be specified")
+                raise TypeError(
+                    "Either a valid style name or style-function must be specified"
+                )
 
     def keys(self):
         """  D.keys() -> a set-like object providing a view on D's keys"""
@@ -83,7 +89,9 @@ class _Store(object):
         if len(args) < 3:
             return self._store.pop(*args)
         else:
-            raise TypeError("pop expected at most 2 arguments, got {}".format(len(args)))
+            raise TypeError(
+                "pop expected at most 2 arguments, got {}".format(len(args))
+            )
 
     def update(self, *args, **kwargs):
         """ D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
@@ -101,6 +109,7 @@ class _Store(object):
     def items(self):
         """ D.items() -> a set-like object providing a view on D's items"""
         return self._store.items()
+
 
 store = _Store([(key, getattr(_style_store, key)) for key in _style_store.__all__])
 
@@ -154,7 +163,11 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
 
-    return metaclass if not abstract_base_class else type("abc" + metaclass.__name__, (_ABCMeta, metaclass), {})
+    return (
+        metaclass
+        if not abstract_base_class
+        else type("abc" + metaclass.__name__, (_ABCMeta, metaclass), {})
+    )
 
 
 def doc_inherit(parent, style="parent"):
