@@ -9,18 +9,18 @@ __all__ = ["merge_google_napoleon_docs", "merge_numpy_napoleon_docs"]
 def parse_napoleon_doc(doc, style):
     """ Extract the text from the various sections of a numpy-formatted docstring.
 
-        Parameters
-        ----------
-        doc: Union[str, None]
-            The docstring to parse.
+    Parameters
+    ----------
+    doc: Union[str, None]
+        The docstring to parse.
 
-        style: str
-            'google' or 'numpy'
+    style: str
+        'google' or 'numpy'
 
-        Returns
-        -------
-        OrderedDict[str, Union[None,str]]
-            The extracted numpy-styled docstring sections."""
+    Returns
+    -------
+    OrderedDict[str, Union[None,str]]
+        The extracted numpy-styled docstring sections."""
 
     napoleon_sections = [
         "Short Summary",
@@ -90,18 +90,18 @@ def parse_napoleon_doc(doc, style):
 def merge_section(key, prnt_sec, child_sec, style):
     """ Synthesize a output napoleon docstring section.
 
-        Parameters
-        ----------
-        key: str
-            The napoleon-section being merged.
-        prnt_sec: Optional[str]
-            The docstring section from the parent's attribute.
-        child_sec: Optional[str]
-            The docstring section from the child's attribute.
-        Returns
-        -------
-        Optional[str]
-            The output docstring section."""
+    Parameters
+    ----------
+    key: str
+        The napoleon-section being merged.
+    prnt_sec: Optional[str]
+        The docstring section from the parent's attribute.
+    child_sec: Optional[str]
+        The docstring section from the child's attribute.
+    Returns
+    -------
+    Optional[str]
+        The output docstring section."""
     if prnt_sec is None and child_sec is None:
         return None
 
@@ -123,15 +123,15 @@ def merge_section(key, prnt_sec, child_sec, style):
 def merge_all_sections(prnt_sctns, child_sctns, style):
     """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
-        Parameters
-        ----------
-        prnt_sctns: OrderedDict[str, Union[None,str]]
-        child_sctns: OrderedDict[str, Union[None,str]]
+    Parameters
+    ----------
+    prnt_sctns: OrderedDict[str, Union[None,str]]
+    child_sctns: OrderedDict[str, Union[None,str]]
 
-        Returns
-        -------
-        str
-            Output docstring of the merged docstrings."""
+    Returns
+    -------
+    str
+        Output docstring of the merged docstrings."""
     doc = []
 
     prnt_only_raises = prnt_sctns["Raises"] and not (
@@ -150,26 +150,26 @@ def merge_all_sections(prnt_sctns, child_sctns, style):
 def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
     """ Merge two numpy-style docstrings into a single docstring, according to napoleon docstring sections.
 
-        Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
-        sections such that the child's section is used, wherever present, otherwise the parent's
-        section is used.
+    Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
+    sections such that the child's section is used, wherever present, otherwise the parent's
+    section is used.
 
-        Any whitespace that can be uniformly removed from a docstring's second line and onwards is
-        removed. Sections will be separated by a single blank line.
+    Any whitespace that can be uniformly removed from a docstring's second line and onwards is
+    removed. Sections will be separated by a single blank line.
 
-        Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
+    Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
 
-        Parameters
-        ----------
-        prnt_doc: Optional[str]
-            The docstring from the parent.
-        child_doc: Optional[str]
-            The docstring from the child.
+    Parameters
+    ----------
+    prnt_doc: Optional[str]
+        The docstring from the parent.
+    child_doc: Optional[str]
+        The docstring from the child.
 
-        Returns
-        -------
-        Union[str, None]
-            The merged docstring. """
+    Returns
+    -------
+    Union[str, None]
+        The merged docstring. """
     style = "numpy"
     return merge_all_sections(
         parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style
@@ -180,25 +180,25 @@ def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
     """ Merge two google-style docstrings into a single docstring, according to napoleon docstring sections.
 
         Given the google-style docstrings from a parent and child's attributes, merge the docstring
-        sections such that the child's section is used, wherever present, otherwise the parent's
-        section is used.
+    sections such that the child's section is used, wherever present, otherwise the parent's
+    section is used.
 
-        Any whitespace that can be uniformly removed from a docstring's second line and onwards is
-        removed. Sections will be separated by a single blank line.
+    Any whitespace that can be uniformly removed from a docstring's second line and onwards is
+    removed. Sections will be separated by a single blank line.
 
-        Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
+    Aliased docstring sections are normalized. E.g Args, Arguments -> Parameters
 
-        Parameters
-        ----------
-        prnt_doc: Optional[str]
-            The docstring from the parent.
-        child_doc: Optional[str]
-            The docstring from the child.
+    Parameters
+    ----------
+    prnt_doc: Optional[str]
+        The docstring from the parent.
+    child_doc: Optional[str]
+        The docstring from the child.
 
-        Returns
-        -------
-        Union[str, None]
-            The merged docstring. """
+    Returns
+    -------
+    Union[str, None]
+        The merged docstring. """
     style = "google"
     return merge_all_sections(
         parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style

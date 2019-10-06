@@ -16,10 +16,10 @@ __all__ = ["DocInheritorBase"]
 
 class DocInheritorBase(type):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
-        properties, methods (including classmethod, staticmethod, decorated methods).
+    properties, methods (including classmethod, staticmethod, decorated methods).
 
-        This merge-style must be implemented via the static methods `class_doc_inherit`
-        and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
+    This merge-style must be implemented via the static methods `class_doc_inherit`
+    and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
 
     def __new__(mcs, class_name, class_bases, class_dict):
         # inherit class docstring: the docstring is constructed by traversing
@@ -88,32 +88,32 @@ class DocInheritorBase(type):
     def class_doc_inherit(prnt_cls_doc, child_doc):
         """ Merge the docstrings of a parent class and its child.
 
-            Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_doc: Union[None, str]
+        Parameters
+        ----------
+        prnt_cls_doc: Union[None, str]
+        child_doc: Union[None, str]
 
-            Raises
-            ------
-            NotImplementedError"""
+        Raises
+        ------
+        NotImplementedError"""
         raise NotImplementedError
 
     @staticmethod
     def attr_doc_inherit(prnt_attr_doc, child_doc):
         """ Merge the docstrings of method or property from parent class and the corresponding
-            attribute of its child.
+        attribute of its child.
 
-            Parameters
-            ----------
-            prnt_cls_doc: Union[None, str]
-            child_doc: Union[None, str]
+        Parameters
+        ----------
+        prnt_attr_doc: Union[None, str]
+        child_doc: Union[None, str]
 
-            Raises
-            ------
-            NotImplementedError
+        Raises
+        ------
+        NotImplementedError
 
-            Notes
-            -----
-            This works for properties, methods, static methods, class methods, and
-            decorated methods/properties."""
+        Notes
+        -----
+        This works for properties, methods, static methods, class methods, and
+        decorated methods/properties."""
         raise NotImplementedError

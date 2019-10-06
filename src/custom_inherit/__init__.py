@@ -28,10 +28,10 @@ def _check_style_function(style_func):
 
 class _Store(object):
     """ A dictionary-like object that stores the styles available for the doc-inheritance metaclass and decorator,
-       respectively.
+   respectively.
 
-       Only callable objects with the signature: f(Optional[str], Optional[str]) -> Optional[str]
-       can be stored. If f is a valid callable, then _Store()[f] -> f."""
+   Only callable objects with the signature: f(Optional[str], Optional[str]) -> Optional[str]
+   can be stored. If f is a valid callable, then _Store()[f] -> f."""
 
     def __init__(self, *args, **kwargs):
         self._store = dict()
@@ -48,12 +48,12 @@ class _Store(object):
     def __setitem__(self, style_name, style_func):
         """ Make available a new function for merging a 'parent' and 'child' docstring.
 
-            Parameters
-            ----------
-            style_name : Any
-                The identifier of the style being logged
-            style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
-                The style function that merges two docstrings into a single docstring."""
+        Parameters
+        ----------
+        style_name : Any
+            The identifier of the style being logged
+        style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
+            The style function that merges two docstrings into a single docstring."""
         try:
             _check_style_function(style_func)
         except TypeError:
@@ -65,12 +65,12 @@ class _Store(object):
 
     def __getitem__(self, item):
         """ Given a valid style-ID, retrieve a stored style. If a valid function (callable) is
-            supplied, return it in place.
+        supplied, return it in place.
 
-            Parameters
-            ----------
-            item : Union[Any, Callable[Optional[str], Optional[str]], Optional[str]]
-                A valid style-ID or style-function."""
+        Parameters
+        ----------
+        item : Union[Any, Callable[Optional[str], Optional[str]], Optional[str]]
+            A valid style-ID or style-function."""
         try:
             return self._store[item]
         except KeyError:
@@ -88,7 +88,7 @@ class _Store(object):
 
     def pop(self, *args):
         """ D.pop(k[,d]) -> v, remove specified key and return the corresponding value.
-            If key is not found, d is returned if given, otherwise KeyError is raised. """
+        If key is not found, d is returned if given, otherwise KeyError is raised. """
         if len(args) < 3:
             return self._store.pop(*args)
         else:
@@ -98,7 +98,7 @@ class _Store(object):
 
     def update(self, *args, **kwargs):
         """ D.update([E, ]**F) -> None.  Update D from dict/iterable E and F.
-            If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]"""
+        If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k]"""
         if len(args) > 1:
             raise TypeError("update expected at most 1 arguments, got %d" % len(args))
 
@@ -120,46 +120,46 @@ store = _Store([(key, getattr(_style_store, key)) for key in _style_store.__all_
 def add_style(style_name, style_func):
     """ Make available a new function for merging a 'parent' and 'child' docstring.
 
-        Parameters
-        ----------
-        style_name : Any
-            The identifier of the style being logged
-        style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
-            The style function that merges two docstrings into a single docstring."""
+    Parameters
+    ----------
+    style_name : Any
+        The identifier of the style being logged
+    style_func: Callable[[Optional[str], Optional[str]], Optional[str]]
+        The style function that merges two docstrings into a single docstring."""
     store[style_name] = style_func
 
 
 def remove_style(style):
     """ Remove the specified style from the style store.
 
-        Parameters
-        ----------
-        style: Any
-            The inheritance-scheme style ID to be removed."""
+    Parameters
+    ----------
+    style: Any
+        The inheritance-scheme style ID to be removed."""
     if style in store:
         store.pop(style)
 
 
 def DocInheritMeta(style="parent", abstract_base_class=False):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
-        properties, methods (including classmethod, staticmethod, decorated methods).
+    properties, methods (including classmethod, staticmethod, decorated methods).
 
-        Parameters
-        ----------
-        style: Union[Any, Callable[[str, str], str]], optional (default: "parent")
-            A valid inheritance-scheme style ID or function that merges two docstrings.
+    Parameters
+    ----------
+    style: Union[Any, Callable[[str, str], str]], optional (default: "parent")
+        A valid inheritance-scheme style ID or function that merges two docstrings.
 
-        abstract_base_class: bool, optional(default: False)
-            If True, the returned metaclass inherits from abc.ABCMeta.
+    abstract_base_class: bool, optional(default: False)
+        If True, the returned metaclass inherits from abc.ABCMeta.
 
-            Thus a class that derives from DocInheritMeta(style="numpy", abstract_base_class=True)
-            will be an abstract base class, whose derived classes will inherit docstrings
-            using the numpy-style inheritance scheme.
+        Thus a class that derives from DocInheritMeta(style="numpy", abstract_base_class=True)
+        will be an abstract base class, whose derived classes will inherit docstrings
+        using the numpy-style inheritance scheme.
 
 
-        Returns
-        -------
-        custom_inherit.DocInheritorBase"""
+    Returns
+    -------
+    custom_inherit.DocInheritorBase"""
 
     merge_func = store[style]
     metaclass = _DocInheritorBase
@@ -175,25 +175,25 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
 def doc_inherit(parent, style="parent"):
     """ Returns a function/method decorator that, given `parent`, updates the docstring of the decorated
-        function/method based on the specified style and the corresponding attribute of `parent`.
+    function/method based on the specified style and the corresponding attribute of `parent`.
 
-        Parameters
-        ----------
-        parent : Union[str, Any]
-            The docstring, or object of which the docstring is utilized as the
-            parent docstring during the docstring merge.
+    Parameters
+    ----------
+    parent : Union[str, Any]
+        The docstring, or object of which the docstring is utilized as the
+        parent docstring during the docstring merge.
 
-        style : Union[Any, Callable[[str, str], str]], optional (default: "parent")
-            A valid inheritance-scheme style ID or function that merges two docstrings.
+    style : Union[Any, Callable[[str, str], str]], optional (default: "parent")
+        A valid inheritance-scheme style ID or function that merges two docstrings.
 
-        Returns
-        -------
-        custom_inherit.DocInheritDecorator
+    Returns
+    -------
+    custom_inherit.DocInheritDecorator
 
-        Notes
-        -----
-        `doc_inherit` should always be used as the inner-most decorator when being used in
-        conjunction with other decorators, such as `@property`, `@staticmethod`, etc."""
+    Notes
+    -----
+    `doc_inherit` should always be used as the inner-most decorator when being used in
+    conjunction with other decorators, such as `@property`, `@staticmethod`, etc."""
 
     merge_func = store[style]
     decorator = _DocInheritDecorator
