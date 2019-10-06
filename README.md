@@ -115,7 +115,7 @@ class Parent(object):
 ```python
 from custom_inherit import doc_inherit
 
-def my_style(prnt_doc, child_doc): return "\n-----".join(prnt_doc, child_doc)
+def my_style(prnt_doc, child_doc): return "\n-----".join([prnt_doc, child_doc])
 
 def parent():  # parent can be any object with a docstring, or simply a string itself
    """ docstring to inherit from"""
