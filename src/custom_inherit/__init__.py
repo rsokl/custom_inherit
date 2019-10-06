@@ -5,6 +5,10 @@ from abc import ABCMeta as _ABCMeta
 from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
 from ._metaclass_base import DocInheritorBase as _DocInheritorBase
 from ._style_store import google, numpy, numpy_napoleon, parent, reST
+from ._version import get_versions
+
+__version__ = get_versions()["version"]
+del get_versions
 
 try:
     _basestring = basestring
@@ -13,7 +17,6 @@ except NameError:
 
 
 __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"]
-__version__ = "2.2.1"
 
 
 def _check_style_function(style_func):
