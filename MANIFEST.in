@@ -1,2 +1,3 @@
 include versioneer.py
 include src/custom_inherit/_version.py
+include LICENSE.md
