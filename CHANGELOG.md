@@ -1,3 +1,6 @@
+### 2.2.2 (10/14/2019)
+- This release does not contain any changes to the `custom-inherit` code base. Changes are made to some of the packaging files so that `custom-inherit` can be hosted on conda.
+
 ### 2.2.1 (10/06/2019)
 - Dropping support for Python 3.3
 - Adding support for Python 3.8
