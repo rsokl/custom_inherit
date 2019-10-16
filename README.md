@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/rsokl/custom_inherit.svg?branch=master)](https://travis-ci.com/rsokl/custom_inherit#)
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://pypi.python.org/pypi/custom_inherit)
+ [![Conda Version](https://img.shields.io/conda/vn/conda-forge/custom-inherit.svg)](https://anaconda.org/conda-forge/custom-inherit)
 [![Python version support](https://img.shields.io/badge/python-2.7%20%20%203.4%20%203.5%20%203.6%20%203.7%203.8-blue.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
 ## Contents
  - [Overview](#overview)
@@ -35,6 +36,7 @@ The Python package `custom_inherit` provides convenient, light-weight tools for 
 ### Projects That Use `custom_inherit`
 - [Toyplot](https://toyplot.readthedocs.io/en/stable/)
 - [p2p-project](https://github.com/p2p-today/p2p-project)
+- [Data Driven Discovery](https://gitlab.com/datadrivendiscovery)
 
 ## Basic Usage
 ### Inheriting Docstrings Using a Metaclass
@@ -187,6 +189,11 @@ Install via pip:
 
 ```
     pip install custom_inherit
+```
+Install via conda:
+
+```
+    conda install -c conda-forge custom-inherit 
 ```
 
 or
