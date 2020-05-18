@@ -4,7 +4,11 @@ from abc import ABCMeta as _ABCMeta
 
 from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
 from ._metaclass_base import DocInheritorBase as _DocInheritorBase
-from ._style_store import google, numpy, numpy_napoleon, parent, reST
+from . import _style_store
+from ._style_store import (
+    google, numpy, numpy_napoleon, parent, reST,
+    google_with_merge, numpy_napoleon_with_merge, numpy_with_merge
+)
 from ._version import get_versions
 
 __version__ = get_versions()["version"]
@@ -112,7 +116,6 @@ class _Store(object):
     def items(self):
         """ D.items() -> a set-like object providing a view on D's items"""
         return self._store.items()
-
 
 store = _Store([(key, getattr(_style_store, key)) for key in _style_store.__all__])
 

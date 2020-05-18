@@ -155,22 +155,35 @@ Utilize a built-in style by specifying any of the following names (as a string),
 
 - `"numpy"`: [NumPy-styled docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard) 
         from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence 
-	in the case of overlap. 
+	in the case of overlap.
+
+- `"numpy_with_merge"`: Behaves identically to the "numpy" style, but also merges sections that overlap,
+    instead of only keeping the child's section. All sections are concerned except sections "Short Summary",
+    "Extended Summary", "Deprecation Warning" and "Examples" for which the "numpy" style behaviour applies.
 
 - `"google"`: Google-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
 	This adheres to the [napoleon specification for the Google style](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html#example-google-style-python-docstrings).
 
+- `"google_with_merge"`: Behaves identically to the "google" style, but also merges sections that overlap,
+    instead of only keeping the child's section. All sections are concerned except sections "Short Summary",
+    "Example" and "Examples" (or coresponding aliases) for which the 'google' style applies.
+
 - `"numpy_napoleon"`: NumPy-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. The child's docstring sections take precedence in the case of overlap.
 	This adheres to the [napoleon specification for the NumPy style](http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html#example-numpy).
+
+- `"numpy_napoleon_with_merge"`: Behaves identically to the 'numpy_napoleon' style, but also merges sections
+    that overlap, instead of only keeping the child's section. All sections are concerned except sections
+    "Short Summary", "Example" and "Examples" (or coresponding aliases) for which the 'numpy_napoleon' style
+    behaviour applies.
 
 - `"reST"`: reST-styled docstrings from the parent and child are merged gracefully
 	with nice formatting. Docstring sections are specified by 
 	[reST section titles](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections).
 	The child's docstring sections take precedence in the case of overlap.
 
-For the `numpy`, `numpy_napoleon`, and `google` styles, if the parent's docstring contains a "Raises" section and the child's docstring implements a "Returns" or a "Yields" section instead, then the "Raises" section is not included in the resulting docstring. This is to accomodate for the relatively common use case in which an abstract method/property raises `NotImplementedError`. Child classes that implement this method/property clearly will not raise this. Of course, any "Raises" section that is explicitly included in the child's docstring will appear in the resulting docstring.
+For the `numpy`, `numpy_with_merge`, `numpy_napoleon`, `numpy_napoleon_with_merge`, `google` and `google_with_merge` styles, if the parent's docstring contains a "Raises" section and the child's docstring implements a "Returns" or a "Yields" section instead, then the "Raises" section is not included in the resulting docstring. This is to accomodate for the relatively common use case in which an abstract method/property raises `NotImplementedError`. Child classes that implement this method/property clearly will not raise this. Of course, any "Raises" section that is explicitly included in the child's docstring will appear in the resulting docstring.
 
 Detailed documentation and example cases for the default styles can be found [here](https://github.com/meowklaski/custom_inherit/blob/master/custom_inherit/_style_store.py)
 

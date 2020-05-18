@@ -87,7 +87,7 @@ def parse_napoleon_doc(doc, style):
     return doc_sections
 
 
-def merge_section(key, prnt_sec, child_sec, style):
+def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
     """ Synthesize a output napoleon docstring section.
 
     Parameters
@@ -102,6 +102,13 @@ def merge_section(key, prnt_sec, child_sec, style):
     -------
     Optional[str]
         The output docstring section."""
+
+    napoleon_sections_that_cant_merge = [
+        "Short Summary",
+        "Example",
+        "Examples",
+    ]
+
     if prnt_sec is None and child_sec is None:
         return None
 
@@ -114,13 +121,20 @@ def merge_section(key, prnt_sec, child_sec, style):
             header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
         else:
             header = "\n".join((key + ":", ""))
-
-    body = prnt_sec if child_sec is None else child_sec
+    if merge_within_sections and key not in napoleon_sections_that_cant_merge:
+        if child_sec is None:
+            body = prnt_sec
+        elif prnt_sec is None:
+            body = child_sec
+        else:
+            body = '\n'.join((prnt_sec, child_sec))
+    else:
+        body = prnt_sec if child_sec is None else child_sec
 
     return header + body
 
 
-def merge_all_sections(prnt_sctns, child_sctns, style):
+def merge_all_sections(prnt_sctns, child_sctns, style, merge_within_sections=False):
     """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
     Parameters
@@ -141,13 +155,19 @@ def merge_all_sections(prnt_sctns, child_sctns, style):
         prnt_sctns["Raises"] = None
 
     for key in prnt_sctns:
-        sect = merge_section(key, prnt_sctns[key], child_sctns[key], style)
+        sect = merge_section(
+            key,
+            prnt_sctns[key],
+            child_sctns[key],
+            style,
+            merge_within_sections=merge_within_sections
+        )
         if sect is not None:
             doc.append(sect)
     return "\n\n".join(doc) if doc else None
 
 
-def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
+def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None, merge_within_sections=False):
     """ Merge two numpy-style docstrings into a single docstring, according to napoleon docstring sections.
 
     Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
@@ -172,11 +192,14 @@ def merge_numpy_napoleon_docs(prnt_doc=None, child_doc=None):
         The merged docstring. """
     style = "numpy"
     return merge_all_sections(
-        parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style
+        parse_napoleon_doc(prnt_doc, style),
+        parse_napoleon_doc(child_doc, style),
+        style,
+        merge_within_sections=merge_within_sections
     )
 
 
-def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
+def merge_google_napoleon_docs(prnt_doc=None, child_doc=None, merge_within_sections=False):
     """ Merge two google-style docstrings into a single docstring, according to napoleon docstring sections.
 
         Given the google-style docstrings from a parent and child's attributes, merge the docstring
@@ -201,5 +224,8 @@ def merge_google_napoleon_docs(prnt_doc=None, child_doc=None):
         The merged docstring. """
     style = "google"
     return merge_all_sections(
-        parse_napoleon_doc(prnt_doc, style), parse_napoleon_doc(child_doc, style), style
+        parse_napoleon_doc(prnt_doc, style),
+        parse_napoleon_doc(child_doc, style),
+        style,
+        merge_within_sections=merge_within_sections
     )

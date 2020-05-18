@@ -61,7 +61,7 @@ def parse_numpy_doc(doc):
     return doc_sections
 
 
-def merge_section(key, prnt_sec, child_sec):
+def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
     """ Synthesize a output numpy docstring section.
 
     Parameters
@@ -76,6 +76,14 @@ def merge_section(key, prnt_sec, child_sec):
     -------
     Optional[str]
         The output docstring section."""
+
+    doc_sections_that_cant_merge = [
+        "Short Summary",
+        "Deprecation Warning",
+        "Extended Summary",
+        "Examples"
+    ]
+
     if prnt_sec is None and child_sec is None:
         return None
 
@@ -84,15 +92,20 @@ def merge_section(key, prnt_sec, child_sec):
     else:
         header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
 
-    if child_sec is None:
-        body = prnt_sec
+    if merge_within_sections and key not in doc_sections_that_cant_merge:
+        if child_sec is None:
+            body = prnt_sec
+        elif prnt_sec is None:
+            body = child_sec
+        else:
+            body = '\n'.join((prnt_sec, child_sec))
     else:
-        body = child_sec
+        body = prnt_sec if child_sec is None else child_sec
 
     return header + body
 
 
-def merge_all_sections(prnt_sctns, child_sctns):
+def merge_all_sections(prnt_sctns, child_sctns, merge_within_sections=False):
     """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
     Parameters
@@ -113,13 +126,18 @@ def merge_all_sections(prnt_sctns, child_sctns):
         prnt_sctns["Raises"] = None
 
     for key in prnt_sctns:
-        sect = merge_section(key, prnt_sctns[key], child_sctns[key])
+        sect = merge_section(
+            key,
+            prnt_sctns[key],
+            child_sctns[key],
+            merge_within_sections=merge_within_sections
+        )
         if sect is not None:
             doc.append(sect)
     return "\n\n".join(doc) if doc else None
 
 
-def merge_numpy_docs(prnt_doc=None, child_doc=None):
+def merge_numpy_docs(prnt_doc=None, child_doc=None, merge_within_sections=False):
     """ Merge two numpy-style docstrings into a single docstring.
 
     Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
@@ -141,4 +159,8 @@ def merge_numpy_docs(prnt_doc=None, child_doc=None):
     Union[str, None]
         The merged docstring.
         """
-    return merge_all_sections(parse_numpy_doc(prnt_doc), parse_numpy_doc(child_doc))
+    return merge_all_sections(
+        parse_numpy_doc(prnt_doc),
+        parse_numpy_doc(child_doc),
+        merge_within_sections=merge_within_sections
+    )
