@@ -143,7 +143,7 @@ def remove_style(style):
         store.pop(style)
 
 
-def DocInheritMeta(style="parent", abstract_base_class=False):
+def DocInheritMeta(style="parent", abstract_base_class=False, include_special_methods=False):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
     properties, methods (including classmethod, staticmethod, decorated methods).
 
@@ -159,6 +159,10 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         will be an abstract base class, whose derived classes will inherit docstrings
         using the numpy-style inheritance scheme.
 
+    include_special_methods: bool, optional (defaul: False)
+        Wether special methods of class (i.e. starting en ending with "__") are included in the docstring
+        inheritance process.
+
 
     Returns
     -------
@@ -166,6 +170,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
     merge_func = store[style]
     metaclass = _DocInheritorBase
+    metaclass.include_special_methods = include_special_methods
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
 

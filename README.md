@@ -53,10 +53,10 @@ class Parent(metaclass=DocInheritMeta(style="numpy")):
            ----------
            x: int
               blah-x
-              
+
            y: Optional[int]
               blah-y
-           
+
            Raises
            ------
            NotImplementedError"""
@@ -85,7 +85,7 @@ Because we specified `style="numpy"` in `DocInheritMeta`, the inherited docstrin
       ----------
       x: int
          blah-x
-         
+
       y: Optional[int]
          blah-y
 
@@ -146,6 +146,18 @@ class Parent(metaclass=DocInheritMeta(style="numpy", abstract_base_class=True)):
 
 For the "numpy", "google", and "napoleon_numpy" inheritance styles, one then only needs to specify the "Returns" or "Yields" section in the derived class' attribute docstring for it to have a fully-detailed docstring.
 
+Another option is to be able to decide whether to include all special methods, meaning methods that start and
+end by "__" such as "__init__" method, or not in the doctstring inheritance process. Such an option can be pass
+to the `DocInheritMeta` metaclass constructor:
+
+```python
+# Each child class will also merge the special methods' docstring of its parent class
+class Parent(metaclass=DocInheritMeta(style="numpy", include_special_methods=True)):
+   ...
+```
+
+Special methods are not included by default.
+
 ## Built-in Styles
 
 Utilize a built-in style by specifying any of the following names (as a string), wherever the `style` parameter is to be specified. The built-in styles are:
@@ -153,8 +165,8 @@ Utilize a built-in style by specifying any of the following names (as a string),
 - `"parent"`: Wherever the docstring for a child-class' attribute (or for the class itself) is
 	`None`, inherit the corresponding docstring from the parent. (Deprecated in Python 3.5)
 
-- `"numpy"`: [NumPy-styled docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard) 
-        from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence 
+- `"numpy"`: [NumPy-styled docstrings](https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt#docstring-standard)
+        from the parent and child are merged gracefully with nice formatting. The child's docstring sections take precedence
 	in the case of overlap.
 
 - `"numpy_with_merge"`: Behaves identically to the "numpy" style, but also merges sections that overlap,
@@ -179,7 +191,7 @@ Utilize a built-in style by specifying any of the following names (as a string),
     behaviour applies.
 
 - `"reST"`: reST-styled docstrings from the parent and child are merged gracefully
-	with nice formatting. Docstring sections are specified by 
+	with nice formatting. Docstring sections are specified by
 	[reST section titles](http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#sections).
 	The child's docstring sections take precedence in the case of overlap.
 
@@ -188,15 +200,15 @@ For the `numpy`, `numpy_with_merge`, `numpy_napoleon`, `numpy_napoleon_with_merg
 Detailed documentation and example cases for the default styles can be found [here](https://github.com/meowklaski/custom_inherit/blob/master/custom_inherit/_style_store.py)
 
 ## Making New Inheritance Styles
-Implementing your inheritance style is simple. 
+Implementing your inheritance style is simple.
 
 - Provide an inheritance style on the fly wherever a style parameter is specified:
     - Supply any function of the form: `func(prnt_doc: str, child_doc: str) -> str`
 
 - Log an inheritance style, and refer to it by name wherever a style parameter is specified, using either:
-    - `custom_inherit.store["my_style"] = func` 
-    - `custom_inherit.add_style("my_style", func)`. 
-    
+    - `custom_inherit.store["my_style"] = func`
+    - `custom_inherit.add_style("my_style", func)`.
+
 ## Installation and Getting Started
 Install via pip:
 
@@ -206,7 +218,7 @@ Install via pip:
 Install via conda:
 
 ```
-    conda install -c conda-forge custom-inherit 
+    conda install -c conda-forge custom-inherit
 ```
 
 or
@@ -264,7 +276,7 @@ custom_inherit.doc_inherit(parent, style="parent"):
         Parameters
         ----------
         parent : Union[str, Any]
-            The object whose docstring, is utilized as the parent docstring 
+            The object whose docstring, is utilized as the parent docstring
 	    during the docstring merge. Or, a string can be provided directly.
 
         style : Union[Hashable, Callable[[str, str], str]], optional (default: "parent")

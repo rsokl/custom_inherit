@@ -21,6 +21,8 @@ class DocInheritorBase(type):
     This merge-style must be implemented via the static methods `class_doc_inherit`
     and `attr_doc_inherit`, which are set within `custom_inherit.DocInheritMeta`."""
 
+    include_special_methods = False
+
     def __new__(mcs, class_name, class_bases, class_dict):
         # inherit class docstring: the docstring is constructed by traversing
         # the mro for the class and merging their docstrings, with each next
@@ -42,8 +44,10 @@ class DocInheritorBase(type):
                 attribute,
                 (FunctionType, MethodType, classmethod, staticmethod, property),
             )
-
-            if (attr.startswith("__") and attr.endswith("__")) or not is_doc_type:
+            if (
+                (attr.startswith("__") and attr.endswith("__") and not mcs.include_special_methods) or
+                not is_doc_type
+            ):
                 continue
 
             is_static_or_class = isinstance(attribute, (staticmethod, classmethod))
