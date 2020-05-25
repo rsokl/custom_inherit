@@ -52,6 +52,10 @@ class Parent(object):
 
 
 class Kid(Parent):
+    def __init__(self):
+        """kid"""
+        pass
+
     def kid_method(self):
         """kid"""
         pass
@@ -87,6 +91,12 @@ def test_abc():
 def test_sideeffect():
     assert getdoc(Kid.kid_method) == "kid"
     assert signature(Kid.method) == signature(Parent.method)
+
+
+def test_special_method():
+    # by default, Kid.__init__ docstring should not inherit from its parent
+    assert isinstance(Kid().__init__, MethodType)
+    assert getdoc(Kid.__init__) == "kid"
 
 
 def test_method():
@@ -145,6 +155,10 @@ class Parent2(object):
 
 
 class Kid2(Parent2):
+    def __init__(self):
+        """kid"""
+        pass
+
     def kid_method(self):
         """kid"""
         pass
@@ -168,6 +182,12 @@ class Kid2(Parent2):
 def test_sideeffect2():
     assert getdoc(Kid2.kid_method) == "kid"
     assert signature(Kid2.method) == signature(Parent.method)
+
+
+def test_special_method2():
+    # by default, Kid.__init__ docstring should not inherit from its parent
+    assert isinstance(Kid2().__init__, MethodType)
+    assert getdoc(Kid2.__init__) == "kid"
 
 
 def test_method2():
@@ -218,3 +238,22 @@ def test_class_docstring():
         getdoc(Child)
         == "This is mixin which does something.\n\nAttributes\n----------\nbar\n\nReturns\n-------\nfoo"
     )
+
+
+""" Include special method option"""
+
+@add_metaclass(DocInheritMeta(style=style, include_special_methods=True))
+class Parent3(object):
+    def __init__(self):
+        """"""
+        pass
+
+class Kid3(Parent3):
+    def __init__(self):
+        """kid"""
+        pass
+
+def test_special_method3():
+    # __init__ docstring should inherit from Parent3
+    assert isinstance(Kid3().__init__, MethodType)
+    assert getdoc(Kid3.__init__) == "valid"

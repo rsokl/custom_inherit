@@ -27,7 +27,16 @@ from ._doc_parse_tools import (merge_google_napoleon_docs, merge_numpy_docs,
 """
 
 # All built-in styles must be logged in the __all__ field.
-__all__ = ["parent", "numpy", "reST", "google", "numpy_napoleon"]
+__all__ = [
+    "parent",
+    "numpy",
+    "reST",
+    "google",
+    "numpy_napoleon",
+    "google_with_merge",
+    "numpy_napoleon_with_merge",
+    "numpy_with_merge"
+]
 
 
 def parent(prnt_doc, child_doc):
@@ -273,3 +282,227 @@ def google(prnt_doc, child_doc):
                     notes blah blah'''
         """
     return merge_google_napoleon_docs(prnt_doc, child_doc)
+
+
+def google_with_merge(prnt_doc, child_doc):
+    """ Behaves identically to the 'google' style, but also merges sections that
+    overlap, instead of only keeping the child's section. All sections are
+    concerned except sections "Short Summary", "Example" and "Examples" (or
+    coresponding aliases) for which the 'google' style applies.
+
+    Example: - parent's docstring:
+
+            ''' Parent's line
+
+                Args:
+                    x: int
+                        description of x
+                    y: Union[None, int]
+                        description of y
+
+                Raises:
+                    NotImplemented Error
+
+                Example:
+                    >>> parent_func(x=3, y=None)
+                    NotImplementedError:'''
+
+        - child's docstring:
+
+            ''' Child's line
+
+                Args:
+                    z: Union[None, int]
+                        description of z
+
+                Returns:
+                    int
+
+                Example:
+                    >>> child_func(x=3, y=None, z=4)
+                    7
+
+                Notes:
+                    notes blah blah'''
+
+        - docstring that is ultimately inherited:
+
+            ''' Child's line
+
+                Parameters:
+                    x: int
+                        description of x
+                    y: Union[None, int]
+                        description of y
+                    z: Union[None, int]
+                        description of z
+
+                Returns:
+                    int
+
+                Example:
+                    >>> child_func(x=3, y=None, z=4)
+                    7
+
+                Notes:
+                    notes blah blah'''
+    """
+    return merge_google_napoleon_docs(prnt_doc, child_doc, merge_within_sections=True)
+
+
+def numpy_napoleon_with_merge(prnt_doc, child_doc):
+    """
+    Behaves identically to the 'numpy_napoleon' style, but also merges sections
+    that overlap, instead of only keeping the child's section. All sections are
+    concerned except sections "Short Summary", "Example" and "Examples" (or
+    coresponding aliases) for which the 'numpy_napoleon' style behaviour
+    applies.
+
+    Example: - parent's docstring:
+
+            ''' Parent's line
+
+                Keyword Arguments
+                -----------------
+                x: int
+                    description of x
+                y: Union[None, int]
+                    description of y
+
+                Raises
+                ------
+                NotImplemented Error
+
+                Example
+                -------
+                >>> parent_func(x=3, y=None)
+                NotImplementedError:'''
+
+        - child's docstring:
+
+            ''' Child's line
+
+                Keyword Arguments
+                -----------------
+                z: Union[None, int]
+                    description of z
+
+                Returns
+                -------
+                int
+
+                Notes
+                -----
+                notes blah blah
+
+                Example
+                -------
+                >>> child_func(x=3, y=None, z=4)
+                7'''
+
+        - docstring that is ultimately inherited:
+
+            ''' Child's line
+
+                Keyword Arguments
+                -----------------
+                x: int
+                    description of x
+                y: Union[None, int]
+                    description of y
+                z: Union[None, int]
+                    description of z
+
+                Returns
+                -------
+                int
+
+                Notes
+                -----
+                notes blah blah
+
+                Example
+                -------
+                >>> child_func(x=3, y=None, z=4)
+                7'''
+    """
+    return merge_numpy_napoleon_docs(prnt_doc, child_doc, merge_within_sections=True)
+
+
+def numpy_with_merge(prnt_doc, child_doc):
+    """
+    Behaves identically to the 'numpy' style, but also merges sections that
+    overlap, instead of only keeping the child's section. All sections are
+    concerned except sections "Short Summary", "Extended Summary", "Deprecation
+    Warning" and "Examples" for which the 'numpy' style behaviour applies.
+
+    Example:
+        - parent's docstring:
+
+            ''' Parent's line
+
+                Parameters
+                ----------
+                x: int
+                    description of x
+                y: Union[None, int]
+                    description of y
+
+                Raises
+                ------
+                NotImplemented Error
+
+                Example
+                -------
+                >>> parent_func(x=3, y=None)
+                NotImplementedError:'''
+
+        - child's docstring:
+
+            ''' Child's line
+
+                Parameters
+                ----------
+                z: Union[None, int]
+                    description of z
+
+                Returns
+                -------
+                int
+
+                Notes
+                -----
+                notes blah blah
+
+                Example
+                -------
+                >>> child_func(x=3, y=None, z=4)
+                7'''
+
+        - docstring that is ultimately inherited:
+
+            ''' Child's line
+
+                Parameters
+                ----------
+                x: int
+                    description of x
+                y: Union[None, int]
+                    description of y
+                z: Union[None, int]
+                    description of z
+
+                Returns
+                -------
+                int
+
+                Notes
+                -----
+                notes blah blah
+
+                Example
+                -------
+                >>> child_func(x=3, y=None, z=4)
+                7'''
+    """
+    return merge_numpy_docs(prnt_doc, child_doc, merge_within_sections=True)

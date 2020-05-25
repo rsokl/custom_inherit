@@ -4,7 +4,11 @@ from abc import ABCMeta as _ABCMeta
 
 from ._decorator_base import DocInheritDecorator as _DocInheritDecorator
 from ._metaclass_base import DocInheritorBase as _DocInheritorBase
-from ._style_store import google, numpy, numpy_napoleon, parent, reST
+from . import _style_store
+from ._style_store import (
+    google, numpy, numpy_napoleon, parent, reST,
+    google_with_merge, numpy_napoleon_with_merge, numpy_with_merge
+)
 from ._version import get_versions
 
 __version__ = get_versions()["version"]
@@ -113,7 +117,6 @@ class _Store(object):
         """ D.items() -> a set-like object providing a view on D's items"""
         return self._store.items()
 
-
 store = _Store([(key, getattr(_style_store, key)) for key in _style_store.__all__])
 
 
@@ -140,7 +143,7 @@ def remove_style(style):
         store.pop(style)
 
 
-def DocInheritMeta(style="parent", abstract_base_class=False):
+def DocInheritMeta(style="parent", abstract_base_class=False, include_special_methods=False):
     """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
     properties, methods (including classmethod, staticmethod, decorated methods).
 
@@ -156,6 +159,10 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
         will be an abstract base class, whose derived classes will inherit docstrings
         using the numpy-style inheritance scheme.
 
+    include_special_methods: bool, optional (defaul: False)
+        Wether special methods of class (i.e. starting en ending with "__") are included in the docstring
+        inheritance process.
+
 
     Returns
     -------
@@ -163,6 +170,7 @@ def DocInheritMeta(style="parent", abstract_base_class=False):
 
     merge_func = store[style]
     metaclass = _DocInheritorBase
+    metaclass.include_special_methods = include_special_methods
     metaclass.class_doc_inherit = staticmethod(merge_func)
     metaclass.attr_doc_inherit = staticmethod(merge_func)
 

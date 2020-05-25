@@ -128,8 +128,10 @@ def test_reST():
 
 
 def test_numpy_napoleon():
-    def prnt3():
-        """ first line
+    def prnt():
+        """ Parent's short summary
+
+            Parent's extended summary
 
             Attributes
             ----------
@@ -148,12 +150,8 @@ def test_numpy_napoleon():
             parent's section
 
             Parameters
-            ---------
+            ----------
             parent's Parameters
-
-            Extended Summary
-            ----------------
-            extended
 
             Returns
             -------
@@ -180,8 +178,12 @@ def test_numpy_napoleon():
             alias of Yields - parent's"""
         pass
 
-    def child3():
-        """ Args
+    def child():
+        """ Child's short summary
+
+            Child's extended summary
+
+            Args
             ----
             alias for Parameters - child's section
 
@@ -216,20 +218,21 @@ def test_numpy_napoleon():
         pass
 
     out = (
-        "first line\n\nAttributes\n----------\nparams\n    indented\n\nmulti-line\n\nMethods\n-------\n"
-        "parent methods\n\nWarning\n-------\nwarnings\n\nParameters\n----------\n"
-        "alias for Parameters - child's section\n\nOther Parameters\n----------------\nother\n\n"
-        "Keyword Arguments\n-----------------\nalias for Keyword Arguments - child's section\n\nReturns"
-        "\n-------\nreturn\n\nYields\n------\nyield\n\nRaises\n------\nraise\n\nNotes\n-----\nnote\n\nWarns"
-        "\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n----------\nref\n\nTodo\n----\ntodo\n\n"
-        "Examples\n--------\nexample"
+        "Child's short summary\n\nChild's extended summary\n\nAttributes\n----------\n"
+        "params\n    indented\n\nmulti-line\n\nMethods\n-------\nparent methods\n\nWarning"
+        "\n-------\nwarnings\n\nParameters\n----------\nalias for Parameters - child's section"
+        "\n\nOther Parameters\n----------------\nother\n\nKeyword Arguments\n-----------------"
+        "\nalias for Keyword Arguments - child's section\n\nReturns\n-------\nreturn\n\nYields"
+        "\n------\nyield\n\nRaises\n------\nraise\n\nNotes\n-----\nnote\n\nWarns\n-----\nwarns"
+        "\n\nSee Also\n--------\nsee\n\nReferences\n----------\nref\n\nTodo\n----\ntodo\n\nExamples"
+        "\n--------\nexample"
     )
 
     assert custom_inherit.store["numpy_napoleon"](None, None) is None
     assert custom_inherit.store["numpy_napoleon"]("", "") is None
     assert custom_inherit.store["numpy_napoleon"]("valid", None) == "valid"
     assert custom_inherit.store["numpy_napoleon"](None, "valid") == "valid"
-    assert custom_inherit.store["numpy_napoleon"](prnt3.__doc__, child3.__doc__) == out
+    assert custom_inherit.store["numpy_napoleon"](prnt.__doc__, child.__doc__) == out
 
 
 def test_google_napoleon():
@@ -314,3 +317,287 @@ def test_google_napoleon():
     assert custom_inherit.store["google"]("valid", None) == "valid"
     assert custom_inherit.store["google"](None, "valid") == "valid"
     assert custom_inherit.store["google"](prnt.__doc__, child.__doc__) == out
+
+
+def test_google_with_merge():
+    def prnt():
+        """ first parent's line
+
+            Attributes:
+                params
+                    - indented
+
+                multi-line
+
+            Methods:
+                parent methods
+
+            Keyword Arguments:
+                parent's section
+
+            Parameters:
+                parent's Parameters
+
+            Examples:
+                parents's example
+
+            Extended Summary:
+                extended
+
+            Returns:
+                return
+
+            Other Parameters:
+                other
+
+            See Also:
+                see
+
+            References:
+                ref
+
+            Todo:
+                todo
+
+            Yield:
+                alias of Yields - parent's"""
+        pass
+
+    def child():
+        """ first child's line
+
+            Args:
+                alias for Parameters - child's section
+
+            Keyword Args:
+                alias for Keyword Arguments - child's section
+
+            Yields:
+                yield
+
+            Raises:
+                raise
+
+            Notes:
+                note
+
+            Examples:
+                child's example
+
+            Warns:
+                warns
+
+            Warnings:
+                warnings
+            """
+        pass
+
+    out = (
+        "first child's line\n\nAttributes:\n    params\n        - indented\n\n    "
+        "multi-line\n\nMethods:\n    parent methods\n\nWarning:\n    warnings\n\nParameters:\n    "
+        "parent's Parameters\n    alias for Parameters - child's section\n\nOther Parameters:\n    "
+        "other\n\nKeyword Arguments:\n    parent's section\n    alias for Keyword Arguments - child's section"
+        "\n\nReturns:\n    return\n\nYields:\n    alias of Yields - parent's\n    yield\n\nRaises:\n    "
+        "raise\n\nNotes:\n    note\n\nWarns:\n    warns\n\nSee Also:\n    see\n\nReferences:\n    "
+        "ref\n\nTodo:\n    todo\n\nExamples:\n    child's example"
+    )
+    assert custom_inherit.store["google_with_merge"](None, None) is None
+    assert custom_inherit.store["google_with_merge"]("", "") is None
+    assert custom_inherit.store["google_with_merge"]("valid", None) == "valid"
+    assert custom_inherit.store["google_with_merge"](None, "valid") == "valid"
+    assert custom_inherit.store["google_with_merge"](prnt.__doc__, child.__doc__) == out
+
+
+def test_numpy_with_merge():
+    def prnt():
+        """ first parent's line
+
+            Attributes
+            ----------
+            parent's params
+                indented
+
+            multi-line
+
+            Parameters
+            ----------
+            Parent's param
+
+            Extended Summary
+            ----------------
+            extended
+
+            Returns
+            -------
+            return
+
+            Other Parameters
+            ----------------
+            other
+
+            See Also
+            --------
+            see
+
+            Examples
+            --------
+            Parent's example
+
+            References
+            ----------
+            ref """
+        pass
+
+    def child():
+        """ first child's line
+
+            Deprecation Warning
+            -------------------
+            dep
+
+            Parameters
+            ----------
+            child's params
+
+            Yields
+            ------
+            yield
+
+            Raises
+            ------
+            raise
+
+            Notes
+            -----
+            note
+
+            Examples
+            --------
+            child's example
+            """
+        pass
+
+    numpy_out = (
+        "first child's line\n\nDeprecation Warning\n-------------------\ndep\n\nAttributes\n----------"
+        "\nparent's params\n    indented\n\nmulti-line\n\nExtended Summary\n----------------\nextended\n"
+        "\nParameters\n----------\nParent's param\nchild's params\n\nReturns\n-------\nreturn\n\nYields"
+        "\n------\nyield\n\nOther Parameters\n----------------\nother\n\nRaises\n------\nraise\n\nSee Also"
+        "\n--------\nsee\n\nNotes\n-----\nnote\n\nReferences\n----------\nref\n\nExamples\n--------\n"
+        "child's example"
+    )
+    assert custom_inherit.store["numpy_with_merge"](None, None) is None
+    assert custom_inherit.store["numpy_with_merge"]("", "") is None
+    assert custom_inherit.store["numpy_with_merge"]("valid", None) == "valid"
+    assert custom_inherit.store["numpy_with_merge"](None, "valid") == "valid"
+    assert custom_inherit.store["numpy_with_merge"](prnt.__doc__, child.__doc__) == numpy_out
+
+
+def test_numpy_napoleon_with_merge():
+    def prnt():
+        """ Parent's short summary
+
+            Parent's extended summary
+
+            Attributes
+            ----------
+            params
+                indented
+
+            multi-line
+
+            Methods
+            -------
+            parent methods
+
+
+            Keyword Arguments
+            -----------------
+            parent's section
+
+            Parameters
+            ---------
+            parent's Parameters
+
+            Returns
+            -------
+            return
+
+            Other Parameters
+            ----------------
+            other
+
+            Examples
+            --------
+            parent's example
+
+            See Also
+            --------
+            see
+
+            References
+            ----------
+            ref
+
+            Todo
+            ----
+            todo
+
+            Yield
+            -----
+            alias of Yields - parent's"""
+        pass
+
+    def child():
+        """ Child's short summary
+
+            Child's extended summary
+
+            Args
+            ----
+            alias for Parameters - child's section
+
+            Keyword Args
+            ------------
+            alias for Keyword Arguments - child's section
+
+            Yields
+            ------
+            yield
+
+            Raises
+            ------
+            raise
+
+            Notes
+            -----
+            note
+
+            Examples
+            --------
+            child's example
+
+            Warns
+            -----
+            warns
+
+            Warnings
+            --------
+            warnings
+            """
+        pass
+
+    out = (
+        "Child's short summary\n\nChild's extended summary\n\nAttributes\n----------\nparams\n    "
+        "indented\n\nmulti-line\n\nMethods\n-------\nparent methods\n\nWarning\n-------\nwarnings\n"
+        "\nParameters\n----------\nparent's Parameters\nalias for Parameters - child's section\n"
+        "\nOther Parameters\n----------------\nother\n\nKeyword Arguments\n-----------------\n"
+        "parent's section\nalias for Keyword Arguments - child's section\n\nReturns\n-------\n"
+        "return\n\nYields\n------\nalias of Yields - parent's\nyield\n\nRaises\n------\nraise\n"
+        "\nNotes\n-----\nnote\n\nWarns\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n"
+        "----------\nref\n\nTodo\n----\ntodo\n\nExamples\n--------\nchild's example"
+    )
+    assert custom_inherit.store["numpy_napoleon_with_merge"](None, None) is None
+    assert custom_inherit.store["numpy_napoleon_with_merge"]("", "") is None
+    assert custom_inherit.store["numpy_napoleon_with_merge"]("valid", None) == "valid"
+    assert custom_inherit.store["numpy_napoleon_with_merge"](None, "valid") == "valid"
+    assert custom_inherit.store["numpy_napoleon_with_merge"](prnt.__doc__, child.__doc__) == out
