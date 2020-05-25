@@ -1,3 +1,11 @@
+### 2.3.0 (10/14/2019)
+- This release adds three new built-in styles, `numpy_with_merge`, `google_with_merge`, and `numpy_napoleon_with_merge`, which 
+permit users to concatenate the respective sections of a parent's and child's docstrings.
+Also added is the ability to configure `DocInheritMeta` so that special methods will have their docstrings inherited as well.
+([#31](https://github.com/rsokl/custom_inherit/pull/31)). Big thanks to [@Boubsi](https://github.com/Boubsi) for these nice features!
+
+
+
 ### 2.2.2 (10/14/2019)
 - This release does not contain any changes to the `custom-inherit` code base. Changes are made to some of the packaging files so that `custom-inherit` can be hosted on conda.
 
