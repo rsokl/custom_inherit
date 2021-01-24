@@ -23,6 +23,7 @@ def parse_numpy_doc(doc):
             ("Short Summary", None),
             ("Deprecation Warning", None),
             ("Attributes", None),
+            ("Methods", None),
             ("Extended Summary", None),
             ("Parameters", None),
             ("Returns", None),
