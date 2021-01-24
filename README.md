@@ -1,9 +1,10 @@
 # custom_inherit
 
-[![Build Status](https://travis-ci.com/rsokl/custom_inherit.svg?branch=master)](https://travis-ci.com/rsokl/custom_inherit#)
+[![Automated tests status](https://github.com/rsokl/custom_inherit/workflows/Tests/badge.svg)](https://github.com/rsokl/custom_inherit/actions?query=workflow%3ATests+branch%3Amaster)
 [![PyPi version](https://img.shields.io/pypi/v/custom_inherit.svg)](https://pypi.python.org/pypi/custom_inherit)
  [![Conda Version](https://img.shields.io/conda/vn/conda-forge/custom-inherit.svg)](https://anaconda.org/conda-forge/custom-inherit)
 [![Python version support](https://img.shields.io/badge/python-2.7,%20%20%203.4%20%20%20--%203.9-blue.svg)](https://img.shields.io/pypi/v/custom_inherit.svg)
+
 ## Contents
  - [Overview](#overview)
  - [Basic Usage](#basic-usage)
