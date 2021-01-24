@@ -235,6 +235,43 @@ def test_numpy_napoleon():
     assert custom_inherit.store["numpy_napoleon"](prnt.__doc__, child.__doc__) == out
 
 
+def test_methods_section_in_numpy():
+    from custom_inherit import DocInheritMeta
+    from six import add_metaclass
+
+    @add_metaclass(metaclass=DocInheritMeta(style="numpy_with_merge"))
+    class Parent:
+        """Parent summary.
+
+        Methods
+        -------
+        meth
+        """
+        pass
+
+    class Child(Parent):
+        """Child summary.
+
+        Attributes
+        ----------
+        a: hello
+
+        """
+        pass
+
+    c = Child()
+    expected = """Child summary.
+
+Attributes
+----------
+a: hello
+
+Methods
+-------
+meth"""
+    assert c.__doc__ == expected
+
+
 def test_google_napoleon():
     def prnt():
         """ first line
