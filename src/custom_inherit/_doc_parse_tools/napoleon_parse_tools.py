@@ -7,6 +7,17 @@ from . import section_items
 
 __all__ = ["merge_google_napoleon_docs", "merge_numpy_napoleon_docs"]
 
+ALIASES = {
+    "Args": "Parameters",
+    "Arguments": "Parameters",
+    "Keyword Args": "Keyword Arguments",
+    "Return": "Returns",
+    "Warnings": "Warning",
+    "Yield": "Yields",
+    "Note": "Notes",
+    "Example": "Examples",
+}
+
 
 def parse_napoleon_doc(doc, style):
     """ Extract the text from the various sections of a numpy-formatted docstring.
@@ -29,7 +40,7 @@ def parse_napoleon_doc(doc, style):
         "Attributes",
         "Methods",
         "Warning",
-        "Note",
+        "Notes",
         "Parameters",
         "Other Parameters",
         "Keyword Arguments",
@@ -40,18 +51,8 @@ def parse_napoleon_doc(doc, style):
         "See Also",
         "References",
         "Todo",
-        "Example",
         "Examples",
     ]
-
-    aliases = {
-        "Args": "Parameters",
-        "Arguments": "Parameters",
-        "Keyword Args": "Keyword Arguments",
-        "Return": "Returns",
-        "Warnings": "Warning",
-        "Yield": "Yields",
-    }
 
     doc_sections = OrderedDict([(key, None) for key in napoleon_sections])
 
@@ -75,8 +76,8 @@ def parse_napoleon_doc(doc, style):
                 if style == "numpy"
                 else (line[:-1] if line.endswith(":") else line)
             )
-            if header and (header in doc_sections or header in aliases):
-                doc_sections[aliases.get(key, key)] = (
+            if header and (header in doc_sections or header in ALIASES):
+                doc_sections[ALIASES.get(key, key)] = (
                     "\n".join(body).rstrip() if body else None
                 )
                 body = []
@@ -86,7 +87,7 @@ def parse_napoleon_doc(doc, style):
             else:
                 body.append(line)
         except StopIteration:
-            doc_sections[aliases.get(key, key)] = "\n".join(body)
+            doc_sections[ALIASES.get(key, key)] = "\n".join(body)
             break
 
     section_items.parse(doc_sections)
