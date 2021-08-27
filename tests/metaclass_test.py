@@ -240,6 +240,56 @@ def test_class_docstring():
     )
 
 
+def test_class_docstring_merge_hierarchy_numpy():
+    @add_metaclass(DocInheritMeta(style="numpy_with_merge"))
+    class GrandParent(object):
+        """GrandParent.
+
+        Attributes
+        ----------
+        foo
+        """
+
+    class Parent(GrandParent):
+        """
+        Attributes
+        ----------
+        bar
+        """
+
+    class Child(Parent):
+        pass
+
+    assert (
+        getdoc(Child)
+        == "GrandParent.\n\nAttributes\n----------\nfoo\nbar"
+    )
+
+
+def test_class_docstring_merge_hierarchy_google():
+    @add_metaclass(DocInheritMeta(style="google_with_merge"))
+    class GrandParent(object):
+        """GrandParent.
+
+        Args:
+            foo
+        """
+
+    class Parent(GrandParent):
+        """
+        Args:
+            bar
+        """
+
+    class Child(Parent):
+        pass
+
+    assert (
+        getdoc(Child)
+        == "GrandParent.\n\nParameters:\n    foo\n    bar"
+    )
+
+
 """ Include special method option"""
 
 @add_metaclass(DocInheritMeta(style=style, include_special_methods=True))
