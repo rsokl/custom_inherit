@@ -111,13 +111,6 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
     Optional[str]
         The output docstring section."""
 
-    napoleon_sections_that_cant_merge = [
-        "Short Summary",
-        "Examples",
-        "Notes",
-    ]
-    napoleon_sections_that_cant_merge.extend([ALIASES[section] for section in napoleon_sections_that_cant_merge if section in ALIASES])
-
     if not prnt_sec and not child_sec:
         return None
 
