@@ -25,7 +25,8 @@ SECTION_NAMES = {
     "Methods",
     "Other Parameters",
     "Args",
-    "Arguments" "Keyword Args",
+    "Arguments",
+    "Keyword Args",
     "Keyword Arguments",
 }
 
