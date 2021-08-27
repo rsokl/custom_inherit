@@ -40,13 +40,13 @@ def parse_napoleon_doc(doc, style):
         "Attributes",
         "Methods",
         "Warning",
-        "Notes",
         "Parameters",
         "Other Parameters",
         "Keyword Arguments",
         "Returns",
         "Yields",
         "Raises",
+        "Notes",
         "Warns",
         "See Also",
         "References",
@@ -113,9 +113,10 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
 
     napoleon_sections_that_cant_merge = [
         "Short Summary",
-        "Example",
         "Examples",
+        "Notes",
     ]
+    napoleon_sections_that_cant_merge.extend([ALIASES[section] for section in napoleon_sections_that_cant_merge if section in ALIASES])
 
     if not prnt_sec and not child_sec:
         return None
@@ -132,14 +133,6 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
 
     if key in section_items.SECTION_NAMES:
         body = section_items.merge(prnt_sec, child_sec, merge_within_sections, style)
-
-    elif merge_within_sections and key not in napoleon_sections_that_cant_merge:
-        if child_sec is None:
-            body = prnt_sec
-        elif prnt_sec is None:
-            body = child_sec
-        else:
-            body = '\n'.join((prnt_sec, child_sec))
     else:
         body = prnt_sec if child_sec is None else child_sec
 

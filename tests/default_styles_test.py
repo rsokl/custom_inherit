@@ -434,7 +434,7 @@ def test_google_with_merge():
         "multi-line\n\nMethods:\n    parent methods\n\nWarning:\n    warnings\n\nParameters:\n    "
         "parent's Parameters\n    alias for Parameters - child's section\n\nOther Parameters:\n    "
         "other\n\nKeyword Arguments:\n    parent's section\n    alias for Keyword Arguments - child's section"
-        "\n\nReturns:\n    return\n\nYields:\n    alias of Yields - parent's\n    yield\n\nRaises:\n    "
+        "\n\nReturns:\n    return\n\nYields:\n    yield\n\nRaises:\n    "
         "raise\n\nNotes:\n    note\n\nWarns:\n    warns\n\nSee Also:\n    see\n\nReferences:\n    "
         "ref\n\nTodo:\n    todo\n\nExamples:\n    child's example"
     )
@@ -629,7 +629,7 @@ def test_numpy_napoleon_with_merge():
         "\nParameters\n----------\nparent's Parameters\nalias for Parameters - child's section\n"
         "\nOther Parameters\n----------------\nother\n\nKeyword Arguments\n-----------------\n"
         "parent's section\nalias for Keyword Arguments - child's section\n\nReturns\n-------\n"
-        "return\n\nYields\n------\nalias of Yields - parent's\nyield\n\nRaises\n------\nraise\n"
+        "return\n\nYields\n------\nyield\n\nRaises\n------\nraise\n"
         "\nNotes\n-----\nnote\n\nWarns\n-----\nwarns\n\nSee Also\n--------\nsee\n\nReferences\n"
         "----------\nref\n\nTodo\n----\ntodo\n\nExamples\n--------\nchild's example"
     )

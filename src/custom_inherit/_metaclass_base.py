@@ -15,7 +15,7 @@ __all__ = ["DocInheritorBase"]
 
 
 class DocInheritorBase(type):
-    """ A metaclass that merges the respective docstrings of a parent class and of its child, along with their
+    """A metaclass that merges the respective docstrings of a parent class and of its child, along with their
     properties, methods (including classmethod, staticmethod, decorated methods).
 
     This merge-style must be implemented via the static methods `class_doc_inherit`
@@ -45,9 +45,10 @@ class DocInheritorBase(type):
                 (FunctionType, MethodType, classmethod, staticmethod, property),
             )
             if (
-                (attr.startswith("__") and attr.endswith("__") and not mcs.include_special_methods) or
-                not is_doc_type
-            ):
+                attr.startswith("__")
+                and attr.endswith("__")
+                and not mcs.include_special_methods
+            ) or not is_doc_type:
                 continue
 
             is_static_or_class = isinstance(attribute, (staticmethod, classmethod))
@@ -90,7 +91,7 @@ class DocInheritorBase(type):
 
     @staticmethod
     def class_doc_inherit(prnt_cls_doc, child_doc):
-        """ Merge the docstrings of a parent class and its child.
+        """Merge the docstrings of a parent class and its child.
 
         Parameters
         ----------
@@ -104,7 +105,7 @@ class DocInheritorBase(type):
 
     @staticmethod
     def attr_doc_inherit(prnt_attr_doc, child_doc):
-        """ Merge the docstrings of method or property from parent class and the corresponding
+        """Merge the docstrings of method or property from parent class and the corresponding
         attribute of its child.
 
         Parameters

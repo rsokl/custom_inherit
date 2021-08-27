@@ -21,7 +21,9 @@ _STYLE_TO_PADDING = {
     "google": " " * 4,
 }
 
-SECTION_NAMES = ("Attributes", "Parameters")
+SECTION_NAMES = {"Attributes", "Parameters", "Methods", "Other Parameters", "Args",
+    "Arguments"
+    "Keyword Args", "Keyword Arguments"}
 
 
 def _render(body, style):
