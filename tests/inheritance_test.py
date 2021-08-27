@@ -1,11 +1,13 @@
 import pytest
+from six import add_metaclass
 
 from custom_inherit import DocInheritMeta
 
 
 @pytest.mark.parametrize("style", ["numpy_with_merge", "numpy_napoleon_with_merge"])
 def test_inheritance_numpy_with_merge_styles(style):
-    class Parent(metaclass=DocInheritMeta(style=style)):
+    @add_metaclass(DocInheritMeta(style=style))
+    class Parent(object):
         """Parent.
 
         Notes
@@ -96,7 +98,8 @@ def test_inheritance_numpy_with_merge_styles(style):
 
 
 def test_inheritance_google_with_merge_style():
-    class A(metaclass=DocInheritMeta(style="google_with_merge")):
+    @add_metaclass(DocInheritMeta(style="google_with_merge"))
+    class A(object):
         """Testing A.
 
         Args:
