@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from collections import OrderedDict
 from inspect import cleandoc
 
+from . import section_items
+
 __all__ = ["merge_numpy_docs"]
 
 
@@ -37,6 +39,8 @@ def parse_numpy_doc(doc):
         ]
     )
 
+    section_items.set_defaults(doc_sections)
+
     if not doc:
         return doc_sections
 
@@ -58,6 +62,8 @@ def parse_numpy_doc(doc):
         except StopIteration:
             doc_sections[key] = "\n".join(body)
             break
+
+    section_items.parse(doc_sections)
 
     return doc_sections
 
@@ -85,7 +91,7 @@ def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
         "Examples"
     ]
 
-    if prnt_sec is None and child_sec is None:
+    if not prnt_sec and not child_sec:
         return None
 
     if key == "Short Summary":
@@ -93,7 +99,10 @@ def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
     else:
         header = "\n".join((key, "".join("-" for i in range(len(key))), ""))
 
-    if merge_within_sections and key not in doc_sections_that_cant_merge:
+    if key in section_items.SECTION_NAMES:
+        body = section_items.merge(prnt_sec, child_sec, merge_within_sections, "numpy")
+
+    elif merge_within_sections and key not in doc_sections_that_cant_merge:
         if child_sec is None:
             body = prnt_sec
         elif prnt_sec is None:

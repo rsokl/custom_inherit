@@ -3,8 +3,10 @@ from inspect import getdoc, ismethod
 from types import FunctionType, MethodType
 
 from six import add_metaclass
+import pytest
 
 from custom_inherit import DocInheritMeta
+from custom_inherit._doc_parse_tools.section_items import _RE_PATTERN_ITEMS
 
 try:
     from inspect import signature
@@ -307,3 +309,17 @@ def test_special_method3():
     # __init__ docstring should inherit from Parent3
     assert isinstance(Kid3().__init__, MethodType)
     assert getdoc(Kid3.__init__) == "valid"
+
+
+@pytest.mark.parametrize(
+    "section_content,expected",
+    (
+        ("foo", [("foo", "")]),
+        ("foo : str\n    Foo.", [("foo", " : str\n    Foo.")]),
+        ("foo\nbar", [("foo", ""), ("bar", "")]),
+        ("foo : str\n    Foo.\nbar", [("foo", " : str\n    Foo."), ("bar", "")]),
+        ("foo : str\n    Foo.\nbar : int\n    Bar.", [("foo", " : str\n    Foo."), ("bar", " : int\n    Bar.")]),
+    )
+)
+def test_regex(section_content, expected):
+    assert _RE_PATTERN_ITEMS.findall(section_content) == expected
