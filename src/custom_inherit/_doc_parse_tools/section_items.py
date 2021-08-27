@@ -9,21 +9,25 @@ try:
 except ImportError:
     # for Python < 3.3
     def indent(text, padding):
-        return ''.join(padding+line for line in text.splitlines(True))
+        return "".join(padding + line for line in text.splitlines(True))
 
 
-_RE_PATTERN_ITEMS = re.compile(
-    r"(\**\w+)(.*?)(?:$|(?=\n\**\w+))", flags=re.DOTALL
-)
+_RE_PATTERN_ITEMS = re.compile(r"(\**\w+)(.*?)(?:$|(?=\n\**\w+))", flags=re.DOTALL)
 
 _STYLE_TO_PADDING = {
     "numpy": "",
     "google": " " * 4,
 }
 
-SECTION_NAMES = {"Attributes", "Parameters", "Methods", "Other Parameters", "Args",
-    "Arguments"
-    "Keyword Args", "Keyword Arguments"}
+SECTION_NAMES = {
+    "Attributes",
+    "Parameters",
+    "Methods",
+    "Other Parameters",
+    "Args",
+    "Arguments" "Keyword Args",
+    "Keyword Arguments",
+}
 
 
 def _render(body, style):
@@ -68,7 +72,9 @@ def parse(doc_sections):
     for section_name in SECTION_NAMES:
         section_content = doc_sections[section_name]
         if section_content:
-            doc_sections[section_name] = OrderedDict(_RE_PATTERN_ITEMS.findall(inspect.cleandoc(section_content)))
+            doc_sections[section_name] = OrderedDict(
+                _RE_PATTERN_ITEMS.findall(inspect.cleandoc(section_content))
+            )
 
 
 def merge(prnt_sec, child_sec, merge_within_sections, style):

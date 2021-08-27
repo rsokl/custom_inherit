@@ -137,6 +137,9 @@ def test_inheritance_google_with_merge_style():
         """Testing C.
 
         Args:
+            a :
+                priority description
+                of a
             g :
                 parameter g.
             h :
@@ -152,10 +155,11 @@ def test_inheritance_google_with_merge_style():
 
     """
     Testing C.
-
+    
     Parameters:
         a :
-            parameter a.
+            priority description
+            of a
         b :
             parameter b.
         c :
@@ -178,7 +182,8 @@ def test_inheritance_google_with_merge_style():
     
     Notes:
         None"""
+
     assert (
         C.__doc__
-        == "Testing C.\n\nParameters:\n    a :\n        parameter a.\n    b :\n        parameter b.\n    c :\n        parameter c.\n    d :\n        parameter d.\n    e :\n        parameter e.\n    f :\n        parameter f.\n    g :\n        parameter g.\n    h :\n        parameter h.\n    i :\n        parameter i.\n\nReturns:\n    None\n\nNotes:\n    None"
+        == "Testing C.\n\nParameters:\n    a :\n        priority description\n        of a\n    b :\n        parameter b.\n    c :\n        parameter c.\n    d :\n        parameter d.\n    e :\n        parameter e.\n    f :\n        parameter f.\n    g :\n        parameter g.\n    h :\n        parameter h.\n    i :\n        parameter i.\n\nReturns:\n    None\n\nNotes:\n    None"
     )
