@@ -9,7 +9,7 @@ __all__ = ["DocInheritDecorator"]
 
 
 class DocInheritDecorator(object):
-    """ A decorator that merges provided parent docstring with the docstring of the decorated
+    """A decorator that merges provided parent docstring with the docstring of the decorated
     function/method/property.
 
     Methods
@@ -50,7 +50,7 @@ class DocInheritDecorator(object):
 
     @staticmethod
     def doc_merger(prnt_attr_doc, child_doc):
-        """ Merges the parent and child docstrings into a single docstring.
+        """Merges the parent and child docstrings into a single docstring.
 
         Parameters
         ----------

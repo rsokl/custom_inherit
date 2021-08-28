@@ -1,7 +1,11 @@
 from __future__ import absolute_import
 
-from ._doc_parse_tools import (merge_google_napoleon_docs, merge_numpy_docs,
-                               merge_numpy_napoleon_docs, merge_rest_docs)
+from ._doc_parse_tools import (
+    merge_google_napoleon_docs,
+    merge_numpy_docs,
+    merge_numpy_napoleon_docs,
+    merge_rest_docs,
+)
 
 """ Docstring inheritance-style implementations.
 
@@ -35,21 +39,21 @@ __all__ = [
     "numpy_napoleon",
     "google_with_merge",
     "numpy_napoleon_with_merge",
-    "numpy_with_merge"
+    "numpy_with_merge",
 ]
 
 
 def parent(prnt_doc, child_doc):
-    """ Wherever the docstring for a child-class' attribute (or for the class itself) is
+    """Wherever the docstring for a child-class' attribute (or for the class itself) is
     `None`, inherit the corresponding docstring from the parent.
 
     *NOTE* As of Python 3.5, this is the default behavior of the built-in function
-    inspect.getdoc, and thus this style is deprecated Python 3.(>=5). """
+    inspect.getdoc, and thus this style is deprecated Python 3.(>=5)."""
     return child_doc if child_doc is not None else prnt_doc
 
 
 def numpy(prnt_doc, child_doc):
-    """ Merges numpy-styled docstrings from the parent and child.
+    """Merges numpy-styled docstrings from the parent and child.
 
     Specifically, any docstring section that appears in the parent's docstring that
     is not present in the child's is inherited. Otherwise, the child's docstring
@@ -114,7 +118,7 @@ def numpy(prnt_doc, child_doc):
 
 
 def reST(prnt_doc, child_doc):
-    """ Merge two reST-style docstrings into a single docstring.
+    """Merge two reST-style docstrings into a single docstring.
 
     Given the reST-style docstrings from a parent and child's attributes, merge the docstring
     sections such that the child's section is used, wherever present, otherwise the parent's
@@ -160,12 +164,12 @@ def reST(prnt_doc, child_doc):
                    NewHeader
                    ~~~~~~~~~
                    content for NewHeader '''
-            """
+    """
     return merge_rest_docs(prnt_doc, child_doc)
 
 
 def numpy_napoleon(prnt_doc, child_doc):
-    """ Behaves identically to the 'numpy' style, but abides by the docstring sections
+    """Behaves identically to the 'numpy' style, but abides by the docstring sections
     specified by the "Napoleon" standard.
 
     For more info regarding the Napoleon standard, see:
@@ -222,7 +226,7 @@ def numpy_napoleon(prnt_doc, child_doc):
 
 
 def google(prnt_doc, child_doc):
-    """ Merges google-styled docstrings from the parent and child, abiding to the docstring sections
+    """Merges google-styled docstrings from the parent and child, abiding to the docstring sections
     specified by the "Napoleon" standard.
 
     Specifically, any docstring section that appears in the parent's docstring that
@@ -280,12 +284,12 @@ def google(prnt_doc, child_doc):
 
                 Notes:
                     notes blah blah'''
-        """
+    """
     return merge_google_napoleon_docs(prnt_doc, child_doc)
 
 
 def google_with_merge(prnt_doc, child_doc):
-    """ Behaves identically to the 'google' style, but also merges sections that
+    """Behaves identically to the 'google' style, but also merges sections that
     overlap, instead of only keeping the child's section. All sections are
     concerned except sections "Short Summary", "Example" and "Examples" (or
     coresponding aliases) for which the 'google' style applies.

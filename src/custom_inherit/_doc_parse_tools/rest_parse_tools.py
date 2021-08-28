@@ -13,7 +13,7 @@ def is_delimiter(line):
 
 
 def parse_rest_doc(doc):
-    """ Extract the headers, delimiters, and text from reST-formatted docstrings.
+    """Extract the headers, delimiters, and text from reST-formatted docstrings.
 
     Parameters
     ----------
@@ -21,7 +21,7 @@ def parse_rest_doc(doc):
 
     Returns
     -------
-    Dict[str, Section] """
+    Dict[str, Section]"""
 
     class Section(object):
         def __init__(self, header=None, body=None):

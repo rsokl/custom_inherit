@@ -2,8 +2,8 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 from inspect import getdoc, ismethod
 from types import FunctionType, MethodType
 
-from six import add_metaclass
 import pytest
+from six import add_metaclass
 
 from custom_inherit import DocInheritMeta
 from custom_inherit._doc_parse_tools.section_items import _RE_PATTERN_ITEMS
@@ -262,10 +262,7 @@ def test_class_docstring_merge_hierarchy_numpy():
     class Child(Parent):
         pass
 
-    assert (
-        getdoc(Child)
-        == "GrandParent.\n\nAttributes\n----------\nfoo\nbar"
-    )
+    assert getdoc(Child) == "GrandParent.\n\nAttributes\n----------\nfoo\nbar"
 
 
 def test_class_docstring_merge_hierarchy_google():
@@ -286,13 +283,11 @@ def test_class_docstring_merge_hierarchy_google():
     class Child(Parent):
         pass
 
-    assert (
-        getdoc(Child)
-        == "GrandParent.\n\nParameters:\n    foo\n    bar"
-    )
+    assert getdoc(Child) == "GrandParent.\n\nParameters:\n    foo\n    bar"
 
 
 """ Include special method option"""
+
 
 @add_metaclass(DocInheritMeta(style=style, include_special_methods=True))
 class Parent3(object):
@@ -300,10 +295,12 @@ class Parent3(object):
         """"""
         pass
 
+
 class Kid3(Parent3):
     def __init__(self):
         """kid"""
         pass
+
 
 def test_special_method3():
     # __init__ docstring should inherit from Parent3
@@ -318,8 +315,11 @@ def test_special_method3():
         ("foo : str\n    Foo.", [("foo", " : str\n    Foo.")]),
         ("foo\nbar", [("foo", ""), ("bar", "")]),
         ("foo : str\n    Foo.\nbar", [("foo", " : str\n    Foo."), ("bar", "")]),
-        ("foo : str\n    Foo.\nbar : int\n    Bar.", [("foo", " : str\n    Foo."), ("bar", " : int\n    Bar.")]),
-    )
+        (
+            "foo : str\n    Foo.\nbar : int\n    Bar.",
+            [("foo", " : str\n    Foo."), ("bar", " : int\n    Bar.")],
+        ),
+    ),
 )
 def test_regex(section_content, expected):
     assert _RE_PATTERN_ITEMS.findall(section_content) == expected
