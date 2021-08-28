@@ -84,13 +84,6 @@ def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
     Optional[str]
         The output docstring section."""
 
-    doc_sections_that_cant_merge = [
-        "Short Summary",
-        "Deprecation Warning",
-        "Extended Summary",
-        "Examples"
-    ]
-
     if not prnt_sec and not child_sec:
         return None
 
@@ -101,14 +94,6 @@ def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
 
     if key in section_items.SECTION_NAMES:
         body = section_items.merge(prnt_sec, child_sec, merge_within_sections, "numpy")
-
-    elif merge_within_sections and key not in doc_sections_that_cant_merge:
-        if child_sec is None:
-            body = prnt_sec
-        elif prnt_sec is None:
-            body = child_sec
-        else:
-            body = '\n'.join((prnt_sec, child_sec))
     else:
         body = prnt_sec if child_sec is None else child_sec
 

@@ -444,9 +444,9 @@ def numpy_with_merge(prnt_doc, child_doc):
                 Parameters
                 ----------
                 x: int
-                    description of x
+                    parent's description of x
                 y: Union[None, int]
-                    description of y
+                    parent's description of y
 
                 Raises
                 ------
@@ -463,8 +463,10 @@ def numpy_with_merge(prnt_doc, child_doc):
 
                 Parameters
                 ----------
+                y: int
+                    childs's description of y
                 z: Union[None, int]
-                    description of z
+                    child's description of z
 
                 Returns
                 -------
@@ -486,11 +488,11 @@ def numpy_with_merge(prnt_doc, child_doc):
                 Parameters
                 ----------
                 x: int
-                    description of x
-                y: Union[None, int]
-                    description of y
+                    parent's description of x
+                y: int
+                    childs's description of y
                 z: Union[None, int]
-                    description of z
+                    child's description of z
 
                 Returns
                 -------

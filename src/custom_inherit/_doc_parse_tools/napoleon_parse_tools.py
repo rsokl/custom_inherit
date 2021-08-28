@@ -7,6 +7,17 @@ from . import section_items
 
 __all__ = ["merge_google_napoleon_docs", "merge_numpy_napoleon_docs"]
 
+ALIASES = {
+    "Args": "Parameters",
+    "Arguments": "Parameters",
+    "Keyword Args": "Keyword Arguments",
+    "Return": "Returns",
+    "Warnings": "Warning",
+    "Yield": "Yields",
+    "Note": "Notes",
+    "Example": "Examples",
+}
+
 
 def parse_napoleon_doc(doc, style):
     """ Extract the text from the various sections of a numpy-formatted docstring.
@@ -29,29 +40,19 @@ def parse_napoleon_doc(doc, style):
         "Attributes",
         "Methods",
         "Warning",
-        "Note",
         "Parameters",
         "Other Parameters",
         "Keyword Arguments",
         "Returns",
         "Yields",
         "Raises",
+        "Notes",
         "Warns",
         "See Also",
         "References",
         "Todo",
-        "Example",
         "Examples",
     ]
-
-    aliases = {
-        "Args": "Parameters",
-        "Arguments": "Parameters",
-        "Keyword Args": "Keyword Arguments",
-        "Return": "Returns",
-        "Warnings": "Warning",
-        "Yield": "Yields",
-    }
 
     doc_sections = OrderedDict([(key, None) for key in napoleon_sections])
 
@@ -75,8 +76,8 @@ def parse_napoleon_doc(doc, style):
                 if style == "numpy"
                 else (line[:-1] if line.endswith(":") else line)
             )
-            if header and (header in doc_sections or header in aliases):
-                doc_sections[aliases.get(key, key)] = (
+            if header and (header in doc_sections or header in ALIASES):
+                doc_sections[ALIASES.get(key, key)] = (
                     "\n".join(body).rstrip() if body else None
                 )
                 body = []
@@ -86,7 +87,7 @@ def parse_napoleon_doc(doc, style):
             else:
                 body.append(line)
         except StopIteration:
-            doc_sections[aliases.get(key, key)] = "\n".join(body)
+            doc_sections[ALIASES.get(key, key)] = "\n".join(body)
             break
 
     section_items.parse(doc_sections)
@@ -110,12 +111,6 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
     Optional[str]
         The output docstring section."""
 
-    napoleon_sections_that_cant_merge = [
-        "Short Summary",
-        "Example",
-        "Examples",
-    ]
-
     if not prnt_sec and not child_sec:
         return None
 
@@ -131,14 +126,6 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
 
     if key in section_items.SECTION_NAMES:
         body = section_items.merge(prnt_sec, child_sec, merge_within_sections, style)
-
-    elif merge_within_sections and key not in napoleon_sections_that_cant_merge:
-        if child_sec is None:
-            body = prnt_sec
-        elif prnt_sec is None:
-            body = child_sec
-        else:
-            body = '\n'.join((prnt_sec, child_sec))
     else:
         body = prnt_sec if child_sec is None else child_sec
 
