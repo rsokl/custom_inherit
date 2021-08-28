@@ -9,61 +9,61 @@ def test_parent():
 
 def test_numpy():
     def prnt():
-        """ first line
+        """first line
 
-            Attributes
-            ----------
-            params
-                indented
+        Attributes
+        ----------
+        params
+            indented
 
-            multi-line
+        multi-line
 
-            Extended Summary
-            ----------------
-            extended
+        Extended Summary
+        ----------------
+        extended
 
-            Returns
-            -------
-            return
+        Returns
+        -------
+        return
 
-            Other Parameters
-            ----------------
-            other
+        Other Parameters
+        ----------------
+        other
 
-            See Also
-            --------
-            see
+        See Also
+        --------
+        see
 
-            References
-            ----------
-            ref """
+        References
+        ----------
+        ref"""
         pass
 
     def child():
-        """ Deprecation Warning
-            -------------------
-            dep
+        """Deprecation Warning
+        -------------------
+        dep
 
-            Parameters
-            ----------
-            params
+        Parameters
+        ----------
+        params
 
-            Yields
-            ------
-            yield
+        Yields
+        ------
+        yield
 
-            Raises
-            ------
-            raise
+        Raises
+        ------
+        raise
 
-            Notes
-            -----
-            note
+        Notes
+        -----
+        note
 
-            Examples
-            --------
-            example
-            """
+        Examples
+        --------
+        example
+        """
         pass
 
     numpy_out = (
@@ -83,35 +83,35 @@ def test_numpy():
 
 def test_reST():
     def prnt2():
-        """ Parent's front-matter
-            +++++++++++
-            Parent-Only
-            +++++++++++
-            params
-                indented
+        """Parent's front-matter
+        +++++++++++
+        Parent-Only
+        +++++++++++
+        params
+            indented
 
-            multi-line
+        multi-line
 
-            Shared
-            ******
-            parent-shared
+        Shared
+        ******
+        parent-shared
 
-            Empty
-            ~~~~~"""
+        Empty
+        ~~~~~"""
         pass
 
     def child2():
-        """ Child's front-matter
-            continued
-            ++bad+
-            Shared
-            ******
-            child-shared
+        """Child's front-matter
+        continued
+        ++bad+
+        Shared
+        ******
+        child-shared
 
-            ##########
-            Child-Only
-            ##########
-            child-only"""
+        ##########
+        Child-Only
+        ##########
+        child-only"""
         pass
 
     reST_out = (
@@ -129,92 +129,92 @@ def test_reST():
 
 def test_numpy_napoleon():
     def prnt():
-        """ Parent's short summary
+        """Parent's short summary
 
-            Parent's extended summary
+        Parent's extended summary
 
-            Attributes
-            ----------
-            params
-                indented
+        Attributes
+        ----------
+        params
+            indented
 
-            multi-line
+        multi-line
 
-            Methods
-            -------
-            parent methods
+        Methods
+        -------
+        parent methods
 
 
-            Keyword Arguments
-            -----------------
-            parent's section
+        Keyword Arguments
+        -----------------
+        parent's section
 
-            Parameters
-            ----------
-            parent's Parameters
+        Parameters
+        ----------
+        parent's Parameters
 
-            Returns
-            -------
-            return
+        Returns
+        -------
+        return
 
-            Other Parameters
-            ----------------
-            other
+        Other Parameters
+        ----------------
+        other
 
-            See Also
-            --------
-            see
+        See Also
+        --------
+        see
 
-            References
-            ----------
-            ref
+        References
+        ----------
+        ref
 
-            Todo
-            ----
-            todo
+        Todo
+        ----
+        todo
 
-            Yield
-            -----
-            alias of Yields - parent's"""
+        Yield
+        -----
+        alias of Yields - parent's"""
         pass
 
     def child():
-        """ Child's short summary
+        """Child's short summary
 
-            Child's extended summary
+        Child's extended summary
 
-            Args
-            ----
-            alias for Parameters - child's section
+        Args
+        ----
+        alias for Parameters - child's section
 
-            Keyword Args
-            ------------
-            alias for Keyword Arguments - child's section
+        Keyword Args
+        ------------
+        alias for Keyword Arguments - child's section
 
-            Yields
-            ------
-            yield
+        Yields
+        ------
+        yield
 
-            Raises
-            ------
-            raise
+        Raises
+        ------
+        raise
 
-            Notes
-            -----
-            note
+        Notes
+        -----
+        note
 
-            Examples
-            --------
-            example
+        Examples
+        --------
+        example
 
-            Warns
-            -----
-            warns
+        Warns
+        -----
+        warns
 
-            Warnings
-            --------
-            warnings
-            """
+        Warnings
+        --------
+        warnings
+        """
         pass
 
     out = (
@@ -236,8 +236,9 @@ def test_numpy_napoleon():
 
 
 def test_methods_section_in_numpy():
-    from custom_inherit import DocInheritMeta
     from six import add_metaclass
+
+    from custom_inherit import DocInheritMeta
 
     @add_metaclass(metaclass=DocInheritMeta(style="numpy_with_merge"))
     class Parent:
@@ -247,6 +248,7 @@ def test_methods_section_in_numpy():
         -------
         meth
         """
+
         pass
 
     class Child(Parent):
@@ -257,6 +259,7 @@ def test_methods_section_in_numpy():
         a: hello
 
         """
+
         pass
 
     c = Child()
@@ -274,71 +277,71 @@ meth"""
 
 def test_google_napoleon():
     def prnt():
-        """ first line
+        """first line
 
-            Attributes:
-                params
-                    - indented
+        Attributes:
+            params
+                - indented
 
-                multi-line
+            multi-line
 
-            Methods:
-                parent methods
+        Methods:
+            parent methods
 
 
-            Keyword Arguments:
-                parent's section
+        Keyword Arguments:
+            parent's section
 
-            Parameters:
-                parent's Parameters
+        Parameters:
+            parent's Parameters
 
-            Extended Summary:
-                extended
+        Extended Summary:
+            extended
 
-            Returns:
-                return
+        Returns:
+            return
 
-            Other Parameters:
-                other
+        Other Parameters:
+            other
 
-            See Also:
-                see
+        See Also:
+            see
 
-            References:
-                ref
+        References:
+            ref
 
-            Todo:
-                todo
+        Todo:
+            todo
 
-            Yield:
-                alias of Yields - parent's"""
+        Yield:
+            alias of Yields - parent's"""
         pass
 
     def child():
-        """ Args:
-                alias for Parameters - child's section
+        """Args:
+            alias for Parameters - child's section
 
-            Keyword Args:
-                alias for Keyword Arguments - child's section
+        Keyword Args:
+            alias for Keyword Arguments - child's section
 
-            Yields:
-                yield
+        Yields:
+            yield
 
-            Raises:
-                raise
+        Raises:
+            raise
 
-            Notes:
-                note
+        Notes:
+            note
 
-            Examples:
-                example
+        Examples:
+            example
 
-            Warns:
-                warns
+        Warns:
+            warns
 
-            Warnings:
-                warnings
-            """
+        Warnings:
+            warnings
+        """
         pass
 
     out = (
@@ -358,75 +361,75 @@ def test_google_napoleon():
 
 def test_google_with_merge():
     def prnt():
-        """ first parent's line
+        """first parent's line
 
-            Attributes:
-                params
-                    - indented
+        Attributes:
+            params
+                - indented
 
-                multi-line
+            multi-line
 
-            Methods:
-                parent methods
+        Methods:
+            parent methods
 
-            Keyword Arguments:
-                parent's section
+        Keyword Arguments:
+            parent's section
 
-            Parameters:
-                parent's Parameters
+        Parameters:
+            parent's Parameters
 
-            Examples:
-                parents's example
+        Examples:
+            parents's example
 
-            Extended Summary:
-                extended
+        Extended Summary:
+            extended
 
-            Returns:
-                return
+        Returns:
+            return
 
-            Other Parameters:
-                other
+        Other Parameters:
+            other
 
-            See Also:
-                see
+        See Also:
+            see
 
-            References:
-                ref
+        References:
+            ref
 
-            Todo:
-                todo
+        Todo:
+            todo
 
-            Yield:
-                alias of Yields - parent's"""
+        Yield:
+            alias of Yields - parent's"""
         pass
 
     def child():
-        """ first child's line
+        """first child's line
 
-            Args:
-                alias for Parameters - child's section
+        Args:
+            alias for Parameters - child's section
 
-            Keyword Args:
-                alias for Keyword Arguments - child's section
+        Keyword Args:
+            alias for Keyword Arguments - child's section
 
-            Yields:
-                yield
+        Yields:
+            yield
 
-            Raises:
-                raise
+        Raises:
+            raise
 
-            Notes:
-                note
+        Notes:
+            note
 
-            Examples:
-                child's example
+        Examples:
+            child's example
 
-            Warns:
-                warns
+        Warns:
+            warns
 
-            Warnings:
-                warnings
-            """
+        Warnings:
+            warnings
+        """
         pass
 
     out = (
@@ -447,71 +450,71 @@ def test_google_with_merge():
 
 def test_numpy_with_merge():
     def prnt():
-        """ first parent's line
+        """first parent's line
 
-            Attributes
-            ----------
-            parent's params
-                indented
+        Attributes
+        ----------
+        parent's params
+            indented
 
-            multi-line
+        multi-line
 
-            Parameters
-            ----------
-            Parent's param
+        Parameters
+        ----------
+        Parent's param
 
-            Extended Summary
-            ----------------
-            extended
+        Extended Summary
+        ----------------
+        extended
 
-            Returns
-            -------
-            return
+        Returns
+        -------
+        return
 
-            Other Parameters
-            ----------------
-            other
+        Other Parameters
+        ----------------
+        other
 
-            See Also
-            --------
-            see
+        See Also
+        --------
+        see
 
-            Examples
-            --------
-            Parent's example
+        Examples
+        --------
+        Parent's example
 
-            References
-            ----------
-            ref """
+        References
+        ----------
+        ref"""
         pass
 
     def child():
-        """ first child's line
+        """first child's line
 
-            Deprecation Warning
-            -------------------
-            dep
+        Deprecation Warning
+        -------------------
+        dep
 
-            Parameters
-            ----------
-            child's params
+        Parameters
+        ----------
+        child's params
 
-            Yields
-            ------
-            yield
+        Yields
+        ------
+        yield
 
-            Raises
-            ------
-            raise
+        Raises
+        ------
+        raise
 
-            Notes
-            -----
-            note
+        Notes
+        -----
+        note
 
-            Examples
-            --------
-            child's example
-            """
+        Examples
+        --------
+        child's example
+        """
         pass
 
     numpy_out = (
@@ -526,101 +529,104 @@ def test_numpy_with_merge():
     assert custom_inherit.store["numpy_with_merge"]("", "") is None
     assert custom_inherit.store["numpy_with_merge"]("valid", None) == "valid"
     assert custom_inherit.store["numpy_with_merge"](None, "valid") == "valid"
-    assert custom_inherit.store["numpy_with_merge"](prnt.__doc__, child.__doc__) == numpy_out
+    assert (
+        custom_inherit.store["numpy_with_merge"](prnt.__doc__, child.__doc__)
+        == numpy_out
+    )
 
 
 def test_numpy_napoleon_with_merge():
     def prnt():
-        """ Parent's short summary
+        """Parent's short summary
 
-            Parent's extended summary
+        Parent's extended summary
 
-            Attributes
-            ----------
-            params
-                indented
+        Attributes
+        ----------
+        params
+            indented
 
-            multi-line
+        multi-line
 
-            Methods
-            -------
-            parent methods
+        Methods
+        -------
+        parent methods
 
 
-            Keyword Arguments
-            -----------------
-            parent's section
+        Keyword Arguments
+        -----------------
+        parent's section
 
-            Parameters
-            ---------
-            parent's Parameters
+        Parameters
+        ---------
+        parent's Parameters
 
-            Returns
-            -------
-            return
+        Returns
+        -------
+        return
 
-            Other Parameters
-            ----------------
-            other
+        Other Parameters
+        ----------------
+        other
 
-            Examples
-            --------
-            parent's example
+        Examples
+        --------
+        parent's example
 
-            See Also
-            --------
-            see
+        See Also
+        --------
+        see
 
-            References
-            ----------
-            ref
+        References
+        ----------
+        ref
 
-            Todo
-            ----
-            todo
+        Todo
+        ----
+        todo
 
-            Yield
-            -----
-            alias of Yields - parent's"""
+        Yield
+        -----
+        alias of Yields - parent's"""
         pass
 
     def child():
-        """ Child's short summary
+        """Child's short summary
 
-            Child's extended summary
+        Child's extended summary
 
-            Args
-            ----
-            alias for Parameters - child's section
+        Args
+        ----
+        alias for Parameters - child's section
 
-            Keyword Args
-            ------------
-            alias for Keyword Arguments - child's section
+        Keyword Args
+        ------------
+        alias for Keyword Arguments - child's section
 
-            Yields
-            ------
-            yield
+        Yields
+        ------
+        yield
 
-            Raises
-            ------
-            raise
+        Raises
+        ------
+        raise
 
-            Notes
-            -----
-            note
+        Notes
+        -----
+        note
 
-            Examples
-            --------
-            child's example
+        Examples
+        --------
+        child's example
 
-            Warns
-            -----
-            warns
+        Warns
+        -----
+        warns
 
-            Warnings
-            --------
-            warnings
-            """
+        Warnings
+        --------
+        warnings
+        """
         pass
 
     out = (
@@ -637,4 +643,7 @@ def test_numpy_napoleon_with_merge():
     assert custom_inherit.store["numpy_napoleon_with_merge"]("", "") is None
     assert custom_inherit.store["numpy_napoleon_with_merge"]("valid", None) == "valid"
     assert custom_inherit.store["numpy_napoleon_with_merge"](None, "valid") == "valid"
-    assert custom_inherit.store["numpy_napoleon_with_merge"](prnt.__doc__, child.__doc__) == out
+    assert (
+        custom_inherit.store["numpy_napoleon_with_merge"](prnt.__doc__, child.__doc__)
+        == out
+    )

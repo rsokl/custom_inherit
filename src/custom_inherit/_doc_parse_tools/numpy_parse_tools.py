@@ -9,7 +9,7 @@ __all__ = ["merge_numpy_docs"]
 
 
 def parse_numpy_doc(doc):
-    """ Extract the text from the various sections of a numpy-formatted docstring.
+    """Extract the text from the various sections of a numpy-formatted docstring.
 
     Parameters
     ----------
@@ -69,7 +69,7 @@ def parse_numpy_doc(doc):
 
 
 def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
-    """ Synthesize a output numpy docstring section.
+    """Synthesize a output numpy docstring section.
 
     Parameters
     ----------
@@ -101,7 +101,7 @@ def merge_section(key, prnt_sec, child_sec, merge_within_sections=False):
 
 
 def merge_all_sections(prnt_sctns, child_sctns, merge_within_sections=False):
-    """ Merge the doc-sections of the parent's and child's attribute into a single docstring.
+    """Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
     Parameters
     ----------
@@ -125,7 +125,7 @@ def merge_all_sections(prnt_sctns, child_sctns, merge_within_sections=False):
             key,
             prnt_sctns[key],
             child_sctns[key],
-            merge_within_sections=merge_within_sections
+            merge_within_sections=merge_within_sections,
         )
         if sect is not None:
             doc.append(sect)
@@ -133,7 +133,7 @@ def merge_all_sections(prnt_sctns, child_sctns, merge_within_sections=False):
 
 
 def merge_numpy_docs(prnt_doc=None, child_doc=None, merge_within_sections=False):
-    """ Merge two numpy-style docstrings into a single docstring.
+    """Merge two numpy-style docstrings into a single docstring.
 
     Given the numpy-style docstrings from a parent and child's attributes, merge the docstring
     sections such that the child's section is used, wherever present, otherwise the parent's
@@ -153,9 +153,9 @@ def merge_numpy_docs(prnt_doc=None, child_doc=None, merge_within_sections=False)
     -------
     Union[str, None]
         The merged docstring.
-        """
+    """
     return merge_all_sections(
         parse_numpy_doc(prnt_doc),
         parse_numpy_doc(child_doc),
-        merge_within_sections=merge_within_sections
+        merge_within_sections=merge_within_sections,
     )

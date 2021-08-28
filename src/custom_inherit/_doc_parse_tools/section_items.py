@@ -1,8 +1,8 @@
 """This module handles sections with items."""
 
-from collections import OrderedDict
 import inspect
 import re
+from collections import OrderedDict
 
 try:
     from textwrap import indent
