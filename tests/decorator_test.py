@@ -72,6 +72,22 @@ def test_function():
     assert getdoc(f) == "valid"
 
 
+def test_args_filter():
+    def parent(foo):
+        """
+        Args:
+            foo: bar
+        """
+
+    @doc_inherit(parent, style="google_with_merge")
+    def child(x):
+        """
+        Args:
+            x: X
+        """
+
+    assert child.__doc__ == "Parameters:\n    x: X"
+
 def test_method():
     assert isinstance(Kid2().method, MethodType)
     assert getdoc(Kid2.method) == "valid"
