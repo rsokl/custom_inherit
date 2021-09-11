@@ -22,7 +22,7 @@ def bad_style_type2(x, y):
 
 
 def good_style1(x, y):
-    return ",".join((x, y))
+    return None
 
 
 def good_style2(x, y):

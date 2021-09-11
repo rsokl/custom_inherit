@@ -270,20 +270,20 @@ def test_class_docstring_merge_hierarchy_google():
     class GrandParent(object):
         """GrandParent.
 
-        Args:
+        Attributes:
             foo
         """
 
     class Parent(GrandParent):
         """
-        Args:
+        Attributes:
             bar
         """
 
     class Child(Parent):
         pass
 
-    assert getdoc(Child) == "GrandParent.\n\nParameters:\n    foo\n    bar"
+    assert getdoc(Child) == "GrandParent.\n\nAttributes:\n    foo\n    bar"
 
 
 """ Include special method option"""

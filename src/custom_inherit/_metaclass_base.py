@@ -14,6 +14,23 @@ from types import FunctionType, MethodType
 __all__ = ["DocInheritorBase"]
 
 
+def new_func_with_doc(doc):
+    """Return a dummy function with a given docstring.
+
+    Parameters
+    ----------
+    doc: A docstring.
+
+    Returns
+    -------
+    A dummy function with the given docstring.
+    """
+    def func():
+        pass
+    func.__doc__ = doc
+    return func
+
+
 class DocInheritorBase(type):
     """A metaclass that merges the respective docstrings of a parent class and of its child, along with their
     properties, methods (including classmethod, staticmethod, decorated methods).
@@ -29,12 +46,19 @@ class DocInheritorBase(type):
         # docstring as serving as the 'parent', and the accumulated docstring
         # serving as the 'child'
         this_doc = class_dict.get("__doc__", None)
+
         for mro_cls in (mro_cls for base in class_bases for mro_cls in base.mro()):
             prnt_cls_doc = mro_cls.__doc__
             if prnt_cls_doc is not None:
                 if prnt_cls_doc == "The most base type":
                     prnt_cls_doc = None
-            this_doc = mcs.class_doc_inherit(prnt_cls_doc, this_doc)
+
+            if this_doc is None:
+                this_func = None
+            else:
+                this_func = new_func_with_doc(this_doc)
+
+            this_doc = mcs.class_doc_inherit(prnt_cls_doc, this_func)
 
         class_dict["__doc__"] = this_doc
 
@@ -69,7 +93,7 @@ class DocInheritorBase(type):
             if prnt_attr_doc is None:
                 continue
 
-            doc = mcs.attr_doc_inherit(prnt_attr_doc, child_attr.__doc__)
+            doc = mcs.attr_doc_inherit(prnt_attr_doc, child_attr)
             try:
                 child_attr.__doc__ = doc
             # property.__doc__ is read-only in Python 2 (TypeError), 3.3 - 3.4 (AttributeError)

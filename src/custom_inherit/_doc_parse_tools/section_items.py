@@ -11,6 +11,12 @@ except ImportError:
     def indent(text, padding):
         return "".join(padding + line for line in text.splitlines(True))
 
+try:
+    from inspect import getfullargspec
+except ImportError:
+    # for python 2.7
+    from inspect import getargspec as getfullargspec
+
 
 _RE_PATTERN_ITEMS = re.compile(r"(\**\w+)(.*?)(?:$|(?=\n\**\w+))", flags=re.DOTALL)
 
@@ -19,13 +25,16 @@ _STYLE_TO_PADDING = {
     "google": " " * 4,
 }
 
-SECTION_NAMES = {
-    "Attributes",
+_ARGS_SECTION_NAMES = {
     "Parameters",
-    "Methods",
     "Other Parameters",
     "Args",
     "Arguments",
+}
+
+SECTION_NAMES = _ARGS_SECTION_NAMES | {
+    "Attributes",
+    "Methods",
     "Keyword Args",
     "Keyword Arguments",
 }
@@ -78,11 +87,13 @@ def parse(doc_sections):
             )
 
 
-def merge(prnt_sec, child_sec, merge_within_sections, style):
+def merge(child_func, section_name, prnt_sec, child_sec, merge_within_sections, style):
     """Merge the doc-sections of the parent's and child's attribute with items.
 
     Parameters
     ----------
+    child_func: FunctionType
+        The child function which doc is being merged.
     prnt_sec: OrderedDict[str, str]
     child_sec: OrderedDict[str, str]
     merge_within_sections: bool
@@ -98,8 +109,24 @@ def merge(prnt_sec, child_sec, merge_within_sections, style):
     if merge_within_sections:
         body = prnt_sec.copy()
         body.update(child_sec)
-        body = _render(body, style)
     else:
         body = prnt_sec if not child_sec else child_sec
-        body = _render(body, style)
+
+    if section_name in _ARGS_SECTION_NAMES:
+        args, varargs, varkw = getfullargspec(child_func)[:3]
+
+        if "self" in args:
+            args.remove("self")
+
+        all_args = set(args)
+
+        for number, other_args in enumerate((varargs, varkw)):
+            if other_args is not None:
+                all_args.add("{}{}".format("*"*(number+1), other_args))
+
+        # Remove the documented arguments that are not actual arguments.
+        for arg in set(body) - all_args:
+            del body[arg]
+
+    body = _render(body, style)
     return body

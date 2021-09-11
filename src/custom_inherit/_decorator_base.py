@@ -1,3 +1,5 @@
+import inspect
+
 try:
     basestring
 except NameError:
@@ -14,7 +16,7 @@ class DocInheritDecorator(object):
 
     Methods
     -------
-    doc_merger(prnt_attr_doc, child_doc)
+    doc_merger(prnt_attr_doc, child_func)
         Merges the parent and child docstrings into a single docstring.
 
     Notes
@@ -44,18 +46,18 @@ class DocInheritDecorator(object):
         -------
         FunctionType
             The decorated function/method/property whose docstring is given by
-            DocInheritDecorator.doc_merger(prnt_attr_doc, child_doc)"""
-        func.__doc__ = self.doc_merger(self.prnt_doc, func.__doc__)
+            DocInheritDecorator.doc_merger(prnt_attr_doc, child_func)"""
+        func.__doc__ = self.doc_merger(self.prnt_doc, func)
         return func
 
     @staticmethod
-    def doc_merger(prnt_attr_doc, child_doc):
+    def doc_merger(prnt_attr_doc, child_func):
         """Merges the parent and child docstrings into a single docstring.
 
         Parameters
         ----------
         prnt_attr_doc: Union[None, str]
-        child_doc: Union[None, str]
+        child_func: Union[None, FunctionType]
 
         Raises
         ------

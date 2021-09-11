@@ -73,20 +73,25 @@ def test_function():
 
 
 def test_args_filter():
-    def parent(foo):
+    def parent(foo, *parent_args, **parent_kwargs):
         """
         Args:
             foo: bar
+            *parent_args: Parent *args
+            **parent_kwargs: Parent **kwargs
         """
 
     @doc_inherit(parent, style="google_with_merge")
-    def child(x):
+    def child(x, *child_args, **child_kwargs):
         """
         Args:
             x: X
+            child_args: Not *args
+            *child_args: Child *args
+            **child_kwargs: Child **kwargs
         """
 
-    assert child.__doc__ == "Parameters:\n    x: X"
+    assert child.__doc__ == "Parameters:\n    x: X\n    *child_args: Child *args\n    **child_kwargs: Child **kwargs"
 
 def test_method():
     assert isinstance(Kid2().method, MethodType)

@@ -95,11 +95,13 @@ def parse_napoleon_doc(doc, style):
     return doc_sections
 
 
-def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
+def merge_section(child_func, key, prnt_sec, child_sec, style, merge_within_sections=False):
     """Synthesize a output napoleon docstring section.
 
     Parameters
     ----------
+    child_func: FunctionType
+        The child function which doc is being merged.
     key: str
         The napoleon-section being merged.
     prnt_sec: Optional[str]
@@ -116,6 +118,14 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
 
     assert style in ("google", "numpy")
 
+    if key in section_items.SECTION_NAMES:
+        body = section_items.merge(child_func, key, prnt_sec, child_sec, merge_within_sections, style)
+    else:
+        body = prnt_sec if child_sec is None else child_sec
+
+    if not body:
+        return None
+
     if key == "Short Summary":
         header = ""
     else:
@@ -124,19 +134,16 @@ def merge_section(key, prnt_sec, child_sec, style, merge_within_sections=False):
         else:
             header = "\n".join((key + ":", ""))
 
-    if key in section_items.SECTION_NAMES:
-        body = section_items.merge(prnt_sec, child_sec, merge_within_sections, style)
-    else:
-        body = prnt_sec if child_sec is None else child_sec
-
     return header + body
 
 
-def merge_all_sections(prnt_sctns, child_sctns, style, merge_within_sections=False):
+def merge_all_sections(child_func, prnt_sctns, child_sctns, style, merge_within_sections=False):
     """Merge the doc-sections of the parent's and child's attribute into a single docstring.
 
     Parameters
     ----------
+    child_func: FunctionType
+        The child function which doc is being merged.
     prnt_sctns: OrderedDict[str, Union[None,str]]
     child_sctns: OrderedDict[str, Union[None,str]]
 
@@ -154,6 +161,7 @@ def merge_all_sections(prnt_sctns, child_sctns, style, merge_within_sections=Fal
 
     for key in prnt_sctns:
         sect = merge_section(
+            child_func,
             key,
             prnt_sctns[key],
             child_sctns[key],
@@ -166,7 +174,7 @@ def merge_all_sections(prnt_sctns, child_sctns, style, merge_within_sections=Fal
 
 
 def merge_numpy_napoleon_docs(
-    prnt_doc=None, child_doc=None, merge_within_sections=False
+    prnt_doc=None, child_func=None, merge_within_sections=False
 ):
     """Merge two numpy-style docstrings into a single docstring, according to napoleon docstring sections.
 
@@ -183,8 +191,8 @@ def merge_numpy_napoleon_docs(
     ----------
     prnt_doc: Optional[str]
         The docstring from the parent.
-    child_doc: Optional[str]
-        The docstring from the child.
+    child_func: Optional[FunctionType]
+        The child function.
 
     Returns
     -------
@@ -192,15 +200,16 @@ def merge_numpy_napoleon_docs(
         The merged docstring."""
     style = "numpy"
     return merge_all_sections(
+        child_func,
         parse_napoleon_doc(prnt_doc, style),
-        parse_napoleon_doc(child_doc, style),
+        parse_napoleon_doc(child_func.__doc__, style),
         style,
         merge_within_sections=merge_within_sections,
     )
 
 
 def merge_google_napoleon_docs(
-    prnt_doc=None, child_doc=None, merge_within_sections=False
+    prnt_doc=None, child_func=None, merge_within_sections=False
 ):
     """Merge two google-style docstrings into a single docstring, according to napoleon docstring sections.
 
@@ -217,15 +226,17 @@ def merge_google_napoleon_docs(
     ----------
     prnt_doc: Optional[str]
         The docstring from the parent.
-    child_doc: Optional[str]
-        The docstring from the child.
+    child_func: Optional[FunctionType]
+        The child function.
 
     Returns
     -------
     Union[str, None]
         The merged docstring."""
     style = "google"
+    child_doc = None if child_func is None else child_func.__doc__
     return merge_all_sections(
+        child_func,
         parse_napoleon_doc(prnt_doc, style),
         parse_napoleon_doc(child_doc, style),
         style,

@@ -30,7 +30,7 @@ __all__ = ["DocInheritMeta", "doc_inherit", "store", "add_style", "remove_style"
 
 
 def _check_style_function(style_func):
-    out = style_func("", "")
+    out = style_func("", lambda x:x)
     if not isinstance(out, _basestring) and out is not None:
         raise TypeError
     return None

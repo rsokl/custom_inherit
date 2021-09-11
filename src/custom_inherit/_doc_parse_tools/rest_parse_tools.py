@@ -72,10 +72,10 @@ def parse_rest_doc(doc):
     return doc_sections
 
 
-def merge_rest_docs(prnt_doc=None, child_doc=None):
+def merge_rest_docs(prnt_doc=None, child_func=None):
     """ See custom_inherit.style_store.reST for details. """
     prnt_sections = parse_rest_doc(prnt_doc)
-    child_sections = parse_rest_doc(child_doc)
+    child_sections = parse_rest_doc(child_func.__doc__)
 
     header = prnt_sections[""]
     prnt_sections.update(child_sections)

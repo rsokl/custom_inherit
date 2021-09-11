@@ -43,16 +43,17 @@ __all__ = [
 ]
 
 
-def parent(prnt_doc, child_doc):
+def parent(prnt_doc, child_func):
     """Wherever the docstring for a child-class' attribute (or for the class itself) is
     `None`, inherit the corresponding docstring from the parent.
 
     *NOTE* As of Python 3.5, this is the default behavior of the built-in function
     inspect.getdoc, and thus this style is deprecated Python 3.(>=5)."""
+    child_doc = child_func.__doc__
     return child_doc if child_doc is not None else prnt_doc
 
 
-def numpy(prnt_doc, child_doc):
+def numpy(prnt_doc, child_func):
     """Merges numpy-styled docstrings from the parent and child.
 
     Specifically, any docstring section that appears in the parent's docstring that
@@ -114,10 +115,10 @@ def numpy(prnt_doc, child_doc):
                 Notes
                 -----
                 notes blah blah'''"""
-    return merge_numpy_docs(prnt_doc, child_doc)
+    return merge_numpy_docs(prnt_doc, child_func)
 
 
-def reST(prnt_doc, child_doc):
+def reST(prnt_doc, child_func):
     """Merge two reST-style docstrings into a single docstring.
 
     Given the reST-style docstrings from a parent and child's attributes, merge the docstring
@@ -165,10 +166,10 @@ def reST(prnt_doc, child_doc):
                    ~~~~~~~~~
                    content for NewHeader '''
     """
-    return merge_rest_docs(prnt_doc, child_doc)
+    return merge_rest_docs(prnt_doc, child_func)
 
 
-def numpy_napoleon(prnt_doc, child_doc):
+def numpy_napoleon(prnt_doc, child_func):
     """Behaves identically to the 'numpy' style, but abides by the docstring sections
     specified by the "Napoleon" standard.
 
@@ -222,10 +223,10 @@ def numpy_napoleon(prnt_doc, child_doc):
                 -----
                 notes blah blah'''
     """
-    return merge_numpy_napoleon_docs(prnt_doc, child_doc)
+    return merge_numpy_napoleon_docs(prnt_doc, child_func)
 
 
-def google(prnt_doc, child_doc):
+def google(prnt_doc, child_func):
     """Merges google-styled docstrings from the parent and child, abiding to the docstring sections
     specified by the "Napoleon" standard.
 
@@ -285,10 +286,10 @@ def google(prnt_doc, child_doc):
                 Notes:
                     notes blah blah'''
     """
-    return merge_google_napoleon_docs(prnt_doc, child_doc)
+    return merge_google_napoleon_docs(prnt_doc, child_func)
 
 
-def google_with_merge(prnt_doc, child_doc):
+def google_with_merge(prnt_doc, child_func):
     """Behaves identically to the 'google' style, but also merges sections that
     overlap, instead of only keeping the child's section. All sections are
     concerned except sections "Short Summary", "Example" and "Examples" (or
@@ -351,10 +352,10 @@ def google_with_merge(prnt_doc, child_doc):
                 Notes:
                     notes blah blah'''
     """
-    return merge_google_napoleon_docs(prnt_doc, child_doc, merge_within_sections=True)
+    return merge_google_napoleon_docs(prnt_doc, child_func, merge_within_sections=True)
 
 
-def numpy_napoleon_with_merge(prnt_doc, child_doc):
+def numpy_napoleon_with_merge(prnt_doc, child_func):
     """
     Behaves identically to the 'numpy_napoleon' style, but also merges sections
     that overlap, instead of only keeping the child's section. All sections are
@@ -430,10 +431,10 @@ def numpy_napoleon_with_merge(prnt_doc, child_doc):
                 >>> child_func(x=3, y=None, z=4)
                 7'''
     """
-    return merge_numpy_napoleon_docs(prnt_doc, child_doc, merge_within_sections=True)
+    return merge_numpy_napoleon_docs(prnt_doc, child_func, merge_within_sections=True)
 
 
-def numpy_with_merge(prnt_doc, child_doc):
+def numpy_with_merge(prnt_doc, child_func):
     """
     Behaves identically to the 'numpy' style, but also merges sections that
     overlap, instead of only keeping the child's section. All sections are
@@ -511,4 +512,4 @@ def numpy_with_merge(prnt_doc, child_doc):
                 >>> child_func(x=3, y=None, z=4)
                 7'''
     """
-    return merge_numpy_docs(prnt_doc, child_doc, merge_within_sections=True)
+    return merge_numpy_docs(prnt_doc, child_func, merge_within_sections=True)
