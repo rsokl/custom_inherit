@@ -98,6 +98,13 @@ def merge(prnt_sec, child_sec, merge_within_sections, style):
     if merge_within_sections:
         body = prnt_sec.copy()
         body.update(child_sec)
+
+        # Move the var_args and var_kwargs to the end.
+        for star in ("*", "**"):
+            for key in body.copy():
+                if key.startswith(star):
+                    body[key] = body.pop(key)
+
         body = _render(body, style)
     else:
         body = prnt_sec if not child_sec else child_sec
