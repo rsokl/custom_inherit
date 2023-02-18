@@ -16,4 +16,15 @@ setup(
     url="https://github.com/rsokl/custom_inherit",
     download_url="https://github.com/rsokl/custom_inherit/tarball/" + versioneer.get_version(),
     license="MIT",
+    classifiers = [
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ]
 )
